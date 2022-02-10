@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
+  /* border-bottom: 1px solid ${(props) => props.theme.borderColor}; */
+  margin-bottom: 2rem;
 `;
 
 export const Content = styled.div`
@@ -57,9 +58,15 @@ export const Brand = styled.div`
 `;
 
 export const ShiftRight = styled.nav`
-  li {
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
+  margin-right: -0.4rem;
+
+  @media only screen and (min-width: 992px) {
+    margin-right: -1.4rem;
+  }
+
+  & > ul > li {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
 
     span {
       display: none;
@@ -76,7 +83,7 @@ export const ShiftRight = styled.nav`
       padding-right: 1.4rem;
 
       svg {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
       }
 
       span {
@@ -95,11 +102,12 @@ export const NavItems = styled.ul`
     color: ${(props) => props.theme.fontColor};
     cursor: pointer;
     display: none;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 600;
     padding-left: 1.4rem;
     padding-right: 1.4rem;
     transition: color 0.2s ease-out;
+    text-transform: uppercase;
 
     &:hover {
       color: ${(props) => props.theme.hoverColor};

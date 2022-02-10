@@ -1,10 +1,13 @@
-import { Container, Content, Header, ListLink } from './SideBarStyles';
+import { Container, Content, Header, ListLink } from './SidebarStyles';
 import { CgPushChevronRight } from 'react-icons/cg';
 
 const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
   return (
-    <Container show={isShowSidebar ? 1 : 0}>
-      <Content>
+    <Container
+      show={isShowSidebar ? 1 : 0}
+      onClick={() => setIsShowSidebar(false)}
+    >
+      <Content onClick={(e) => e.stopPropagation()}>
         <Header>
           <button onClick={() => setIsShowSidebar(false)}>
             <CgPushChevronRight />
