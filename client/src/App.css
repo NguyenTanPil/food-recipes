@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Fredericka+the+Great&family=Poppins&family=Roboto&family=Zen+Antique+Soft&display=swap');
+
+::-moz-selection {
+  /* Code for Firefox */
+  background-color: #1d9bf066;
+}
+
+::selection {
+  background-color: #1d9bf066;
+}
