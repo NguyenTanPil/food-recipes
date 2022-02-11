@@ -4,6 +4,7 @@ import GlobalStyle from './GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { light } from './components/Theme';
 import Slider from './components/Slider';
+import PreviewProducts from './components/PreviewProducts';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <GlobalStyle />
         <Header />
         <Slider />
+        <PreviewProducts />
       </div>
     </ThemeProvider>
   );

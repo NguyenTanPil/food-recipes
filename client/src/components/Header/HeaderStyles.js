@@ -106,8 +106,8 @@ export const NavItems = styled.ul`
     font-weight: 600;
     padding-left: 1.4rem;
     padding-right: 1.4rem;
-    transition: color 0.2s ease-out;
     text-transform: uppercase;
+    transition: color 0.2s ease-out;
 
     &:hover {
       color: ${(props) => props.theme.hoverColor};
