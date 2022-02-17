@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { light } from './components/Theme';
 import Slider from './components/Slider';
 import PreviewProducts from './components/PreviewProducts';
+import TrendingRecipes from './components/TrendingRecipes';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Header />
         <Slider />
         <PreviewProducts />
+        <TrendingRecipes />
       </div>
     </ThemeProvider>
   );

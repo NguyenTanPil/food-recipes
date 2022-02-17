@@ -1,106 +1,27 @@
-import {
-  Container,
-  ProductItem,
-  Header,
-  Body,
-  EntryMeta,
-} from './PreviewProductsStyles';
-import { FaUserCheck } from 'react-icons/fa';
-import { AiFillClockCircle, AiFillHeart } from 'react-icons/ai';
+import Product from '../Product';
+import { Container } from './PreviewProductsStyles';
 
 const PreviewProducts = () => {
   return (
     <Container>
-      <ProductItem>
-        <Header>
-          <img
-            src="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2020/06/ranna-wordpress-theme-radiustheme.com-11-530x338.jpg"
-            alt=""
-          />
-        </Header>
-        <Body>
-          <h3>Rezala</h3>
-          <span>Sultan Dines Kacchi Recipes Sultan Kacchi Recipes</span>
-          <p>
-            The doner is a Turkish creation of meat, often lamb, but not
-            necessarily so, that is seasoned, stacked in a cone
-          </p>
-          <EntryMeta>
-            <li>
-              <FaUserCheck />
-              <span>by</span>
-            </li>
-            <li>
-              <AiFillClockCircle />
-              <span>Mins</span>
-            </li>
-            <li>
-              <AiFillHeart />
-              <span>Like</span>
-            </li>
-          </EntryMeta>
-        </Body>
-      </ProductItem>
-      <ProductItem>
-        <Header>
-          <img
-            src="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2020/06/ranna-wordpress-theme-radiustheme.com-11-530x338.jpg"
-            alt=""
-          />
-        </Header>
-        <Body>
-          <h3>Rezala</h3>
-          <span>Sultan Dines Kacchi Recipes Sultan Kacchi Recipes</span>
-          <p>
-            The doner is a Turkish creation of meat, often lamb, but not
-            necessarily so, that is seasoned, stacked in a cone
-          </p>
-          <EntryMeta>
-            <li>
-              <FaUserCheck />
-              <span>by</span>
-            </li>
-            <li>
-              <AiFillClockCircle />
-              <span>Mins</span>
-            </li>
-            <li>
-              <AiFillHeart />
-              <span>Like</span>
-            </li>
-          </EntryMeta>
-        </Body>
-      </ProductItem>
-      <ProductItem>
-        <Header>
-          <img
-            src="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2020/06/ranna-wordpress-theme-radiustheme.com-11-530x338.jpg"
-            alt=""
-          />
-        </Header>
-        <Body>
-          <h3>Rezala</h3>
-          <span>Sultan Dines Kacchi Recipes Sultan Kacchi Recipes</span>
-          <p>
-            The doner is a Turkish creation of meat, often lamb, but not
-            necessarily so, that is seasoned, stacked in a cone
-          </p>
-          <EntryMeta>
-            <li>
-              <FaUserCheck />
-              <span>by</span>
-            </li>
-            <li>
-              <AiFillClockCircle />
-              <span>Mins</span>
-            </li>
-            <li>
-              <AiFillHeart />
-              <span>Like</span>
-            </li>
-          </EntryMeta>
-        </Body>
-      </ProductItem>
+      <Product
+        img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/07/blog16-530x338.jpg"
+        name="Sunday Best Fruit Salad"
+        desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
+        category="Dinner"
+      />
+      <Product
+        img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/09/ranna_wordpress_theme_radiustheme.com_1-530x338.jpg"
+        name="Sunday Best Fruit Salad"
+        desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
+        category="Dinner"
+      />
+      <Product
+        img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/09/ranna-wordpress-theme-radiustheme.com-4-530x338.jpg"
+        name="Sunday Best Fruit Salad"
+        desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
+        category="Dinner"
+      />
     </Container>
   );
 };
