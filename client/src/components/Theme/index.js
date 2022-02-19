@@ -6,6 +6,8 @@ export const light = {
   hoverItemColor: '#e3e8ec66',
   footerBackgroundColor: '#1b1d1f',
   footerColor: '#b0b0b0',
+  titleColor: '#000000',
+  titleBackgroundColor: '#f3f3f3',
 };
 
 export const dark = {

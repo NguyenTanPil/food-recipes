@@ -1,13 +1,13 @@
-import './App.css';
-import Header from './components/Header';
-import GlobalStyle from './GlobalStyles';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import { light } from './components/Theme';
-import Slider from './components/Slider';
-import PreviewProducts from './components/PreviewProducts';
-import TrendingRecipes from './components/TrendingRecipes';
-import PopularRecipesAndMore from './components/PopularRecipesAndMore';
+import Category from './components/Pages/Category';
+import './App.css';
 import Footer from './components/Footer';
+import Header from './components/Header';
+import Home from './components/Pages/Home';
+import { light } from './components/Theme';
+import ToTopButton from './components/ToTopButton';
+import GlobalStyle from './GlobalStyles';
 
 function App() {
   return (
@@ -15,10 +15,13 @@ function App() {
       <div className="App">
         <GlobalStyle />
         <Header />
-        <Slider />
-        <PreviewProducts />
-        <TrendingRecipes />
-        <PopularRecipesAndMore />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/:category" element={<Category />} />
+          </Routes>
+        </Router>
+        <ToTopButton />
         <Footer />
       </div>
     </ThemeProvider>

@@ -44,7 +44,12 @@ export const Products = styled.div`
     }
 
     & > div:last-child {
+      padding: 0 2.4rem;
       width: 60%;
+
+      @media only screen and (min-width: 576px) {
+        padding: 1.5rem 2.4rem;
+      }
     }
 
     h3 {

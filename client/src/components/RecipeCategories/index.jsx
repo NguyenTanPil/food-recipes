@@ -4,6 +4,7 @@ import {
   Title,
   ShortLine,
 } from '../TrendingRecipes/TrendingRecipesStyles';
+import { NavLink } from 'react-router-dom';
 
 const RecipeCategories = () => {
   return (
@@ -14,32 +15,36 @@ const RecipeCategories = () => {
       </Header>
       <Categories>
         <CategoryItem>
-          <a href="#">Breakfast</a>
+          <NavLink to="/breakfast">Breakfast</NavLink>
           <span>(3)</span>
         </CategoryItem>
         <CategoryItem>
-          <a href="#">Lunch</a>
+          <NavLink to="/lunch">Lunch</NavLink>
+          <span>(2)</span>
+        </CategoryItem>
+        <CategoryItem>
+          <NavLink to="/dinner">dinner</NavLink>
+          <span>(2)</span>
+        </CategoryItem>
+        <CategoryItem>
+          <NavLink to="/drink">Drink</NavLink>
           <span>(3)</span>
         </CategoryItem>
         <CategoryItem>
-          <a href="#">Drink</a>
+          <NavLink to="/pizza">Pizza</NavLink>
+          <span>(1)</span>
+        </CategoryItem>
+        <CategoryItem>
+          <NavLink to="/pasta">pasta</NavLink>
+          <span>(1)</span>
+        </CategoryItem>
+        <CategoryItem>
+          <NavLink to="/salad">Salad</NavLink>
           <span>(3)</span>
         </CategoryItem>
         <CategoryItem>
-          <a href="#">Pizza</a>
-          <span>(3)</span>
-        </CategoryItem>
-        <CategoryItem>
-          <a href="#">pasta</a>
-          <span>(3)</span>
-        </CategoryItem>
-        <CategoryItem>
-          <a href="#">Salad</a>
-          <span>(3)</span>
-        </CategoryItem>
-        <CategoryItem>
-          <a href="#">Coffee</a>
-          <span>(3)</span>
+          <NavLink to="/rezala ">Rezala </NavLink>
+          <span>(2)</span>
         </CategoryItem>
       </Categories>
     </Container>
