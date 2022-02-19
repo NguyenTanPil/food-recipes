@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  /* border-bottom: 1px solid ${(props) => props.theme.borderColor}; */
   margin-bottom: 2rem;
 `;
 

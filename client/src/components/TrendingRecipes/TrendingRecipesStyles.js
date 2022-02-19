@@ -101,6 +101,10 @@ export const Products = styled.div`
     margin-bottom: 3rem;
     width: 100%;
 
+    &:last-child {
+      margin-bottom: 0;
+    }
+
     @media only screen and (min-width: 576px) {
       width: 48%;
     }

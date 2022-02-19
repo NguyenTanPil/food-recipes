@@ -24,6 +24,10 @@ export const Products = styled.div`
     margin-bottom: 2.4rem;
     width: 100%;
 
+    &:last-child {
+      margin-bottom: 0;
+    }
+
     &:hover {
       img {
         transform: scale(1.1);
@@ -31,7 +35,12 @@ export const Products = styled.div`
     }
 
     & > div:first-child {
+      border-radius: 0.8rem;
       width: 40%;
+
+      img {
+        border-radius: 0.8rem;
+      }
     }
 
     & > div:last-child {
@@ -43,7 +52,11 @@ export const Products = styled.div`
     }
 
     span {
+      display: -webkit-box;
       font-size: 1.6rem;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
 
     p {

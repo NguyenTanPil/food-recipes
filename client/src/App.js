@@ -7,6 +7,7 @@ import Slider from './components/Slider';
 import PreviewProducts from './components/PreviewProducts';
 import TrendingRecipes from './components/TrendingRecipes';
 import PopularRecipesAndMore from './components/PopularRecipesAndMore';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <PreviewProducts />
         <TrendingRecipes />
         <PopularRecipesAndMore />
+        <Footer />
       </div>
     </ThemeProvider>
   );

@@ -23,7 +23,12 @@ export const Products = styled.div`
     }
 
     & > div:first-child {
+      border-radius: 0.8rem;
       width: 100%;
+
+      img {
+        border-radius: 0.8rem;
+      }
     }
 
     & > div:last-child {

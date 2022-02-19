@@ -17,7 +17,7 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
-  border-radius: 0.8rem;
+  border-radius: 0.8rem 0.8rem 0 0;
   cursor: pointer;
   overflow: hidden;
   width: 100%;
@@ -30,7 +30,7 @@ export const Header = styled.div`
 
   img {
     display: block;
-    border-radius: 0.8rem;
+    border-radius: 0.8rem 0.8rem 0 0;
     transition: transform 0.2s ease-out;
     width: 100%;
   }
@@ -49,12 +49,15 @@ export const Body = styled.div`
 
   & > span {
     cursor: pointer;
-    display: inline-block;
+    display: -webkit-box;
     font-size: 2rem;
     font-weight: 700;
     line-height: 2.8rem;
     margin-bottom: 0.5rem;
+    overflow: hidden;
     transition: color 0.2s ease-out;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 
     &:hover {
       color: ${(props) => props.theme.hoverColor};
@@ -63,9 +66,13 @@ export const Body = styled.div`
 
   p {
     color: ${(props) => props.theme.fontColor};
+    display: -webkit-box;
     font-size: 1.4rem;
     font-weight: 500;
     margin: 0;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 `;
 
