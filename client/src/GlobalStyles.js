@@ -5,10 +5,9 @@ const GlobalStyle = createGlobalStyle`
     font-size: 62.5%;
   }
   body {
-    /* background-color: #f3f3f3; */
     box-sizing: border-box;
     color: #0f1419;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Roboto", sans-serif;
     margin: 0;
     padding: 0;
   }

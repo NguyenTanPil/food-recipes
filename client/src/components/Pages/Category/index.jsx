@@ -163,7 +163,11 @@ const Category = () => {
 
   return (
     <>
-      <TitleBar mainTitle={params.category} pageList={[params.category]} />
+      <TitleBar
+        oneLine
+        mainTitle={params.category}
+        pageList={[params.category]}
+      />
       <Content>
         <Products>
           {products.length > 0 ? (

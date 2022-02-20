@@ -1,20 +1,18 @@
+import { NavLink } from 'react-router-dom';
 import {
+  BreadcrumbItem,
   Container,
   LeftTitle,
   RightTitle,
-  BreadcrumbItem,
 } from './TitleBarStyles';
-import { NavLink, useParams } from 'react-router-dom';
 
-const TitleBar = ({ mainTitle, pageList }) => {
-  const params = useParams();
-
+const TitleBar = ({ mainTitle, pageList, oneLine }) => {
   return (
-    <Container>
-      <LeftTitle>
+    <Container oneLine={oneLine ? 1 : 0}>
+      <LeftTitle oneLine={oneLine ? 1 : 0}>
         <h3>{mainTitle}</h3>
       </LeftTitle>
-      <RightTitle>
+      <RightTitle oneLine={oneLine ? 1 : 0}>
         <ul>
           <BreadcrumbItem>
             <NavLink to="/">Home</NavLink>
@@ -23,7 +21,7 @@ const TitleBar = ({ mainTitle, pageList }) => {
             return (
               <BreadcrumbItem
                 key={index}
-                active={params.category === item ? 1 : 0}
+                active={index === pageList.length - 1 ? 1 : 0}
               >
                 <NavLink to={`/${item}`}>{item}</NavLink>
               </BreadcrumbItem>

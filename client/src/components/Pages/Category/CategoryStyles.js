@@ -40,9 +40,14 @@ export const Products = styled.div`
 
 export const RightSide = styled.div`
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
+
+  @media only screen and (min-width: 1200px) {
+    justify-content: flex-start;
+    flex-direction: column;
+  }
 
   & > div {
     @media only screen and (min-width: 576px) {

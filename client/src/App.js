@@ -8,6 +8,7 @@ import Home from './components/Pages/Home';
 import { light } from './components/Theme';
 import ToTopButton from './components/ToTopButton';
 import GlobalStyle from './GlobalStyles';
+import RecipeDetail from './components/Pages/RecipeDetail';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/:category" element={<Category />} />
+            <Route path=":category" element={<Category />}></Route>
+            <Route path=":category/:recipeId" element={<RecipeDetail />} />
           </Routes>
         </Router>
         <ToTopButton />
