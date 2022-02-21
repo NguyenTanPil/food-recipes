@@ -38,13 +38,14 @@ export const Header = styled.div`
 
 export const Body = styled.div`
   box-sizing: border-box;
-  padding: 1.5rem 2.4rem;
+  padding: 1.5rem 2.4rem 2.4rem 2.4rem;
 
   h3 {
     color: ${(props) => props.theme.hoverColor};
     font-size: 1.8rem;
     font-weight: 600;
     margin: 0 0 0.5rem 0;
+    text-transform: capitalize;
   }
 
   & > span {
@@ -55,6 +56,7 @@ export const Body = styled.div`
     line-height: 2.8rem;
     margin-bottom: 0.5rem;
     overflow: hidden;
+    text-transform: capitalize;
     transition: color 0.2s ease-out;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -69,6 +71,8 @@ export const Body = styled.div`
     display: -webkit-box;
     font-size: 1.4rem;
     font-weight: 500;
+    line-height: 2rem;
+    letter-spacing: 0.1rem;
     margin: 0;
     overflow: hidden;
     -webkit-line-clamp: 3;

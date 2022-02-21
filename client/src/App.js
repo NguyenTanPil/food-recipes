@@ -15,16 +15,16 @@ function App() {
     <ThemeProvider theme={light}>
       <div className="App">
         <GlobalStyle />
-        <Header />
         <Router>
+          <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path=":category" element={<Category />}></Route>
-            <Route path=":category/:recipeId" element={<RecipeDetail />} />
+            <Route path="/:category" element={<Category />} />
+            <Route path="/:category/:recipeId" element={<RecipeDetail />} />
           </Routes>
+          <ToTopButton />
+          <Footer />
         </Router>
-        <ToTopButton />
-        <Footer />
       </div>
     </ThemeProvider>
   );

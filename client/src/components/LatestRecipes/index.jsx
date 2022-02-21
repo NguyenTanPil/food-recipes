@@ -1,17 +1,55 @@
-import { Container, Products } from './LatestRecipesStyles';
+import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { AiOutlineClockCircle } from 'react-icons/ai';
+import db from '../../firebase';
 import {
-  Header,
-  Title,
-  ShortLine,
-} from '../TrendingRecipes/TrendingRecipesStyles';
-import {
+  Body as ProductBody,
   Container as ProductContainer,
   Header as ProductHeader,
-  Body as ProductBody,
 } from '../Product/ProductStyles';
-import { AiOutlineClockCircle } from 'react-icons/ai';
+import {
+  Header,
+  ShortLine,
+  Title,
+} from '../TrendingRecipes/TrendingRecipesStyles';
+import { Container, Products } from './LatestRecipesStyles';
 
 const LatestRecipes = () => {
+  const [latProducts, setLatProducts] = useState([]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const fetchProducts = async () => {
+      const response = [];
+
+      try {
+        const queryRecipes = query(
+          collection(db, 'recipes'),
+          orderBy('desc', 'desc'),
+          limit(3),
+        );
+        const querySnapshot = await getDocs(queryRecipes);
+
+        querySnapshot.forEach((doc) => {
+          response.push({ id: doc.id, ...doc.data() });
+        });
+      } catch (error) {
+        console.log('Error: ' + error.message);
+      }
+
+      if (isSubscribed) {
+        setLatProducts(response);
+      }
+    };
+
+    fetchProducts();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
+
   return (
     <Container>
       <Header>
@@ -19,54 +57,21 @@ const LatestRecipes = () => {
         <ShortLine />
       </Header>
       <Products>
-        <ProductContainer>
-          <ProductHeader>
-            <img
-              src="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2020/06/ranna-wordpress-theme-radiustheme.com-6-150x150.jpg"
-              alt=""
-            />
-          </ProductHeader>
-          <ProductBody>
-            <h3>Pasta</h3>
-            <span>Spiced Pork and Pasta</span>
-            <p>
-              {' '}
-              <AiOutlineClockCircle /> Feb 23, 2022
-            </p>
-          </ProductBody>
-        </ProductContainer>
-        <ProductContainer>
-          <ProductHeader>
-            <img
-              src="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2020/06/ranna-wordpress-theme-radiustheme.com-3-150x150.jpg"
-              alt=""
-            />
-          </ProductHeader>
-          <ProductBody>
-            <h3>Drink</h3>
-            <span>Pumpkin Cheese cake With Gingersnap Crust</span>
-            <p>
-              {' '}
-              <AiOutlineClockCircle /> Feb 21, 2022
-            </p>
-          </ProductBody>
-        </ProductContainer>
-        <ProductContainer>
-          <ProductHeader>
-            <img
-              src="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/09/blog13-150x150.jpg"
-              alt=""
-            />
-          </ProductHeader>
-          <ProductBody>
-            <h3>Drink</h3>
-            <span>Product JUICE Blueberry Juice with Lemon</span>
-            <p>
-              {' '}
-              <AiOutlineClockCircle /> Feb 13, 2022
-            </p>
-          </ProductBody>
-        </ProductContainer>
+        {latProducts.map((product) => (
+          <ProductContainer key={product.id}>
+            <ProductHeader>
+              <img src={product.thumbnail} alt="" />
+            </ProductHeader>
+            <ProductBody>
+              <h3>{product.category}</h3>
+              <span>{product.name}</span>
+              <p>
+                {' '}
+                <AiOutlineClockCircle /> Feb 23, 2022
+              </p>
+            </ProductBody>
+          </ProductContainer>
+        ))}
       </Products>
     </Container>
   );

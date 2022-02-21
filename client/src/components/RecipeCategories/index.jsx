@@ -27,23 +27,23 @@ const RecipeCategories = () => {
           <span>(2)</span>
         </CategoryItem>
         <CategoryItem>
-          <NavLink to="/drink">Drink</NavLink>
+          <NavLink to="/drinks">Drinks</NavLink>
           <span>(3)</span>
         </CategoryItem>
         <CategoryItem>
-          <NavLink to="/pizza">Pizza</NavLink>
+          <NavLink to="/starter">Starter</NavLink>
           <span>(1)</span>
         </CategoryItem>
         <CategoryItem>
-          <NavLink to="/pasta">pasta</NavLink>
+          <NavLink to="/side-dish">side dish</NavLink>
           <span>(1)</span>
         </CategoryItem>
         <CategoryItem>
-          <NavLink to="/salad">Salad</NavLink>
+          <NavLink to="/dessert">Dessert</NavLink>
           <span>(3)</span>
         </CategoryItem>
         <CategoryItem>
-          <NavLink to="/rezala ">Rezala </NavLink>
+          <NavLink to="/snack">Snack</NavLink>
           <span>(2)</span>
         </CategoryItem>
       </Categories>

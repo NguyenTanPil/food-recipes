@@ -17,19 +17,16 @@ export const Products = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  height: fit-content;
   margin-bottom: 4rem;
   width: 100%;
 
   & > div {
-    margin-bottom: 2.4rem;
     width: 100%;
+    margin-bottom: 2.4rem;
 
     @media only screen and (min-width: 576px) {
       width: 48%;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
     }
   }
 

@@ -34,6 +34,7 @@ export const RecipeTitle = styled.div`
     font-size: 2.4rem;
     font-weight: 600;
     margin: 0;
+    text-transform: capitalize;
 
     @media only screen and (min-width: 576px) {
       font-size: 3.2rem;
@@ -45,7 +46,7 @@ export const AboutDetaill = styled.ul`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
 
   li {
     color: ${(props) => props.theme.fontColor};
@@ -103,7 +104,7 @@ export const DescContent = styled.div`
     font-size: 1.8rem;
     font-weight: 400;
     letter-spacing: 0.1rem;
-    line-height: 3rem;
+    line-height: 2.4rem;
     overflow: hidden;
     transition: line-clamp 0.2s ease-out;
     -webkit-line-clamp: ${(props) => (props.full ? 'none' : 8)};
@@ -205,7 +206,7 @@ export const Directions = styled.div`
     font-size: 1.8rem;
     font-weight: 400;
     letter-spacing: 0.1rem;
-    line-height: 3rem;
+    line-height: 2.4rem;
   }
 `;
 
@@ -216,7 +217,13 @@ export const ListStep = styled.ul`
 export const StepItem = styled.li`
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   @media only screen and (min-width: 576px) {
     flex-direction: row;
@@ -293,6 +300,32 @@ export const StepContent = styled.div`
     font-size: 1.8rem;
     font-weight: 400;
     letter-spacing: 0.1rem;
-    line-height: 3rem;
+    line-height: 2.4rem;
+    margin-top: 1rem;
+  }
+`;
+
+export const StepTitle = styled.div`
+  padding-top: 1.5rem;
+  width: 100%;
+
+  h3 {
+    color: ${(props) => props.theme.fontColor};
+    font-size: 2.4rem;
+    font-weight: 600;
+    margin: 0;
+  }
+`;
+
+export const LoadingShape = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+
+  img {
+    height: 10rem;
+    width: 10rem;
   }
 `;

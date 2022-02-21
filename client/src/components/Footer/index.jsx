@@ -20,7 +20,7 @@ const Footer = () => {
   return (
     <Container>
       <Content>
-        <Brand>
+        <Brand to="/">
           <img src={brandImg} alt="" />
           <span>Food Recipes</span>
         </Brand>

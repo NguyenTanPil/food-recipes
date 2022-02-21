@@ -1,27 +1,53 @@
+import { collection, getDocs, limit, query } from 'firebase/firestore';
+import { useLayoutEffect, useState } from 'react';
+import db from '../../firebase';
 import Product from '../Product';
 import { Container } from './PreviewProductsStyles';
 
 const PreviewProducts = () => {
+  const [previewProducts, setPreviewProducts] = useState([]);
+
+  useLayoutEffect(() => {
+    let isSubscribed = true;
+
+    const fetchProducts = async () => {
+      const response = [];
+
+      try {
+        const queryRecipes = query(collection(db, 'recipes'), limit(3));
+        const querySnapshot = await getDocs(queryRecipes);
+
+        querySnapshot.forEach((doc) => {
+          response.push({ id: doc.id, ...doc.data() });
+        });
+      } catch (error) {
+        console.log('Error: ' + error.message);
+      }
+
+      if (isSubscribed) {
+        setPreviewProducts(response);
+      }
+    };
+
+    fetchProducts();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
+
   return (
     <Container>
-      <Product
-        img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/07/blog16-530x338.jpg"
-        name="Sunday Best Fruit Salad"
-        desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
-        category="Dinner"
-      />
-      <Product
-        img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/09/ranna_wordpress_theme_radiustheme.com_1-530x338.jpg"
-        name="Sunday Best Fruit Salad"
-        desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
-        category="Dinner"
-      />
-      <Product
-        img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/09/ranna-wordpress-theme-radiustheme.com-4-530x338.jpg"
-        name="Sunday Best Fruit Salad"
-        desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape, that is seasoned, stacked in a cone shape,"
-        category="Dinner"
-      />
+      {previewProducts.map((product) => (
+        <Product
+          key={product.id}
+          id={product.id}
+          img={product.thumbnail}
+          name={product.name}
+          desc={product.desc}
+          category={product.category}
+        />
+      ))}
     </Container>
   );
 };

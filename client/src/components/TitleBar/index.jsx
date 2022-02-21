@@ -23,7 +23,11 @@ const TitleBar = ({ mainTitle, pageList, oneLine }) => {
                 key={index}
                 active={index === pageList.length - 1 ? 1 : 0}
               >
-                <NavLink to={`/${item}`}>{item}</NavLink>
+                {index === pageList.length - 1 ? (
+                  <span>{item}</span>
+                ) : (
+                  <NavLink to={`/${item}`}>{item}</NavLink>
+                )}
               </BreadcrumbItem>
             );
           })}

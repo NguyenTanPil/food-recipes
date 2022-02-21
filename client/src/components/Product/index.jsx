@@ -1,16 +1,24 @@
 import { Container, Header, Body, EntryMeta } from './ProductStyles';
 import { FaUserCheck } from 'react-icons/fa';
 import { AiFillClockCircle, AiFillHeart } from 'react-icons/ai';
+import { NavLink } from 'react-router-dom';
 
-const Product = ({ img, name, desc, category }) => {
+const Product = ({ id, img, name, desc, category }) => {
   return (
     <Container>
       <Header>
-        <img src={img} alt="" />
+        <NavLink to={`/${category.replace(' ', '-')}/${id}`}>
+          <img src={img} alt="" />
+        </NavLink>
       </Header>
       <Body>
-        <h3>{category}</h3>
-        <span>{name}</span>
+        <NavLink to={`/${category.replace(' ', '-')}`}>
+          <h3>{category}</h3>
+        </NavLink>
+        <span>
+          <NavLink to={`/${category.replace(' ', '-')}/${id}`}>{name}</NavLink>
+        </span>
+
         <p>{desc}</p>
         <EntryMeta>
           <li>

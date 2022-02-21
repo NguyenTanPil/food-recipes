@@ -1,54 +1,94 @@
+import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import db from '../../firebase';
 import Product from '../Product';
 import {
   Container,
   Header,
   ProductIntro,
   Products,
-  Title,
   ShortLine,
+  Title,
 } from './TrendingRecipesStyles';
+import loadingImg from '../../assets/gif-loading-icon-16.jpg';
+import { LoadingShape } from '../Pages/RecipeDetail/RecipeDetailStyles';
 
 const TrendingRecipes = () => {
+  const [trendTopProducts, setTrendTopProducts] = useState([]);
+  const [trendProducts, setTrendProducts] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const fetchProducts = async () => {
+      const response = [];
+
+      try {
+        const queryRecipes = query(
+          collection(db, 'recipes'),
+          orderBy('name', 'desc'),
+          limit(4),
+        );
+        const querySnapshot = await getDocs(queryRecipes);
+
+        querySnapshot.forEach((doc) => {
+          response.push({ id: doc.id, ...doc.data() });
+        });
+      } catch (error) {
+        console.log('Error: ' + error.message);
+      }
+
+      if (isSubscribed) {
+        setTrendProducts(response[0]);
+        response.splice(0, 1);
+        setTrendTopProducts(response);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
+
   return (
     <Container>
       <Header>
         <Title>Trending Recipes</Title>
         <ShortLine />
       </Header>
-      <ProductIntro>
-        <Product
-          img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/07/blog16-530x338.jpg"
-          name="Sunday Best Fruit Salad"
-          desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
-          category="Dinner"
-        />
-      </ProductIntro>
-      <Products>
-        <Product
-          img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/09/ranna-wordpress-theme-radiustheme.com-4-530x338.jpg"
-          name="Sunday Best Fruit Salad"
-          desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
-          category="Dinner"
-        />
-        <Product
-          img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2020/06/ranna-wordpress-theme-radiustheme.com-9-530x338.jpg"
-          name="Sunday Best Fruit Salad"
-          desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
-          category="Dinner"
-        />
-        <Product
-          img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2020/06/ranna-wordpress-theme-radiustheme.com-6-530x338.jpg"
-          name="Sunday Best Fruit Salad"
-          desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
-          category="Dinner"
-        />
-        <Product
-          img="https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/07/blog16-530x338.jpg"
-          name="Sunday Best Fruit Salad"
-          desc="The doner is a Turkish creation of meat, often lamb, but not necessarily so, that is seasoned, stacked in a cone shape,"
-          category="Dinner"
-        />
-      </Products>
+      {loading ? (
+        <LoadingShape>
+          <img src={loadingImg} alt="" />
+        </LoadingShape>
+      ) : (
+        <>
+          <ProductIntro>
+            <Product
+              id={trendProducts.id}
+              img={trendProducts.thumbnail}
+              name={trendProducts.name}
+              desc={trendProducts.desc}
+              category={trendProducts.category}
+            />
+          </ProductIntro>
+          <Products>
+            {trendTopProducts.map((product) => (
+              <Product
+                key={product.id}
+                id={product.id}
+                img={product.thumbnail}
+                name={product.name}
+                desc={product.desc}
+                category={product.category}
+              />
+            ))}
+          </Products>
+        </>
+      )}
     </Container>
   );
 };

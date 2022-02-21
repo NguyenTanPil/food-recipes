@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 export const Container = styled.div`
   margin-bottom: 2rem;
@@ -25,7 +26,7 @@ export const ShiftLeft = styled.nav`
   justify-content: flex-start;
 `;
 
-export const Brand = styled.div`
+export const Brand = styled(NavLink)`
   cursor: pointer;
   display: flex;
   align-items: center;
