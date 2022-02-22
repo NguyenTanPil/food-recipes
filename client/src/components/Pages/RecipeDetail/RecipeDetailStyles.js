@@ -323,6 +323,7 @@ export const LoadingShape = styled.div`
   justify-content: center;
   margin-bottom: 2rem;
   margin-top: 2rem;
+  width: 100%;
 
   img {
     height: 10rem;

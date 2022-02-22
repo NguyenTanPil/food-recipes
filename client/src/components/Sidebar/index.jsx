@@ -1,5 +1,6 @@
 import { Container, Content, Header, ListLink } from './SidebarStyles';
 import { CgPushChevronRight } from 'react-icons/cg';
+import { Link } from 'react-router-dom';
 
 const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
   return (
@@ -14,8 +15,10 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
           </button>
         </Header>
         <ListLink>
-          <li>
-            <span>Recipes</span>
+          <li onClick={() => setIsShowSidebar(false)}>
+            <Link to="/recipes">
+              <span>Recipes</span>
+            </Link>
           </li>
           <li>
             <span>Popular</span>

@@ -11,6 +11,7 @@ import {
 } from './HeaderStyles';
 import Sidebar from '../Sidebar';
 import { BiBarChart } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 const Header = () => {
@@ -26,7 +27,9 @@ const Header = () => {
           </Brand>
           {!isShowSidebar && (
             <NavItems>
-              <li>Recipes</li>
+              <li>
+                <Link to="/recipes">Recipes</Link>
+              </li>
               <li>Popular</li>
               <li>Healthy</li>
             </NavItems>
