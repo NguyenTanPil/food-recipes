@@ -173,7 +173,7 @@ const RecipeDetail = () => {
                           </div>
                         </NumberStep>
                         <StepContent>
-                          <img src={step.image} alt="" />
+                          {step.image && <img src={step.image} alt="" />}
                           <StepTitle>
                             <h3>{step.title}</h3>
                           </StepTitle>

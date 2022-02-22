@@ -292,6 +292,7 @@ export const StepContent = styled.div`
 
   img {
     border-radius: 1.4rem;
+    margin-bottom: 1.5rem;
     width: 100%;
   }
 
@@ -306,7 +307,6 @@ export const StepContent = styled.div`
 `;
 
 export const StepTitle = styled.div`
-  padding-top: 1.5rem;
   width: 100%;
 
   h3 {
