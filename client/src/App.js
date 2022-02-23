@@ -10,6 +10,7 @@ import ToTopButton from './components/ToTopButton';
 import GlobalStyle from './GlobalStyles';
 import RecipeDetail from './components/Pages/RecipeDetail';
 import Recipes from './components/Pages/Recipes';
+import Login from './components/Pages/Login';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="recipes" element={<Recipes />} />
+            <Route path="login" element={<Login />} />
             <Route path="/:category" element={<Category />} />
             <Route path="/:category/:recipeId" element={<RecipeDetail />} />
           </Routes>

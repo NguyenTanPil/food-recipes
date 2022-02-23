@@ -33,7 +33,9 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
             <span>Save</span>
           </li>
           <li>
-            <span>Login</span>
+            <Link to="/login">
+              <span>Login</span>
+            </Link>
           </li>
         </ListLink>
       </Content>

@@ -47,7 +47,7 @@ const Header = () => {
             </li>
             <li>
               <BiUser title="Login" />
-              <span>Login</span>
+              <Link to="/login">Login</Link>
             </li>
             <div onClick={() => setIsShowSidebar(true)}>
               <BiBarChart />

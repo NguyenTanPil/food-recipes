@@ -18,7 +18,7 @@ export const Header = styled.div`
 
 export const Title = styled.h2`
   border-bottom: 0.1rem solid ${(props) => props.theme.borderColor};
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 700;
   margin: 0;
   padding-bottom: 1.5rem;
