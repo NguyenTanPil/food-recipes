@@ -3,11 +3,11 @@ import styled from 'styled-components';
 export const PanelsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  position: absolute;
   height: 100%;
-  width: 100%;
-  top: 0;
+  position: absolute;
   left: 0;
+  top: 0;
+  width: 100%;
 
   img {
     max-width: 26rem;
@@ -43,8 +43,8 @@ export const Content = styled.div`
 
 export const LeftPanel = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
+  flex-direction: column;
   justify-content: space-around;
   padding: 3rem 17% 2rem 12%;
   pointer-events: all;
@@ -56,7 +56,7 @@ export const RightPanel = styled(LeftPanel)`
   pointer-events: none;
 
   ${Content}, img {
-    transform: translateX(800px);
+    transform: translateX(80rem);
   }
 `;
 
@@ -69,8 +69,8 @@ export const SignUpButon = styled.button`
   display: inline-block;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
   font-size: 1.6rem;
+  font-weight: 600;
   line-height: 1.75;
   margin: 0;
   min-width: 6.4rem;
@@ -126,7 +126,7 @@ export const Container = styled.div`
   ${LeftPanel} {
     ${Content}, img {
       transform: ${(props) =>
-        props.modeSign === 'signup' && 'translateX(-800px)'};
+        props.modeSign === 'signup' && 'translateX(-80rem)'};
     }
     z-index: ${(props) => (props.modeSign === 'signup' ? '12' : '16')};
   }
@@ -136,7 +136,77 @@ export const Container = styled.div`
     z-index: ${(props) => (props.modeSign === 'signin' ? '12' : '16')};
 
     ${Content}, img {
-      transform: ${(props) => props.modeSign === 'signup' && 'translateX(0px)'};
+      transform: ${(props) => props.modeSign === 'signup' && 'translateX(0)'};
+    }
+  }
+
+  @media only screen and (max-width: 870px) {
+    min-height: 80rem;
+
+    &:before {
+      bottom: ${(props) => (props.modeSign === 'signup' ? '36%' : '64%')};
+      left: 30%;
+      height: 150rem;
+      right: initial;
+      top: initial;
+      transform: ${(props) =>
+        props.modeSign === 'signup'
+          ? 'translate(-50%, 100%)'
+          : 'translateX(-50%)'};
+      transition: 2s ease-in-out;
+      width: 150rem;
+    }
+
+    ${PanelsContainer} {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 2fr 1fr;
+    }
+
+    ${Content} {
+      padding-right: 15%;
+      transition: transform 0.9s ease-in-out 0.8s;
+
+      & + img {
+        transition: transform 0.9s ease-in-out 0.6s;
+        width: 20rem;
+      }
+    }
+
+    ${LeftPanel} {
+      align-items: center;
+      flex-direction: row;
+      grid-row: 1 / 2;
+      justify-content: center;
+      padding: 2.5rem 8%;
+
+      ${Content}, img {
+        transform: ${(props) =>
+          props.modeSign === 'signup' && 'translateY(-30rem)'};
+      }
+    }
+
+    ${RightPanel} {
+      grid-row: 3 / 4;
+
+      ${Content}, img {
+        transform: ${(props) =>
+          props.modeSign === 'signup' ? 'translateY(0)' : 'translateY(30rem)'};
+      }
+    }
+  }
+
+  @media only screen and (max-width: 576px) {
+    &:before {
+      bottom: ${(props) => (props.modeSign === 'signup' ? '35%' : '65%')};
+      left: 50%;
+    }
+
+    & ${Content} {
+      padding: 0.5rem 1rem;
+
+      & + img {
+        display: none;
+      }
     }
   }
 `;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   background-color: ${(props) => props.theme.titleBackgroundColor};
   box-sizing: border-box;
+  border-radius: 0.8rem;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -30,6 +31,10 @@ export const LeftTitle = styled.div`
     padding-bottom: 2.6rem;
   }
 
+  @media only screen and (min-width: 1200px) {
+    padding-left: 2rem;
+  }
+
   h3 {
     color: ${(props) => props.theme.titleColor};
     font-size: 2.4rem;
@@ -49,6 +54,10 @@ export const RightTitle = styled.div`
 
   @media only screen and (min-width: 576px) {
     padding-top: 2.6rem;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    padding-right: 2rem;
   }
 
   ul {

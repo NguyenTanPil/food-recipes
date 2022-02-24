@@ -1,23 +1,18 @@
+import { useState } from 'react';
+import bgLogin from '../../../assets/bg-login.svg';
+import bgSignUp from '../../../assets/bg-sign-up.svg';
+import SignIn from '../../SignIn';
+import SignUp from '../../SignUp';
 import TitleBar from '../../TitleBar';
 import {
   Container,
-  PanelsContainer,
-  FormContainer,
-  FormTitle,
-  MainForm,
-  LeftPanel,
-  RightPanel,
   Content,
+  LeftPanel,
+  PanelsContainer,
+  RightPanel,
   SignUpButon,
   Wrapper,
 } from './LoginStyles';
-import { Form, Formik } from 'formik';
-import ValidInput from '../../ValidInput';
-import bgLogin from '../../../assets/bg-login.svg';
-import bgSignUp from '../../../assets/bg-sign-up.svg';
-import { useRef, useState } from 'react';
-import SignUp from '../../SignUp';
-import SignIn from '../../SignIn';
 
 const validate = {
   // check user name
@@ -74,7 +69,7 @@ const validate = {
 };
 
 const Login = () => {
-  const [mode, setMode] = useState('signin');
+  const [mode, setMode] = useState('signup');
 
   return (
     <>
@@ -86,25 +81,26 @@ const Login = () => {
           <PanelsContainer>
             <LeftPanel>
               <Content>
-                <h3>Hello, Friend!</h3>
+                <h3>Welcome Back!</h3>
                 <p>
-                  Enter your personal details and start your journey with us
+                  To keep connected to our updates please login with your
+                  personal info
                 </p>
+
                 <SignUpButon onClick={() => setMode('signup')}>
-                  Sign Up
+                  Sign In
                 </SignUpButon>
               </Content>
               <img src={bgLogin} alt="" />
             </LeftPanel>
             <RightPanel>
               <Content>
-                <h3>Welcome Back!</h3>
+                <h3>Hello, Friend!</h3>
                 <p>
-                  To keep connected to our updates please login with your
-                  personal info
+                  Enter your personal details and start your journey with us
                 </p>
                 <SignUpButon onClick={() => setMode('signin')}>
-                  Sign in
+                  Sign Up
                 </SignUpButon>
               </Content>
               <img src={bgSignUp} alt="" />
