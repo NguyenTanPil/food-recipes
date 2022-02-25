@@ -59,7 +59,7 @@ export const ErrorMessage = styled.div`
   transition: height 0.2s ease-out 0s;
 
   div {
-    padding: 0.75rem 0.5rem 0.5rem 1.6rem;
+    padding: 0.75rem 0.5rem 0.5rem 1.8rem;
   }
 
   span {

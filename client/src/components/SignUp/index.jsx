@@ -3,8 +3,45 @@ import { Form, Formik } from 'formik';
 import ValidInput from '../ValidInput';
 import { Header, SubmitButton } from '../SignIn/SignInStyles';
 import logo from '../../assets/brand.png';
+import { auth } from '../../firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
-const SignUp = ({ modeSign, validate }) => {
+const SignUp = ({ modeSign, validate, setModeSign }) => {
+  const handleSignUp = (values) => {
+    // handle sign in then validation
+    const { email, password, userName } = values;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCreated) => {
+        const user = userCreated.user;
+        updateProfile(user, {
+          displayName: userName,
+          photoURL:
+            'https://res.cloudinary.com/felixnguyen/image/upload/v1620744647/user-details/avt_npasta.png',
+        })
+          .then(() => {
+            // update is succsess
+            setModeSign('signup');
+          })
+          .catch((error) => {
+            console.log('Error update user: ', error.message);
+          });
+      })
+      .catch((error) => {
+        // sign in not successful
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        if (errorCode === 'auth/email-already-in-use') {
+          alert('Email is already in use!');
+        } else if (errorCode === 'auth/invalid-email') {
+          alert('Email is not exist!');
+        } else {
+          console.log('Error create user', errorMessage);
+        }
+      });
+  };
+
   return (
     <Container modeSign={modeSign}>
       <Header>
@@ -19,9 +56,7 @@ const SignUp = ({ modeSign, validate }) => {
         }}
         validateOnChange={false}
         validateOnBlur={true}
-        onSubmit={(value, actions) => {
-          console.log(value);
-        }}
+        onSubmit={handleSignUp}
       >
         {({ errors, touched, validateForm, handleSubmit }) => (
           <Form onSubmit={handleSubmit} noValidate>

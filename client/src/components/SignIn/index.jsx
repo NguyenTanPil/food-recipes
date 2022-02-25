@@ -1,9 +1,86 @@
-import { Container, Header, SubmitButton } from './SignInStyles';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Form, Formik } from 'formik';
-import ValidInput from '../ValidInput';
 import logo from '../../assets/brand.png';
+import db, { auth } from '../../firebase';
+import ValidInput from '../ValidInput';
+import { Container, Header, SubmitButton } from './SignInStyles';
+import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
+
+const convertCreateAtToJoinedTime = (createdAt) => {
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  const date = new Date(parseInt(createdAt));
+
+  return `Joined ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+};
 
 const SignIn = ({ modeSign, validate }) => {
+  const navigate = useNavigate();
+
+  const setCookie = (data) => {
+    const cookies = new Cookies();
+    const user = JSON.stringify(data);
+    cookies.set('user', user, { path: '/', maxAge: 60 * 60, sameSite: true });
+  };
+
+  const handleAfterSignIn = async (response) => {
+    const userId = response.user.uid;
+    let currentUser;
+
+    // check user is exists
+    const userSnap = await getDoc(doc(db, 'users', userId));
+
+    if (userSnap.exists()) {
+      currentUser = { id: userId, ...userSnap.data() };
+      const user = {
+        name: response.user.displayName,
+        email: response.user.email,
+        avatar: response.user.photoURL,
+        joined: convertCreateAtToJoinedTime(response.user.metadata.createdAt),
+      };
+
+      await setDoc(doc(db, 'users', userId), user);
+      currentUser = { id: userId, ...user };
+    }
+
+    setCookie(currentUser);
+    navigate('/');
+  };
+
+  const handleSignIn = (values) => {
+    // handle sign in then validation
+    const { email, password } = values;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((response) => {
+        handleAfterSignIn(response);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        if (errorCode === 'auth/user-not-found') {
+          alert('Email or password is incorrect. Try again! ');
+        } else {
+          console.log('Error login', errorMessage);
+        }
+      });
+  };
+
   return (
     <Container modeSign={modeSign}>
       <Header>
@@ -15,9 +92,7 @@ const SignIn = ({ modeSign, validate }) => {
           email: '',
           password: '',
         }}
-        onSubmit={(value, actions) => {
-          console.log(value);
-        }}
+        onSubmit={handleSignIn}
       >
         {({ errors, touched, validateForm, handleSubmit }) => (
           <Form onSubmit={handleSubmit} noValidate>
@@ -39,7 +114,9 @@ const SignIn = ({ modeSign, validate }) => {
               touched={touched.password}
               validateFunc={validate.password}
             />
-            <SubmitButton>Sign In</SubmitButton>
+            <SubmitButton type="submit" onClick={() => validateForm()}>
+              Sign In
+            </SubmitButton>
           </Form>
         )}
       </Formik>

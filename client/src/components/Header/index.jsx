@@ -12,10 +12,26 @@ import {
 import Sidebar from '../Sidebar';
 import { BiBarChart } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Cookies from 'universal-cookie';
 
 const Header = () => {
   const [isShowSidebar, setIsShowSidebar] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(false);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    if (isSubscribed) {
+      const cookies = new Cookies();
+      const user = cookies.get('user');
+      setIsSignIn(user && true);
+    }
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
 
   return (
     <Container>
@@ -47,7 +63,11 @@ const Header = () => {
             </li>
             <li>
               <BiUser title="Login" />
-              <Link to="/login">Login</Link>
+              {!isSignIn ? (
+                <Link to="/login">Login</Link>
+              ) : (
+                <span>Profile</span>
+              )}
             </li>
             <div onClick={() => setIsShowSidebar(true)}>
               <BiBarChart />

@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import bgLogin from '../../../assets/bg-login.svg';
 import bgSignUp from '../../../assets/bg-sign-up.svg';
 import SignIn from '../../SignIn';
@@ -70,13 +72,30 @@ const validate = {
 
 const Login = () => {
   const [mode, setMode] = useState('signup');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    if (isSubscribed) {
+      const cookies = new Cookies();
+      const user = cookies.get('user');
+      if (user) {
+        navigate('/');
+      }
+    }
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
 
   return (
     <>
       <TitleBar mainTitle="Login to Food Recipes" pageList={['Login']} />
       <Wrapper>
         <Container modeSign={mode}>
-          <SignUp modeSign={mode} validate={validate} />
+          <SignUp modeSign={mode} setModeSign={setMode} validate={validate} />
           <SignIn modeSign={mode} validate={validate} />
           <PanelsContainer>
             <LeftPanel>

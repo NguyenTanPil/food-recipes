@@ -1,16 +1,16 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import Category from './components/Pages/Category';
 import './App.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import Category from './components/Pages/Category';
 import Home from './components/Pages/Home';
+import Login from './components/Pages/Login';
+import RecipeDetail from './components/Pages/RecipeDetail';
+import Recipes from './components/Pages/Recipes';
 import { light } from './components/Theme';
 import ToTopButton from './components/ToTopButton';
 import GlobalStyle from './GlobalStyles';
-import RecipeDetail from './components/Pages/RecipeDetail';
-import Recipes from './components/Pages/Recipes';
-import Login from './components/Pages/Login';
 
 function App() {
   return (
