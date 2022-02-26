@@ -66,7 +66,7 @@ const RecipeDetail = () => {
     return () => {
       isSubscribed = false;
     };
-  }, []);
+  }, [params.recipeId]);
 
   return (
     <>

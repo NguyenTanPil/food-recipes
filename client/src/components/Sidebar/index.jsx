@@ -1,25 +1,11 @@
-import { Container, Content, Header, ListLink } from './SidebarStyles';
 import { CgPushChevronRight } from 'react-icons/cg';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Cookies from 'universal-cookie';
+import { selectUser } from '../../features/userSlice';
+import { Container, Content, Header, ListLink } from './SidebarStyles';
 
 const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
-  const [isSignIn, setIsSignIn] = useState(false);
-
-  useEffect(() => {
-    let isSubscribed = true;
-
-    if (isSubscribed) {
-      const cookies = new Cookies();
-      const user = cookies.get('user');
-      setIsSignIn(user && true);
-    }
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, []);
+  const user = useSelector(selectUser);
 
   return (
     <Container
@@ -50,17 +36,17 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
           <li>
             <span>Save</span>
           </li>
-          {!isSignIn ? (
-            <li onClick={() => setIsShowSidebar(false)}>
+          <li onClick={() => setIsShowSidebar(false)}>
+            {user.id ? (
+              <Link to="/profile">
+                <span>Profile</span>
+              </Link>
+            ) : (
               <Link to="/login">
                 <span>Login</span>
               </Link>
-            </li>
-          ) : (
-            <li>
-              <span>Profile</span>
-            </li>
-          )}
+            )}
+          </li>
         </ListLink>
       </Content>
     </Container>

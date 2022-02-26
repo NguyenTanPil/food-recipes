@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Category from './components/Pages/Category';
 import Home from './components/Pages/Home';
 import Login from './components/Pages/Login';
+import Profile from './components/Pages/Profile';
 import RecipeDetail from './components/Pages/RecipeDetail';
 import Recipes from './components/Pages/Recipes';
 import { light } from './components/Theme';
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="recipes" element={<Recipes />} />
             <Route path="login" element={<Login />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="/:category" element={<Category />} />
             <Route path="/:category/:recipeId" element={<RecipeDetail />} />
           </Routes>

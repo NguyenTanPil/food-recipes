@@ -7,6 +7,8 @@ import ValidInput from '../ValidInput';
 import { Container, Header, SubmitButton } from './SignInStyles';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setLoginDetail } from '../../features/userSlice';
 
 const convertCreateAtToJoinedTime = (createdAt) => {
   const monthNames = [
@@ -30,11 +32,12 @@ const convertCreateAtToJoinedTime = (createdAt) => {
 
 const SignIn = ({ modeSign, validate }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const setCookie = (data) => {
     const cookies = new Cookies();
     const user = JSON.stringify(data);
-    cookies.set('user', user, { path: '/', maxAge: 60 * 60, sameSite: true });
+    cookies.set('user', user, { path: '/', maxAge: 60 * 3, sameSite: true });
   };
 
   const handleAfterSignIn = async (response) => {
@@ -58,6 +61,7 @@ const SignIn = ({ modeSign, validate }) => {
     }
 
     setCookie(currentUser);
+    dispatch(setLoginDetail({ ...currentUser }));
     navigate('/');
   };
 
@@ -75,6 +79,8 @@ const SignIn = ({ modeSign, validate }) => {
 
         if (errorCode === 'auth/user-not-found') {
           alert('Email or password is incorrect. Try again! ');
+        } else if (errorCode === 'auth/wrong-password') {
+          alert('Email or password is incorrect. Try again!');
         } else {
           console.log('Error login', errorMessage);
         }

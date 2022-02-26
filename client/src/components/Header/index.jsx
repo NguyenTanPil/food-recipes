@@ -1,6 +1,11 @@
-import { BiSearch, BiUser } from 'react-icons/bi';
+import { useState } from 'react';
+import { BiBarChart, BiSearch, BiUser } from 'react-icons/bi';
 import { HiOutlineBookmark } from 'react-icons/hi';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import brandImg from '../../assets/brand.png';
+import { selectUser } from '../../features/userSlice';
+import Sidebar from '../Sidebar';
 import {
   Brand,
   Container,
@@ -9,29 +14,10 @@ import {
   ShiftLeft,
   ShiftRight,
 } from './HeaderStyles';
-import Sidebar from '../Sidebar';
-import { BiBarChart } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Cookies from 'universal-cookie';
 
 const Header = () => {
   const [isShowSidebar, setIsShowSidebar] = useState(false);
-  const [isSignIn, setIsSignIn] = useState(false);
-
-  useEffect(() => {
-    let isSubscribed = true;
-
-    if (isSubscribed) {
-      const cookies = new Cookies();
-      const user = cookies.get('user');
-      setIsSignIn(user && true);
-    }
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, []);
+  const user = useSelector(selectUser);
 
   return (
     <Container>
@@ -62,11 +48,11 @@ const Header = () => {
               <span>Save</span>
             </li>
             <li>
-              <BiUser title="Login" />
-              {!isSignIn ? (
-                <Link to="/login">Login</Link>
+              <BiUser title={user.id ? 'Profile' : 'Login'} />
+              {user.id ? (
+                <Link to="/profile">Profile</Link>
               ) : (
-                <span>Profile</span>
+                <Link to="/login">Login</Link>
               )}
             </li>
             <div onClick={() => setIsShowSidebar(true)}>

@@ -36,7 +36,7 @@ const Slider = () => {
       <Images>
         {images.map((image, index) => (
           <ImageItem key={index} active={current === index ? 1 : 0}>
-            {current === index && <img src={image} alt="slide image" />}
+            {current === index && <img src={image} alt="slide" />}
           </ImageItem>
         ))}
       </Images>

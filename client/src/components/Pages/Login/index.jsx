@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import bgLogin from '../../../assets/bg-login.svg';
 import bgSignUp from '../../../assets/bg-sign-up.svg';
+import { selectUser } from '../../../features/userSlice';
 import SignIn from '../../SignIn';
 import SignUp from '../../SignUp';
 import TitleBar from '../../TitleBar';
@@ -73,14 +74,13 @@ const validate = {
 const Login = () => {
   const [mode, setMode] = useState('signup');
   const navigate = useNavigate();
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     let isSubscribed = true;
 
     if (isSubscribed) {
-      const cookies = new Cookies();
-      const user = cookies.get('user');
-      if (user) {
+      if (user.id) {
         navigate('/');
       }
     }
