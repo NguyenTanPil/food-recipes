@@ -90,6 +90,70 @@ export const Info = styled.div`
   }
 
   p {
+    display: inline-flex;
+    align-items: center;
     margin: 0;
+
+    svg {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
   }
+`;
+
+export const Body = styled.div`
+  border: 0.1rem solid ${(props) => props.theme.hoverColor};
+  display: flex;
+  margin-left: 3.2rem;
+  margin-right: 3.2rem;
+  margin-top: 4rem;
+  padding: 1.4rem;
+  width: 100%;
+`;
+
+export const NavTab = styled.ul`
+  padding-left: 1.6rem;
+  width: 17.4rem;
+`;
+
+export const NavTabItem = styled.li`
+  background-color: transparent;
+  box-sizing: border-box;
+  color: ${(props) =>
+    props.active ? props.theme.hoverColor : props.theme.fontColor};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  padding: 1.5rem;
+  transition: all 0.2s ease-out;
+  width: 100%;
+
+  &:hover {
+    color: ${(props) => props.theme.hoverColor};
+    padding-left: ${(props) => (props.active ? '1.5rem' : '2rem')};
+  }
+
+  svg {
+    margin-right: 1rem;
+  }
+`;
+
+export const NavContent = styled.div`
+  box-sizing: border-box;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
+  padding-top: 1.4rem;
+  width: calc(100% - 17.4rem);
+`;
+
+export const NavPane = styled.div`
+  display: ${(props) => (props.active ? 'block' : 'none')};
+`;
+
+export const Products = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
