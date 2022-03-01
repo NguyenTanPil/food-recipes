@@ -1,26 +1,34 @@
+import { useState } from 'react';
+import { AiOutlineSchedule } from 'react-icons/ai';
+import { FaFly } from 'react-icons/fa';
+import { FiUserCheck, FiUserPlus } from 'react-icons/fi';
+import { HiOutlinePhotograph } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
+import LatestRecipes from '../../LatestRecipes';
+import { Products } from '../../LatestRecipes/LatestRecipesStyles';
+import {
+  Body as ProductBody,
+  Container as ProductContainer,
+  Header as ProductHeader,
+} from '../../Product/ProductStyles';
+import RecipeCategories from '../../RecipeCategories';
+import TitleBar from '../../TitleBar';
+import { Content, RightSide } from '../Category/CategoryStyles';
 import {
   AvatarAndEditButton,
   Body,
   Container,
   Cover,
+  FollowingContainer,
+  FollowingItem,
   Header,
   Info,
   NavContent,
   NavPane,
   NavTab,
   NavTabItem,
+  ProductDesc,
 } from './ProfileStyleds';
-import TitleBar from '../../TitleBar';
-import { Content, RightSide } from '../Category/CategoryStyles';
-import LatestRecipes from '../../LatestRecipes';
-import RecipeCategories from '../../RecipeCategories';
-import { AiOutlineSchedule } from 'react-icons/ai';
-import { FaFly } from 'react-icons/fa';
-import { FiUserPlus, FiUserCheck } from 'react-icons/fi';
-import { HiOutlinePhotograph } from 'react-icons/hi';
-import { useState } from 'react';
-import Product from '../../Product';
-import { Products } from '../../LatestRecipes/LatestRecipesStyles';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('recipes');
@@ -56,7 +64,9 @@ const Profile = () => {
                   </p>
                 </Info>
               </div>
-              <button>Edit Profile</button>
+              <button>
+                Edit <span>Profile</span>
+              </button>
             </AvatarAndEditButton>
           </Header>
           <Body>
@@ -93,37 +103,147 @@ const Profile = () => {
             <NavContent>
               <NavPane active={activeTab === 'recipes' ? 1 : 0}>
                 <Products>
-                  <Product
-                    id="1gihv1dHyzfTk4sR4Swz"
-                    img="https://realfood.tesco.com/media/images/Marshmallow-Hot-Choc-Final-ff8b5584-9011-4c0c-8ded-15bd6e375631-0-1400x919.jpg"
-                    name="hot chocolate gift jars"
-                    desc="With layers of freshly grated chocolate, crushed candy canes and fluffy."
-                    category="Drinks"
-                  />
-                  <Product
-                    id="1gihv1dHyzfTk4sR4Swz"
-                    img="https://realfood.tesco.com/media/images/Marshmallow-Hot-Choc-Final-ff8b5584-9011-4c0c-8ded-15bd6e375631-0-1400x919.jpg"
-                    name="hot chocolate gift jars"
-                    desc="With layers of freshly grated chocolate, crushed candy canes and fluffy."
-                    category="Drinks"
-                  />
-                  <Product
-                    id="1gihv1dHyzfTk4sR4Swz"
-                    img="https://realfood.tesco.com/media/images/Marshmallow-Hot-Choc-Final-ff8b5584-9011-4c0c-8ded-15bd6e375631-0-1400x919.jpg"
-                    name="hot chocolate gift jars"
-                    desc="With layers of freshly grated chocolate, crushed candy canes and fluffy."
-                    category="Drinks"
-                  />
+                  <ProductContainer>
+                    <ProductHeader>
+                      <Link to="/drinks/1gihv1dHyzfTk4sR4Swz">
+                        <img
+                          src="https://realfood.tesco.com/media/images/Marshmallow-Hot-Choc-Final-ff8b5584-9011-4c0c-8ded-15bd6e375631-0-1400x919.jpg"
+                          alt=""
+                        />
+                      </Link>
+                    </ProductHeader>
+                    <ProductBody>
+                      <Link to="/drinks">
+                        <h3>Drinks</h3>
+                      </Link>
+                      <span>
+                        <Link to="/drinks/1gihv1dHyzfTk4sR4Swz">
+                          hot chocolate gift jars
+                        </Link>
+                      </span>
+                      <ProductDesc>
+                        With layers of freshly grated chocolate, crushed candy
+                        canes and fluffy.With layers of freshly grated
+                        chocolate, crushed candy canes and fluffy.
+                      </ProductDesc>
+                    </ProductBody>
+                  </ProductContainer>
+                  <ProductContainer>
+                    <ProductHeader>
+                      <Link to="/drinks/1gihv1dHyzfTk4sR4Swz">
+                        <img
+                          src="https://realfood.tesco.com/media/images/Marshmallow-Hot-Choc-Final-ff8b5584-9011-4c0c-8ded-15bd6e375631-0-1400x919.jpg"
+                          alt=""
+                        />
+                      </Link>
+                    </ProductHeader>
+                    <ProductBody>
+                      <Link to="/drinks">
+                        <h3>Drinks</h3>
+                      </Link>
+                      <span>
+                        <Link to="/drinks/1gihv1dHyzfTk4sR4Swz">
+                          hot chocolate gift jars
+                        </Link>
+                      </span>
+                      <ProductDesc>
+                        With layers of freshly grated chocolate, crushed candy
+                        canes and fluffy.With layers of freshly grated
+                        chocolate, crushed candy canes and fluffy.
+                      </ProductDesc>
+                    </ProductBody>
+                  </ProductContainer>
                 </Products>
               </NavPane>
               <NavPane active={activeTab === 'photos' ? 1 : 0}>
-                Photos content
+                <FollowingContainer>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
+                      alt=""
+                    />
+                  </FollowingItem>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
+                      alt=""
+                    />
+                  </FollowingItem>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
+                      alt=""
+                    />
+                  </FollowingItem>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
+                      alt=""
+                    />
+                  </FollowingItem>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pop.png"
+                      alt=""
+                    />
+                  </FollowingItem>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
+                      alt=""
+                    />
+                  </FollowingItem>
+                </FollowingContainer>
               </NavPane>
               <NavPane active={activeTab === 'followers' ? 1 : 0}>
-                followers content
+                <FollowingContainer>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
+                      alt=""
+                    />
+                    <a href="!#">Felix Nguyen</a>
+                  </FollowingItem>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pop.png"
+                      alt=""
+                    />
+                    <a href="!#">Connie K</a>
+                  </FollowingItem>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
+                      alt=""
+                    />
+                    <a href="!#">WELLANDTONED</a>
+                  </FollowingItem>
+                </FollowingContainer>
               </NavPane>
               <NavPane active={activeTab === 'following' ? 1 : 0}>
-                following content
+                <FollowingContainer>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
+                      alt=""
+                    />
+                    <a href="!#">WELLANDTONED</a>
+                  </FollowingItem>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pop.png"
+                      alt=""
+                    />
+                    <a href="!#">Connie K</a>
+                  </FollowingItem>
+                  <FollowingItem>
+                    <img
+                      src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
+                      alt=""
+                    />
+                    <a href="!#">WELLANDTONED</a>
+                  </FollowingItem>
+                </FollowingContainer>
               </NavPane>
             </NavContent>
           </Body>

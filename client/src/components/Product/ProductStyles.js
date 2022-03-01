@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  background-color: ${(props) => props.theme.backgroundColor};
   border: 0.1rem solid ${(props) => props.theme.borderColor};
   border-radius: 0.8rem;
   margin-bottom: 3rem;
