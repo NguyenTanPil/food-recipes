@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineSchedule } from 'react-icons/ai';
 import { FaFly } from 'react-icons/fa';
 import { FiUserCheck, FiUserPlus } from 'react-icons/fi';
 import { HiOutlinePhotograph } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { selectUser } from '../../../features/userSlice';
 import LatestRecipes from '../../LatestRecipes';
 import { Products } from '../../LatestRecipes/LatestRecipesStyles';
 import {
@@ -32,10 +34,18 @@ import {
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('recipes');
+  const user = useSelector(selectUser);
+  const navigate = useNavigate();
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+
+  useEffect(() => {
+    if (!user.id) {
+      navigate('/login');
+    }
+  }, []);
 
   return (
     <>

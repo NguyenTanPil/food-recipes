@@ -1,11 +1,12 @@
 import { CgPushChevronRight } from 'react-icons/cg';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { selectUser } from '../../features/userSlice';
 import { Container, Content, Header, ListLink } from './SidebarStyles';
 
 const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
   const user = useSelector(selectUser);
+  const location = useLocation();
 
   return (
     <Container
@@ -42,7 +43,7 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
                 <span>Profile</span>
               </Link>
             ) : (
-              <Link to="/login">
+              <Link to="/login" state={{ prev: location.pathname }}>
                 <span>Login</span>
               </Link>
             )}

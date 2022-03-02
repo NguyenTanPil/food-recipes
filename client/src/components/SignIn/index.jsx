@@ -30,14 +30,14 @@ const convertCreateAtToJoinedTime = (createdAt) => {
   return `Joined ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
 };
 
-const SignIn = ({ modeSign, validate }) => {
+const SignIn = ({ prev, modeSign, validate }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const setCookie = (data) => {
     const cookies = new Cookies();
     const user = JSON.stringify(data);
-    cookies.set('user', user, { path: '/', maxAge: 60 * 3, sameSite: true });
+    cookies.set('user', user, { path: '/', maxAge: 60 * 60, sameSite: true });
   };
 
   const handleAfterSignIn = async (response) => {
@@ -62,7 +62,7 @@ const SignIn = ({ modeSign, validate }) => {
 
     setCookie(currentUser);
     dispatch(setLoginDetail({ ...currentUser }));
-    navigate('/');
+    navigate(prev);
   };
 
   const handleSignIn = (values) => {

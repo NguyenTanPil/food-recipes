@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import bgLogin from '../../../assets/bg-login.svg';
 import bgSignUp from '../../../assets/bg-sign-up.svg';
 import { selectUser } from '../../../features/userSlice';
@@ -75,6 +75,7 @@ const Login = () => {
   const [mode, setMode] = useState('signup');
   const navigate = useNavigate();
   const user = useSelector(selectUser);
+  const location = useLocation();
 
   useEffect(() => {
     let isSubscribed = true;
@@ -96,7 +97,11 @@ const Login = () => {
       <Wrapper>
         <Container modeSign={mode}>
           <SignUp modeSign={mode} setModeSign={setMode} validate={validate} />
-          <SignIn modeSign={mode} validate={validate} />
+          <SignIn
+            prev={location.state.prev}
+            modeSign={mode}
+            validate={validate}
+          />
           <PanelsContainer>
             <LeftPanel>
               <Content>
