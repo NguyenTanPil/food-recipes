@@ -98,7 +98,7 @@ const Login = () => {
         <Container modeSign={mode}>
           <SignUp modeSign={mode} setModeSign={setMode} validate={validate} />
           <SignIn
-            prev={location.state.prev}
+            prev={location.state ? location.state.prev : '/profile'}
             modeSign={mode}
             validate={validate}
           />

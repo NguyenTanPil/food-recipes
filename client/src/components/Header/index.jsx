@@ -5,7 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import brandImg from '../../assets/brand.png';
-import { selectUser } from '../../features/userSlice';
+import {
+  selectUser,
+  setLoginDetail,
+  setSignOut,
+} from '../../features/userSlice';
 import Sidebar from '../Sidebar';
 import {
   Brand,
@@ -15,7 +19,6 @@ import {
   ShiftLeft,
   ShiftRight,
 } from './HeaderStyles';
-import { setLoginDetail } from '../../features/userSlice';
 
 const Header = () => {
   const [isShowSidebar, setIsShowSidebar] = useState(false);
@@ -29,6 +32,8 @@ const Header = () => {
 
     if (userCookie) {
       dispatch(setLoginDetail(userCookie));
+    } else {
+      dispatch(setSignOut());
     }
   }, [dispatch]);
 

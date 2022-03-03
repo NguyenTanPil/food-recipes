@@ -43,7 +43,7 @@ export const AvatarAndEditButton = styled.div`
     box-shadow: rgb(255 255 255 / 3%) 0px 0px 2px inset;
     height: 10rem;
     position: absolute;
-    top: -6rem;
+    top: -7rem;
     width: 10rem;
 
     @media only screen and (min-width: 576px) {
@@ -85,14 +85,13 @@ export const AvatarAndEditButton = styled.div`
 
 export const Info = styled.div`
   letter-spacing: 0.1rem;
-  margin-top: 6rem;
+  margin-top: 5rem;
   text-align: left;
-  width: 18.4rem;
+  width: 19rem;
 
   @media only screen and (min-width: 576px) {
     margin-top: 8rem;
     text-align: center;
-    width: 18.4rem;
   }
 
   h3 {

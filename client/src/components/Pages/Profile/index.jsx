@@ -6,6 +6,7 @@ import { HiOutlinePhotograph } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { selectUser } from '../../../features/userSlice';
+import EditProfileModal from '../../EditProfileModal';
 import LatestRecipes from '../../LatestRecipes';
 import { Products } from '../../LatestRecipes/LatestRecipesStyles';
 import {
@@ -34,6 +35,7 @@ import {
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('recipes');
+  const [isShowEditModel, setIsShowEditModel] = useState(false);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 
@@ -46,35 +48,34 @@ const Profile = () => {
       navigate('/login');
     }
   }, []);
+  console.log(user);
 
   return (
     <>
       <TitleBar oneLine mainTitle="Detail Profile" pageList={['Profile']} />
+      {isShowEditModel && (
+        <EditProfileModal user={user} setShow={setIsShowEditModel} />
+      )}
       <Content>
         <Container>
           <Header>
             <Cover>
-              <img
-                src="https://i.pinimg.com/736x/b1/33/fe/b133fe1cf7d86da172350deaf4c85599.jpg"
-                alt=""
-              />
+              <img src={user.background} alt="" />
             </Cover>
             <AvatarAndEditButton>
               <div>
-                <img
-                  src="https://pbs.twimg.com/profile_images/1477919658590146560/bQxLDkoP_400x400.png"
-                  alt=""
-                />
+                <img src={user.avatar} alt="" />
                 <Info>
-                  <h3>Felix Nguyen</h3>
+                  <h3>{user.name}</h3>
                   <span>@NguyenTanPil</span>
                   <p>
                     <AiOutlineSchedule />
-                    Joined January 2022
+                    {user.joined}
                   </p>
                 </Info>
               </div>
-              <button>
+
+              <button onClick={() => setIsShowEditModel(true)}>
                 Edit <span>Profile</span>
               </button>
             </AvatarAndEditButton>

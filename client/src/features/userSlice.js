@@ -5,6 +5,7 @@ const initialState = {
   name: '',
   email: '',
   avatar: '',
+  background: '',
   joined: '',
 };
 
@@ -17,6 +18,7 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.avatar = action.payload.avatar;
+      state.background = action.payload.background;
       state.joined = action.payload.joined;
     },
     setSignOut(state) {
@@ -24,6 +26,7 @@ const userSlice = createSlice({
       state.name = '';
       state.email = '';
       state.avatar = '';
+      state.background = '';
       state.joined = '';
     },
   },

@@ -52,6 +52,8 @@ const SignIn = ({ prev, modeSign, validate }) => {
       const user = {
         name: response.user.displayName,
         email: response.user.email,
+        background:
+          'https://i.pinimg.com/736x/b1/33/fe/b133fe1cf7d86da172350deaf4c85599.jpg',
         avatar: response.user.photoURL,
         joined: convertCreateAtToJoinedTime(response.user.metadata.createdAt),
       };
