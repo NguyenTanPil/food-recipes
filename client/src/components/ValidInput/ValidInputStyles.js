@@ -21,6 +21,7 @@ export const FieldGroup = styled.label`
     position: absolute;
     left: 1.5rem;
     top: 0;
+    text-transform: capitalize;
     transform: translateX(0, 0);
     transform-origin: 0 0;
     transition: transform 120ms ease-in;

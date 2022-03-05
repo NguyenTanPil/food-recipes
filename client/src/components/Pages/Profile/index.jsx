@@ -47,14 +47,13 @@ const Profile = () => {
     if (!user.id) {
       navigate('/login');
     }
-  }, []);
-  console.log(user);
+  }, [navigate, user.id]);
 
   return (
     <>
       <TitleBar oneLine mainTitle="Detail Profile" pageList={['Profile']} />
       {isShowEditModel && (
-        <EditProfileModal user={user} setShow={setIsShowEditModel} />
+        <EditProfileModal setShow={setIsShowEditModel} {...user} />
       )}
       <Content>
         <Container>
@@ -67,7 +66,7 @@ const Profile = () => {
                 <img src={user.avatar} alt="" />
                 <Info>
                   <h3>{user.name}</h3>
-                  <span>@NguyenTanPil</span>
+                  <span>@{user.userName}</span>
                   <p>
                     <AiOutlineSchedule />
                     {user.joined}

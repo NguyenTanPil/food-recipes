@@ -49,9 +49,12 @@ const SignIn = ({ prev, modeSign, validate }) => {
 
     if (userSnap.exists()) {
       currentUser = { id: userId, ...userSnap.data() };
+    } else {
       const user = {
         name: response.user.displayName,
         email: response.user.email,
+        location: '',
+        bio: '',
         background:
           'https://i.pinimg.com/736x/b1/33/fe/b133fe1cf7d86da172350deaf4c85599.jpg',
         avatar: response.user.photoURL,

@@ -22,6 +22,7 @@ export const Cover = styled.div`
 
   img {
     border-radius: 1.4rem;
+    max-height: 38rem;
     width: 100%;
   }
 `;

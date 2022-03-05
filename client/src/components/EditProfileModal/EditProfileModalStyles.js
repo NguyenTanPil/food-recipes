@@ -23,11 +23,16 @@ export const Content = styled.div`
   max-width: 58rem;
   min-height: calc(100% - (1.75rem * 2));
 
+  @media only screen and (min-width: 576px) {
+    min-width: 56.5rem;
+  }
+
   & > div {
     background-color: ${(props) => props.theme.backgroundColor};
     border-radius: 1.2rem;
     margin: 0 0.75rem;
     padding: 2.4rem 1.2rem;
+    width: 100%;
 
     @media only screen and (min-width: 576px) {
       border-radius: 1.6rem;
@@ -40,6 +45,7 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 2.4rem;
 
   div {
     background-color: transparent;
@@ -72,9 +78,7 @@ export const Header = styled.div`
   }
 `;
 
-export const Body = styled.div`
-  margin-top: 2.4rem;
-`;
+export const Body = styled.div``;
 
 export const BackgroundUpload = styled.div`
   position: relative;
@@ -165,6 +169,9 @@ export const AvatarUpload = styled.div`
     }
 
     img {
+      border: 0.2rem solid ${(props) => props.theme.hoverColor};
+      border-radius: 50%;
+      height: 100%;
       width: 100%;
     }
   }
@@ -189,4 +196,8 @@ export const EditForm = styled.div`
       z-index: 1;
     }
   }
+`;
+
+export const LoadingShape = styled.img`
+  max-width: 20rem;
 `;
