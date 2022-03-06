@@ -1,6 +1,6 @@
 import { CgPushChevronRight } from 'react-icons/cg';
 import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { selectUser } from '../../features/userSlice';
 import { Container, Content, Header, ListLink } from './SidebarStyles';
 
@@ -21,9 +21,9 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
         </Header>
         <ListLink>
           <li onClick={() => setIsShowSidebar(false)}>
-            <Link to="/recipes">
+            <NavLink to="/recipes">
               <span>Recipes</span>
-            </Link>
+            </NavLink>
           </li>
           <li>
             <span>Popular</span>
@@ -39,13 +39,13 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
           </li>
           <li onClick={() => setIsShowSidebar(false)}>
             {user.id ? (
-              <Link to="/profile">
+              <NavLink to="/profile">
                 <span>Profile</span>
-              </Link>
+              </NavLink>
             ) : (
-              <Link to="/login" state={{ prev: location.pathname }}>
+              <NavLink to="/login" state={{ prev: location.pathname }}>
                 <span>Login</span>
-              </Link>
+              </NavLink>
             )}
           </li>
         </ListLink>

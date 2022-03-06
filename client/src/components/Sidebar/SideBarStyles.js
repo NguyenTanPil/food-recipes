@@ -73,6 +73,15 @@ export const ListLink = styled.ul`
     padding-left: 0;
     padding-right: 0;
 
+    a.active {
+      span {
+        background-color: ${(props) => props.theme.hoverItemColor};
+        border-left-color: ${(props) => props.theme.hoverColor};
+        color: ${(props) => props.theme.hoverColor};
+        padding-left: 4.5rem;
+      }
+    }
+
     span {
       background-color: ${(props) => props.theme.backgroundColor};
       border-bottom: 0.1rem solid ${(props) => props.theme.borderColor};

@@ -109,8 +109,19 @@ export const NavItems = styled.ul`
     text-transform: uppercase;
     transition: color 0.2s ease-out;
 
+    a {
+      display: flex;
+      align-items: center;
+
+      &.active {
+        color: ${(props) => props.theme.hoverColor};
+      }
+    }
+
     &:hover {
-      color: ${(props) => props.theme.hoverColor};
+      a {
+        color: ${(props) => props.theme.hoverColor};
+      }
     }
 
     @media only screen and (min-width: 576px) {

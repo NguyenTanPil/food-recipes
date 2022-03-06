@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BiBarChart, BiSearch, BiUser } from 'react-icons/bi';
 import { HiOutlineBookmark } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import brandImg from '../../assets/brand.png';
 import {
@@ -48,7 +48,7 @@ const Header = () => {
           {!isShowSidebar && (
             <NavItems>
               <li>
-                <Link to="/recipes">Recipes</Link>
+                <NavLink to="/recipes">Recipes</NavLink>
               </li>
               <li>Popular</li>
               <li>Healthy</li>
@@ -66,13 +66,16 @@ const Header = () => {
               <span>Save</span>
             </li>
             <li>
-              <BiUser title={user.id ? 'Profile' : 'Login'} />
               {user.id ? (
-                <Link to="/profile">Profile</Link>
+                <NavLink to="/profile">
+                  <BiUser title="Profile" />
+                  <span>Profile</span>
+                </NavLink>
               ) : (
-                <Link to="/login" state={{ prev: location.pathname }}>
-                  Login
-                </Link>
+                <NavLink to="/login" state={{ prev: location.pathname }}>
+                  <BiUser title="Login" />
+                  <span>Login</span>
+                </NavLink>
               )}
             </li>
             <div onClick={() => setIsShowSidebar(true)}>

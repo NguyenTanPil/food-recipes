@@ -64,6 +64,11 @@ export const Body = styled.div`
 
     &:hover {
       color: ${(props) => props.theme.hoverColor};
+
+      a {
+        color: ${(props) => props.theme.hoverColor};
+        transition: color 0.2s ease-out;
+      }
     }
   }
 

@@ -89,7 +89,7 @@ const Login = () => {
     return () => {
       isSubscribed = false;
     };
-  }, []);
+  }, [navigate, user.id]);
 
   return (
     <>

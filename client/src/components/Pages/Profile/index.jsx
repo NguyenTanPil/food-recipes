@@ -1,3 +1,4 @@
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { AiOutlineSchedule } from 'react-icons/ai';
 import { FaFly } from 'react-icons/fa';
@@ -5,7 +6,10 @@ import { FiUserCheck, FiUserPlus } from 'react-icons/fi';
 import { HiOutlinePhotograph } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
 import { selectUser } from '../../../features/userSlice';
+import db from '../../../firebase';
 import EditProfileModal from '../../EditProfileModal';
 import LatestRecipes from '../../LatestRecipes';
 import { Products } from '../../LatestRecipes/LatestRecipesStyles';
@@ -17,6 +21,7 @@ import {
 import RecipeCategories from '../../RecipeCategories';
 import TitleBar from '../../TitleBar';
 import { Content, RightSide } from '../Category/CategoryStyles';
+import { LoadingShape } from '../RecipeDetail/RecipeDetailStyles';
 import {
   AvatarAndEditButton,
   Body,
@@ -38,16 +43,54 @@ const Profile = () => {
   const [isShowEditModel, setIsShowEditModel] = useState(false);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
+  const [recipes, setRecipes] = useState([]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
 
   useEffect(() => {
-    if (!user.id) {
+    const cookies = new Cookies();
+    const userCookie = cookies.get('user');
+
+    if (!userCookie) {
       navigate('/login');
     }
-  }, [navigate, user.id]);
+  }, [navigate]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const fetchRecipes = async () => {
+      const response = [];
+
+      try {
+        const queryRecipes = query(
+          collection(db, 'recipes'),
+          where('authorId', '==', user.id),
+        );
+        const querySnapshot = await getDocs(queryRecipes);
+
+        querySnapshot.forEach((doc) => {
+          response.push({ id: doc.id, ...doc.data() });
+        });
+      } catch (error) {
+        console.log('Error: ' + error.message);
+      }
+
+      if (isSubscribed) {
+        setRecipes(response);
+      }
+    };
+
+    if (user.id) {
+      fetchRecipes();
+    }
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [user.id]);
 
   return (
     <>
@@ -86,7 +129,7 @@ const Profile = () => {
                 onClick={() => handleTabChange('recipes')}
               >
                 <FaFly />
-                Recipe
+                Recipes
               </NavTabItem>
               <NavTabItem
                 active={activeTab === 'photos' ? 1 : 0}
@@ -113,56 +156,32 @@ const Profile = () => {
             <NavContent>
               <NavPane active={activeTab === 'recipes' ? 1 : 0}>
                 <Products>
-                  <ProductContainer>
-                    <ProductHeader>
-                      <Link to="/drinks/1gihv1dHyzfTk4sR4Swz">
-                        <img
-                          src="https://realfood.tesco.com/media/images/Marshmallow-Hot-Choc-Final-ff8b5584-9011-4c0c-8ded-15bd6e375631-0-1400x919.jpg"
-                          alt=""
-                        />
-                      </Link>
-                    </ProductHeader>
-                    <ProductBody>
-                      <Link to="/drinks">
-                        <h3>Drinks</h3>
-                      </Link>
-                      <span>
-                        <Link to="/drinks/1gihv1dHyzfTk4sR4Swz">
-                          hot chocolate gift jars
-                        </Link>
-                      </span>
-                      <ProductDesc>
-                        With layers of freshly grated chocolate, crushed candy
-                        canes and fluffy.With layers of freshly grated
-                        chocolate, crushed candy canes and fluffy.
-                      </ProductDesc>
-                    </ProductBody>
-                  </ProductContainer>
-                  <ProductContainer>
-                    <ProductHeader>
-                      <Link to="/drinks/1gihv1dHyzfTk4sR4Swz">
-                        <img
-                          src="https://realfood.tesco.com/media/images/Marshmallow-Hot-Choc-Final-ff8b5584-9011-4c0c-8ded-15bd6e375631-0-1400x919.jpg"
-                          alt=""
-                        />
-                      </Link>
-                    </ProductHeader>
-                    <ProductBody>
-                      <Link to="/drinks">
-                        <h3>Drinks</h3>
-                      </Link>
-                      <span>
-                        <Link to="/drinks/1gihv1dHyzfTk4sR4Swz">
-                          hot chocolate gift jars
-                        </Link>
-                      </span>
-                      <ProductDesc>
-                        With layers of freshly grated chocolate, crushed candy
-                        canes and fluffy.With layers of freshly grated
-                        chocolate, crushed candy canes and fluffy.
-                      </ProductDesc>
-                    </ProductBody>
-                  </ProductContainer>
+                  {recipes.length === 0 ? (
+                    <LoadingShape>
+                      <img src={loadingImg} alt="" />
+                    </LoadingShape>
+                  ) : (
+                    recipes.map((recipe) => (
+                      <ProductContainer key={recipe.id}>
+                        <ProductHeader>
+                          <Link to={`/${recipe.category}/${recipe.id}`}>
+                            <img src={recipe.thumbnail} alt="" />
+                          </Link>
+                        </ProductHeader>
+                        <ProductBody>
+                          <Link to={`/${recipe.category}`}>
+                            <h3>{recipe.category}</h3>
+                          </Link>
+                          <span>
+                            <Link to={`/${recipe.category}/${recipe.id}`}>
+                              {recipe.name}
+                            </Link>
+                          </span>
+                          <ProductDesc>{recipe.desc}</ProductDesc>
+                        </ProductBody>
+                      </ProductContainer>
+                    ))
+                  )}
                 </Products>
               </NavPane>
               <NavPane active={activeTab === 'photos' ? 1 : 0}>
