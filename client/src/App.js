@@ -12,6 +12,7 @@ import Recipes from './components/Pages/Recipes';
 import { light } from './components/Theme';
 import ToTopButton from './components/ToTopButton';
 import GlobalStyle from './GlobalStyles';
+import CreateRecipe from './components/Pages/CreateRecipe';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="recipes" element={<Recipes />} />
             <Route path="login" element={<Login />} />
+            <Route path="create-recipe" element={<CreateRecipe />} />
             <Route path="profile" element={<Profile />} />
             <Route path="/:category" element={<Category />} />
             <Route path="/:category/:recipeId" element={<RecipeDetail />} />

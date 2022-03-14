@@ -53,7 +53,7 @@ const LatestRecipes = () => {
   return (
     <Container>
       <Header>
-        <Title>Latest Recipes</Title>
+        <Title>Recommends For You</Title>
         <ShortLine />
       </Header>
       <Products>
