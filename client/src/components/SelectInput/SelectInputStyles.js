@@ -25,7 +25,7 @@ export const SelectList = styled.div`
   position: absolute;
   top: calc(100% + 0.5rem);
   width: 100%;
-  z-index: 1008;
+  z-index: 3008;
 `;
 
 export const SelectItem = styled.span`

@@ -14,18 +14,19 @@ export const Container = styled.div`
   padding-right: 1.6rem;
 
   form {
+    border: 0.1rem solid ${(props) => props.theme.borderColor};
     border-radius: 0.8rem;
     box-shadow: rgba(99, 99, 99, 0.2) 0 0.2rem 0.8rem 0;
     box-sizing: border-box;
-    padding: 2.4rem;
+    padding: 4.4rem 2.4rem 5.2rem;
     width: 100%;
 
     @media only screen and (min-width: 576px) {
-      padding: 3.4rem 5.2rem;
+      padding: 4.4rem 5.2rem 6.4rem;
     }
 
     & > div {
-      margin-top: 2.4rem;
+      margin-top: 1.2rem;
 
       & > label {
         background-color: ${(props) => props.theme.backgroundColor};
@@ -38,7 +39,7 @@ export const TitleForm = styled.h2`
   color: ${(props) => props.theme.hoverColor};
   font-size: 3.2rem;
   font-weight: 600;
-  margin-bottom: 0;
+  margin-bottom: 2.4rem;
   margin-top: 0;
   text-align: center;
   width: 100%;
@@ -48,7 +49,7 @@ export const FieldGroup = styled.div`
   display: flex;
   flex-direction: column;
 
-  label {
+  & > label {
     color: ${(props) => props.theme.fontColor};
     font-size: 1.6rem;
     font-weight: 500;
@@ -62,6 +63,7 @@ export const FieldGroup = styled.div`
     box-sizing: border-box;
     color: ${(props) => props.theme.fontColor};
     font-size: 1.8rem;
+    margin-bottom: 1.2rem;
     outline: none;
     padding: 1.2rem 1.6rem;
     transition: border-color 0.2s ease-out;
@@ -91,11 +93,6 @@ export const IngredientItem = styled.div`
       margin-right: 1.4rem;
       width: auto;
     }
-  }
-
-  &:last-child input,
-  &:last-child button {
-    margin-bottom: 0rem;
   }
 `;
 
@@ -133,8 +130,6 @@ export const ActionButton = styled.button`
 `;
 
 export const StepItem = styled.div`
-  margin-bottom: 1.2rem;
-
   &:last-child {
     margin-bottom: 0;
   }
@@ -195,7 +190,9 @@ export const ImageInput = styled.div`
   position: relative;
 
   input {
+    font-size: 1.4rem;
     opacity: 0;
+    width: 100%;
   }
 
   label {
@@ -206,7 +203,7 @@ export const ImageInput = styled.div`
     cursor: pointer;
     display: flex;
     align-items: center;
-    height: calc(100% - 1.7rem);
+    height: 4.68rem;
     position: absolute;
     top: 0;
     right: 0;
@@ -255,16 +252,76 @@ export const NutritionItem = styled(StepItem)`
     }
 
     input {
-      padding-right: 4rem;
+      padding-right: 4.8rem;
       width: 100%;
+      -moz-appearance: textfield;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
 
     @media only screen and (min-width: 576px) {
       flex-direction: row;
 
-      input {
+      & > div {
         width: 48%;
       }
     }
   }
+`;
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  button {
+    margin-bottom: 1.4rem;
+    width: 100%;
+  }
+
+  @media only screen and (min-width: 576px) {
+    button {
+      margin-bottom: 0;
+      width: 48%;
+    }
+  }
+`;
+
+export const SubmitButton = styled.button`
+  background-color: ${(props) => props.theme.hoverColor};
+  border: 0.1rem solid ${(props) => props.theme.hoverColor};
+  border-radius: 0.4rem;
+  color: ${(props) => props.theme.backgroundColor};
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: 600;
+  outline: none;
+  padding: 1.2rem 1.6rem;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease-out;
+
+  &:hover {
+    background-color: #fd4755e0;
+  }
+`;
+
+export const ErrorMess = styled.span`
+  color: ${(props) => props.theme.hoverColor};
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding-bottom: 1.2rem;
+  padding-left: 1.6rem;
+`;
+
+export const NofiModel = styled.div`
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
 `;

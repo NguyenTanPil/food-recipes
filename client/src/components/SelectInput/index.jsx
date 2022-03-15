@@ -23,6 +23,7 @@ const SelectInput = ({ options, name, setFieldValue }) => {
         <SelectList>
           {options.map((option) => (
             <SelectItem
+              key={option}
               active={selected === option}
               onClick={() => handleSelect(option)}
             >
