@@ -22,10 +22,11 @@ import {
 import { collection, addDoc } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../../features/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
 import db from '../../../firebase';
+import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
 
 const categories = [
   'breakfast',
@@ -76,7 +77,8 @@ const validate = (values) => {
 const CreateRecipe = () => {
   const user = useSelector(selectUser);
   const navigate = useNavigate();
-  const [isShowNofi, setIsShowNofi] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -85,7 +87,7 @@ const CreateRecipe = () => {
     if (!userCookie) {
       navigate('/login');
     }
-  }, []);
+  }, [navigate]);
 
   const handlePreviewMedia = (e, name, setFieldValue) => {
     const reader = new FileReader();
@@ -141,7 +143,9 @@ const CreateRecipe = () => {
 
   const handleCreateRecipe = async (data) => {
     const submitData = { ...data, authorId: user.id, createAt: Date.now() };
-    const docRef = await addDoc(collection(db, 'recipes'), submitData);
+    await addDoc(collection(db, 'recipes'), submitData);
+
+    setIsLoading(false);
   };
 
   return (
@@ -188,6 +192,8 @@ const CreateRecipe = () => {
           validate={validate}
           validateOnBlur={true}
           onSubmit={async (values) => {
+            setIsLoading(true);
+            setIsSubmit(true);
             let data = { ...values };
 
             // upload thumbnail
@@ -228,7 +234,37 @@ const CreateRecipe = () => {
           {(props) => (
             <Form onSubmit={props.handleSubmit} noValidate>
               <TitleForm>Create Recipe</TitleForm>
-              <NofiModel>Nofi model</NofiModel>
+              {isSubmit && (
+                <NofiModel>
+                  <div>
+                    {!isLoading ? (
+                      <>
+                        <h3>Successfully </h3>
+                        <span>
+                          The food recipe was created. Are you want to create a
+                          new one?
+                        </span>
+                        <div>
+                          <SubmitButton
+                            type="button"
+                            onClick={() => {
+                              setIsSubmit(false);
+                              props.resetForm();
+                            }}
+                          >
+                            Continue
+                          </SubmitButton>
+                          <SubmitButton type="button">
+                            <Link to="/">Back to home</Link>
+                          </SubmitButton>
+                        </div>
+                      </>
+                    ) : (
+                      <img src={loadingImg} alt="" />
+                    )}
+                  </div>
+                </NofiModel>
+              )}
               <FieldGroup>
                 <label>Thumbnail</label>
                 {props.values.thumbnail && (

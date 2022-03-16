@@ -319,9 +319,52 @@ export const ErrorMess = styled.span`
 `;
 
 export const NofiModel = styled.div`
+  background-color: rgba(91, 112, 131, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
+  margin-top: 0 !important;
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
+  z-index: 3008;
+
+  & > div {
+    background-color: ${(props) => props.theme.backgroundColor};
+    border-radius: 1.6rem;
+    max-width: 40rem;
+    padding: 3.2rem 2.4rem;
+    text-align: center;
+
+    h3 {
+      color: ${(props) => props.theme.hoverColor};
+      font-size: 3.2rem;
+      font-weight: 600;
+      margin-bottom: 2.4rem;
+      margin-top: 0;
+      text-transform: uppercase;
+    }
+
+    span {
+      color: ${(props) => props.theme.fontColor};
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 500;
+    }
+
+    & > div {
+      padding-top: 1.2rem;
+
+      button:first-child {
+        margin-right: 1.6rem;
+      }
+    }
+
+    img {
+      height: 20rem;
+      width: 20rem;
+    }
+  }
 `;
