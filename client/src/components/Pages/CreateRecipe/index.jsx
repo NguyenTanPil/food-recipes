@@ -142,7 +142,7 @@ const CreateRecipe = () => {
   };
 
   const handleCreateRecipe = async (data) => {
-    const submitData = { ...data, authorId: user.id, createAt: Date.now() };
+    const submitData = { ...data, authorId: user.id, createdAt: Date.now() };
     await addDoc(collection(db, 'recipes'), submitData);
 
     setIsLoading(false);

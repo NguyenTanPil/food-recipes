@@ -333,3 +333,24 @@ export const FollowingItem = styled.div`
     }
   }
 `;
+
+export const NoHaveHover = styled.div`
+  color: ${(props) => props.theme.fontColor};
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 16.5rem;
+
+  span {
+    font-size: 2.4rem !important;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  svg {
+    font-size: 4.8rem;
+    font-weight: 600;
+    margin-bottom: 1.4rem;
+  }
+`;

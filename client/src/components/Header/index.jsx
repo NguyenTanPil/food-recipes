@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react';
-import { BiBarChart, BiSearch, BiUser } from 'react-icons/bi';
+import { useState } from 'react';
+import { BiBarChart, BiSearch, BiUser, BiLogOutCircle } from 'react-icons/bi';
 import { HiOutlineBookmark } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import brandImg from '../../assets/brand.png';
-import {
-  selectUser,
-  setLoginDetail,
-  setSignOut,
-} from '../../features/userSlice';
+import { selectUser } from '../../features/userSlice';
+import { setSignOut } from '../../features/userSlice';
 import Sidebar from '../Sidebar';
 import {
   Brand,
@@ -23,19 +20,17 @@ import {
 const Header = () => {
   const [isShowSidebar, setIsShowSidebar] = useState(false);
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const handleSignOut = () => {
     const cookies = new Cookies();
-    const userCookie = cookies.get('user');
+    cookies.remove('user', { path: '/', maxAge: 60 * 60, sameSite: true });
 
-    if (userCookie) {
-      dispatch(setLoginDetail(userCookie));
-    } else {
-      dispatch(setSignOut());
-    }
-  }, [dispatch]);
+    navigate('/login');
+    dispatch(setSignOut());
+  };
 
   return (
     <Container>
@@ -77,6 +72,10 @@ const Header = () => {
                   <span>Login</span>
                 </NavLink>
               )}
+            </li>
+            <li onClick={handleSignOut}>
+              <BiLogOutCircle title="Sign Out" />
+              <span>Sign Out</span>
             </li>
             <div onClick={() => setIsShowSidebar(true)}>
               <BiBarChart />

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import Cookies from 'universal-cookie';
 
 const initialState = {
   id: '',
@@ -12,9 +13,20 @@ const initialState = {
   userName: '',
 };
 
+const initState = () => {
+  const cookies = new Cookies();
+  const userCookie = cookies.get('user');
+
+  if (userCookie) {
+    return userCookie;
+  } else {
+    return initialState;
+  }
+};
+
 const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: initState(),
   reducers: {
     setLoginDetail(state, action) {
       state.id = action.payload.id;

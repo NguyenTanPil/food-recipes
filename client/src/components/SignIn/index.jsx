@@ -52,6 +52,7 @@ const SignIn = ({ prev, modeSign, validate }) => {
     } else {
       const user = {
         name: response.user.displayName,
+        userName: response.user.displayName,
         email: response.user.email,
         location: '',
         bio: '',

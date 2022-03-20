@@ -27,6 +27,7 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="create-recipe" element={<CreateRecipe />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="profile/:profileId" element={<Profile />} />
             <Route path="/:category" element={<Category />} />
             <Route path="/:category/:recipeId" element={<RecipeDetail />} />
           </Routes>

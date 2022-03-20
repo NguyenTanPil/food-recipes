@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { BsCheck2Square } from 'react-icons/bs';
 import { FaRegCalendarAlt } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
 import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
+import { selectUser } from '../../../features/userSlice';
 import db from '../../../firebase';
+import { getDayMonthYear } from '../../../Utils/getDayMonthYear';
 import LatestRecipes from '../../LatestRecipes';
 import RecipeCategories from '../../RecipeCategories';
 import TitleBar from '../../TitleBar';
@@ -40,6 +43,7 @@ const RecipeDetail = () => {
   const [fullDesc, setFullDesc] = useState(false);
   const [recipe, setRecipe] = useState({});
   const [loading, setLoading] = useState(true);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -48,9 +52,17 @@ const RecipeDetail = () => {
       let response = {};
 
       try {
-        const docRef = doc(db, 'recipes', params.recipeId);
-        const docSnap = await getDoc(docRef);
-        response = { id: docSnap.id, ...docSnap.data() };
+        const recipeRef = doc(db, 'recipes', params.recipeId);
+        const recipeSnap = await getDoc(recipeRef);
+
+        const authRef = doc(db, 'users', recipeSnap.data().authorId);
+        const authSnap = await getDoc(authRef);
+
+        response = {
+          id: recipeSnap.id,
+          authName: authSnap.data().name,
+          ...recipeSnap.data(),
+        };
       } catch (error) {
         console.log('Error', error.message);
       }
@@ -90,10 +102,23 @@ const RecipeDetail = () => {
               <AboutDetaill>
                 <li>
                   <FaRegCalendarAlt />
-                  Feb 22, 2022
+                  {recipe.createdAt
+                    ? getDayMonthYear(recipe.createdAt)
+                    : 'Feb 22, 2022'}
                 </li>
                 <li>
-                  Recipe by <span>Tan Pil</span>
+                  Recipe by{' '}
+                  <span>
+                    <Link
+                      to={
+                        user.id === recipe.authorId
+                          ? '/profile'
+                          : `/profile/${recipe.authorId}`
+                      }
+                    >
+                      {recipe.authName}
+                    </Link>
+                  </span>
                 </li>
                 <li>
                   <div>
