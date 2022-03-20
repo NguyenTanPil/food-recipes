@@ -17,7 +17,7 @@ const SignUp = ({ modeSign, validate, setModeSign }) => {
         updateProfile(user, {
           displayName: userName,
           photoURL:
-            'https://res.cloudinary.com/felixnguyen/image/upload/v1620744647/user-details/avt_npasta.png',
+            'https://res.cloudinary.com/felixnguyen/image/upload/v1647776277/food-recipes-users/huong-dan-tao-facebook-avatar_ecj2l1.jpg',
         })
           .then(() => {
             // update is succsess

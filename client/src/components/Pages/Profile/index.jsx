@@ -4,6 +4,7 @@ import {
   getDoc,
   getDocs,
   query,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
@@ -14,6 +15,7 @@ import { FiUserCheck, FiUserPlus } from 'react-icons/fi';
 import { HiOutlinePhotograph } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
 import { selectUser } from '../../../features/userSlice';
 import db from '../../../firebase';
@@ -54,10 +56,74 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState('recipes');
   const [isShowEditModel, setIsShowEditModel] = useState(false);
   const [user, setUser] = useState();
+
   const [recipes, setRecipes] = useState([]);
+  const [follows, setFollows] = useState([]);
+  const [followers, setFollowers] = useState([]);
+
+  const [isFollow, setIsFollow] = useState(false);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
+  };
+
+  const setCookie = (data) => {
+    const cookies = new Cookies();
+    const newUser = JSON.stringify(data);
+    cookies.set('user', newUser, {
+      path: '/',
+      sameSite: true,
+    });
+  };
+
+  const handleClickFollow = async () => {
+    // if follow =>  unfollow
+    if (user.followerList.includes(currentUser.id)) {
+      const newUser = {
+        ...user,
+        followerList: user.followerList.filter((id) => id !== currentUser.id),
+      };
+
+      const newCurrentUser = {
+        ...currentUser,
+        followList: currentUser.followList.filter((id) => id !== user.id),
+      };
+
+      setIsFollow(false);
+      setUser(newUser);
+      setCookie(newCurrentUser);
+
+      await updateDoc(doc(db, 'users', user.id), {
+        followerList: newUser.followerList,
+      });
+
+      await updateDoc(doc(db, 'users', currentUser.id), {
+        followList: newCurrentUser.followList,
+      });
+    } else {
+      // if unfollow => follow
+      const newUser = {
+        ...user,
+        followerList: [currentUser.id, ...user.followerList],
+      };
+
+      const newCurrentUser = {
+        ...currentUser,
+        followList: [user.id, ...currentUser.followList],
+      };
+
+      setIsFollow(true);
+      setUser(newUser);
+      setCookie(newCurrentUser);
+
+      await updateDoc(doc(db, 'users', user.id), {
+        followerList: newUser.followerList,
+      });
+
+      await updateDoc(doc(db, 'users', currentUser.id), {
+        followList: newCurrentUser.followList,
+      });
+    }
   };
 
   useEffect(() => {
@@ -75,11 +141,12 @@ const Profile = () => {
       }
 
       if (isSubscribed) {
+        setIsFollow(response.followerList.includes(currentUser.id));
         setUser(response);
       }
     };
 
-    if (params.authorId === currentUser.id) {
+    if (params.profileId === currentUser.id || !params.profileId) {
       if (!currentUser.id) {
         navigate('/login');
       } else {
@@ -97,34 +164,101 @@ const Profile = () => {
   useEffect(() => {
     let isSubscribed = true;
 
-    const fetchRecipes = async () => {
-      const response = [];
+    const fetchFollows = async () => {
+      const followsResponse = [];
 
       try {
-        const queryRecipes = query(
-          collection(db, 'recipes'),
-          where('authorId', '==', user.id),
+        // fetch follows
+        const queryFollows = query(
+          collection(db, 'users'),
+          where('id', 'in', user.followList),
         );
-        const querySnapshot = await getDocs(queryRecipes);
+        const followsSnapshot = await getDocs(queryFollows);
 
-        querySnapshot.forEach((doc) => {
-          response.push({ id: doc.id, ...doc.data() });
+        followsSnapshot.forEach((doc) => {
+          followsResponse.push({
+            id: doc.id,
+            avatar: doc.data().avatar,
+            name: doc.data().name,
+          });
         });
       } catch (error) {
         console.log('Error: ' + error.message);
       }
 
       if (isSubscribed) {
-        if (response.length === 0) {
+        setFollows(followsResponse);
+      }
+    };
+
+    const fetchFollowers = async () => {
+      const followersResponse = [];
+
+      try {
+        // fetch followers
+        const queryFollowers = query(
+          collection(db, 'users'),
+          where('id', 'in', user.followerList),
+        );
+        const followsSnapshot = await getDocs(queryFollowers);
+
+        followsSnapshot.forEach((doc) => {
+          followersResponse.push({
+            id: doc.id,
+            avatar: doc.data().avatar,
+            name: doc.data().name,
+          });
+        });
+      } catch (error) {
+        console.log('Error: ' + error.message);
+      }
+
+      if (isSubscribed) {
+        setFollowers(followersResponse);
+      }
+    };
+
+    const fetchRecipes = async () => {
+      const recipesResponse = [];
+
+      try {
+        // fetch recipes
+        const queryRecipes = query(
+          collection(db, 'recipes'),
+          where('authorId', '==', user.id),
+        );
+        const recipesSnapshot = await getDocs(queryRecipes);
+
+        recipesSnapshot.forEach((doc) => {
+          recipesResponse.push({ id: doc.id, ...doc.data() });
+        });
+      } catch (error) {
+        console.log('Error: ' + error.message);
+      }
+
+      if (isSubscribed) {
+        if (recipesResponse.length === 0) {
           setRecipes();
         } else {
-          setRecipes(response);
+          setRecipes(recipesResponse);
         }
       }
     };
 
     if (user) {
       fetchRecipes();
+
+      if (user.followList.length > 0) {
+        fetchFollows();
+      } else {
+        setFollows([]);
+      }
+
+      if (user.followerList.length > 0) {
+        fetchFollowers();
+      } else {
+        setFollowers([]);
+      }
     }
 
     return () => {
@@ -158,9 +292,13 @@ const Profile = () => {
                   </Info>
                 </div>
 
-                {params.profileId === currentUser.id && (
+                {params.profileId === currentUser.id || !params.profileId ? (
                   <button onClick={() => setIsShowEditModel(true)}>
                     Edit <span>Profile</span>
+                  </button>
+                ) : (
+                  <button onClick={handleClickFollow}>
+                    {isFollow ? 'Unfollow' : 'Follow'}
                   </button>
                 )}
               </AvatarAndEditButton>
@@ -274,52 +412,40 @@ const Profile = () => {
                 </NavPane>
                 <NavPane active={activeTab === 'followers' ? 1 : 0}>
                   <FollowingContainer>
-                    <FollowingItem>
-                      <img
-                        src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
-                        alt=""
-                      />
-                      <a href="!#">Felix Nguyen</a>
-                    </FollowingItem>
-                    <FollowingItem>
-                      <img
-                        src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pop.png"
-                        alt=""
-                      />
-                      <a href="!#">Connie K</a>
-                    </FollowingItem>
-                    <FollowingItem>
-                      <img
-                        src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
-                        alt=""
-                      />
-                      <a href="!#">WELLANDTONED</a>
-                    </FollowingItem>
+                    {followers.length === 0 ? (
+                      <NoHaveHover>
+                        <CgUnavailable />
+                        <span>No followers found</span>
+                      </NoHaveHover>
+                    ) : (
+                      followers.map((follow) => (
+                        <FollowingItem key={follow.id}>
+                          <img src={follow.avatar} alt="" />
+                          <Link to={`/profile/${follow.id}`}>
+                            {follow.name}
+                          </Link>
+                        </FollowingItem>
+                      ))
+                    )}
                   </FollowingContainer>
                 </NavPane>
                 <NavPane active={activeTab === 'following' ? 1 : 0}>
                   <FollowingContainer>
-                    <FollowingItem>
-                      <img
-                        src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
-                        alt=""
-                      />
-                      <a href="!#">WELLANDTONED</a>
-                    </FollowingItem>
-                    <FollowingItem>
-                      <img
-                        src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pop.png"
-                        alt=""
-                      />
-                      <a href="!#">Connie K</a>
-                    </FollowingItem>
-                    <FollowingItem>
-                      <img
-                        src="https://img.sndimg.com/food/image/upload/fl_progressive,c_fill,q_80,h_182,w_181/v1/gk-static/gk/img/avatar/pie.png"
-                        alt=""
-                      />
-                      <a href="!#">WELLANDTONED</a>
-                    </FollowingItem>
+                    {follows.length === 0 ? (
+                      <NoHaveHover>
+                        <CgUnavailable />
+                        <span>No following found</span>
+                      </NoHaveHover>
+                    ) : (
+                      follows.map((follow) => (
+                        <FollowingItem key={follow.id}>
+                          <img src={follow.avatar} alt="" />
+                          <Link to={`/profile/${follow.id}`}>
+                            {follow.name}
+                          </Link>
+                        </FollowingItem>
+                      ))
+                    )}
                   </FollowingContainer>
                 </NavPane>
               </NavContent>

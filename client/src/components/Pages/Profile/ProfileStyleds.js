@@ -232,12 +232,15 @@ export const ProductDesc = styled.p`
 `;
 
 export const FollowingContainer = styled.div`
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
 `;
 
 export const FollowingItem = styled.div`
+  box-sizing: border-box;
+  border: 0.1rem solid ${(props) => props.theme.borderColor};
   border-radius: 1.4rem;
   cursor: pointer;
   margin-bottom: 1.4rem;
@@ -341,6 +344,7 @@ export const NoHaveHover = styled.div`
   flex-direction: column;
   justify-content: center;
   min-height: 16.5rem;
+  width: 100%;
 
   span {
     font-size: 2.4rem !important;

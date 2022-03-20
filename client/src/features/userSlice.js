@@ -11,6 +11,8 @@ const initialState = {
   bio: '',
   joined: '',
   userName: '',
+  followerList: [],
+  followList: [],
 };
 
 const initState = () => {
@@ -38,6 +40,8 @@ const userSlice = createSlice({
       state.bio = action.payload.bio;
       state.joined = action.payload.joined;
       state.userName = action.payload.userName;
+      state.followerList = action.payload.followerList;
+      state.followList = action.payload.followList;
     },
     setSignOut(state) {
       state.id = '';
@@ -49,6 +53,8 @@ const userSlice = createSlice({
       state.background = '';
       state.joined = '';
       state.userName = '';
+      state.followerList = [];
+      state.followList = [];
     },
   },
 });

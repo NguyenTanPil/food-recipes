@@ -51,6 +51,7 @@ const SignIn = ({ prev, modeSign, validate }) => {
       currentUser = { id: userId, ...userSnap.data() };
     } else {
       const user = {
+        id: userId,
         name: response.user.displayName,
         userName: response.user.displayName,
         email: response.user.email,
@@ -60,14 +61,16 @@ const SignIn = ({ prev, modeSign, validate }) => {
           'https://i.pinimg.com/736x/b1/33/fe/b133fe1cf7d86da172350deaf4c85599.jpg',
         avatar: response.user.photoURL,
         joined: convertCreateAtToJoinedTime(response.user.metadata.createdAt),
+        followList: [],
+        followerList: [],
       };
 
       await setDoc(doc(db, 'users', userId), user);
-      currentUser = { id: userId, ...user };
+      currentUser = { ...user };
     }
 
     setCookie(currentUser);
-    dispatch(setLoginDetail({ ...currentUser }));
+    dispatch(setLoginDetail(currentUser));
     navigate(prev);
   };
 
