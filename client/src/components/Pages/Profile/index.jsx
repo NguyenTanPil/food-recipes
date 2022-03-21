@@ -14,7 +14,7 @@ import { FaFly } from 'react-icons/fa';
 import { FiUserCheck, FiUserPlus } from 'react-icons/fi';
 import { HiOutlinePhotograph } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
 import { selectUser } from '../../../features/userSlice';
@@ -52,6 +52,7 @@ const Profile = () => {
   const currentUser = useSelector(selectUser);
   const navigate = useNavigate();
   const params = useParams();
+  const location = useLocation();
 
   const [activeTab, setActiveTab] = useState('recipes');
   const [isShowEditModel, setIsShowEditModel] = useState(false);
@@ -77,52 +78,56 @@ const Profile = () => {
   };
 
   const handleClickFollow = async () => {
-    // if follow =>  unfollow
-    if (user.followerList.includes(currentUser.id)) {
-      const newUser = {
-        ...user,
-        followerList: user.followerList.filter((id) => id !== currentUser.id),
-      };
+    if (currentUser.id) {
+      // if follow =>  unfollow
+      if (user.followerList.includes(currentUser.id)) {
+        const newUser = {
+          ...user,
+          followerList: user.followerList.filter((id) => id !== currentUser.id),
+        };
 
-      const newCurrentUser = {
-        ...currentUser,
-        followList: currentUser.followList.filter((id) => id !== user.id),
-      };
+        const newCurrentUser = {
+          ...currentUser,
+          followList: currentUser.followList.filter((id) => id !== user.id),
+        };
 
-      setIsFollow(false);
-      setUser(newUser);
-      setCookie(newCurrentUser);
+        setIsFollow(false);
+        setUser(newUser);
+        setCookie(newCurrentUser);
 
-      await updateDoc(doc(db, 'users', user.id), {
-        followerList: newUser.followerList,
-      });
+        await updateDoc(doc(db, 'users', user.id), {
+          followerList: newUser.followerList,
+        });
 
-      await updateDoc(doc(db, 'users', currentUser.id), {
-        followList: newCurrentUser.followList,
-      });
+        await updateDoc(doc(db, 'users', currentUser.id), {
+          followList: newCurrentUser.followList,
+        });
+      } else {
+        // if unfollow => follow
+        const newUser = {
+          ...user,
+          followerList: [currentUser.id, ...user.followerList],
+        };
+
+        const newCurrentUser = {
+          ...currentUser,
+          followList: [user.id, ...currentUser.followList],
+        };
+
+        setIsFollow(true);
+        setUser(newUser);
+        setCookie(newCurrentUser);
+
+        await updateDoc(doc(db, 'users', user.id), {
+          followerList: newUser.followerList,
+        });
+
+        await updateDoc(doc(db, 'users', currentUser.id), {
+          followList: newCurrentUser.followList,
+        });
+      }
     } else {
-      // if unfollow => follow
-      const newUser = {
-        ...user,
-        followerList: [currentUser.id, ...user.followerList],
-      };
-
-      const newCurrentUser = {
-        ...currentUser,
-        followList: [user.id, ...currentUser.followList],
-      };
-
-      setIsFollow(true);
-      setUser(newUser);
-      setCookie(newCurrentUser);
-
-      await updateDoc(doc(db, 'users', user.id), {
-        followerList: newUser.followerList,
-      });
-
-      await updateDoc(doc(db, 'users', currentUser.id), {
-        followList: newCurrentUser.followList,
-      });
+      navigate('/login', { state: { prev: location.pathname } });
     }
   };
 

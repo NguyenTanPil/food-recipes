@@ -344,6 +344,7 @@ export const NoHaveHover = styled.div`
   flex-direction: column;
   justify-content: center;
   min-height: 16.5rem;
+  text-align: center;
   width: 100%;
 
   span {

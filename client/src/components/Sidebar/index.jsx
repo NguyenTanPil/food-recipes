@@ -1,12 +1,24 @@
 import { CgPushChevronRight } from 'react-icons/cg';
-import { useSelector } from 'react-redux';
-import { NavLink, useLocation } from 'react-router-dom';
-import { selectUser } from '../../features/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import { selectUser, setSignOut } from '../../features/userSlice';
 import { Container, Content, Header, ListLink } from './SidebarStyles';
 
 const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
   const user = useSelector(selectUser);
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSignOut = () => {
+    const cookies = new Cookies();
+    cookies.remove('user', { path: '/', maxAge: 60 * 60, sameSite: true });
+
+    dispatch(setSignOut());
+    setIsShowSidebar(false);
+    navigate('/login', { state: { prev: '/' } });
+  };
 
   return (
     <Container
@@ -48,6 +60,11 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
               </NavLink>
             )}
           </li>
+          {user.id && (
+            <li onClick={handleSignOut}>
+              <span>Sign Out</span>
+            </li>
+          )}
         </ListLink>
       </Content>
     </Container>

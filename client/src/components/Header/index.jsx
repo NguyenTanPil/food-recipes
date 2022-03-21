@@ -26,9 +26,9 @@ const Header = () => {
 
   const handleSignOut = () => {
     const cookies = new Cookies();
-    cookies.remove('user', { path: '/', maxAge: 60 * 60, sameSite: true });
+    cookies.remove('user', { path: '/', sameSite: true });
 
-    navigate('/login');
+    navigate('/login', { state: { prev: '/' } });
     dispatch(setSignOut());
   };
 
@@ -73,10 +73,12 @@ const Header = () => {
                 </NavLink>
               )}
             </li>
-            <li onClick={handleSignOut}>
-              <BiLogOutCircle title="Sign Out" />
-              <span>Sign Out</span>
-            </li>
+            {user.id && (
+              <li onClick={handleSignOut}>
+                <BiLogOutCircle title="Sign Out" />
+                <span>Sign Out</span>
+              </li>
+            )}
             <div onClick={() => setIsShowSidebar(true)}>
               <BiBarChart />
             </div>
