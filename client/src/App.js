@@ -13,6 +13,7 @@ import { light } from './components/Theme';
 import ToTopButton from './components/ToTopButton';
 import GlobalStyle from './GlobalStyles';
 import CreateRecipe from './components/Pages/CreateRecipe';
+import CreateButton from './components/CreateButton';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/:category" element={<Category />} />
             <Route path="/:category/:recipeId" element={<RecipeDetail />} />
           </Routes>
+          <CreateButton />
           <ToTopButton />
           <Footer />
         </Router>
