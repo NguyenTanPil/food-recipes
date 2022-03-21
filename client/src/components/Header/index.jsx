@@ -57,8 +57,10 @@ const Header = () => {
               <span>Search</span>
             </li>
             <li>
-              <HiOutlineBookmark title="Save" />
-              <span>Save</span>
+              <NavLink to="/save">
+                <HiOutlineBookmark title="Save" />
+                <span>Save</span>
+              </NavLink>
             </li>
             <li>
               {user.id ? (

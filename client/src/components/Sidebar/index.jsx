@@ -46,8 +46,10 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
           <li>
             <span>Search</span>
           </li>
-          <li>
-            <span>Save</span>
+          <li onClick={() => setIsShowSidebar(false)}>
+            <NavLink to="/save">
+              <span>Save</span>
+            </NavLink>
           </li>
           <li onClick={() => setIsShowSidebar(false)}>
             {user.id ? (

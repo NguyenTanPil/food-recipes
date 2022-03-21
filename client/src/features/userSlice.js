@@ -13,6 +13,7 @@ const initialState = {
   userName: '',
   followerList: [],
   followList: [],
+  savedList: [],
 };
 
 const initState = () => {
@@ -42,6 +43,7 @@ const userSlice = createSlice({
       state.userName = action.payload.userName;
       state.followerList = action.payload.followerList;
       state.followList = action.payload.followList;
+      state.savedList = action.payload.savedList;
     },
     setSignOut(state) {
       state.id = '';
@@ -55,6 +57,7 @@ const userSlice = createSlice({
       state.userName = '';
       state.followerList = [];
       state.followList = [];
+      state.savedList = [];
     },
   },
 });

@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import './App.css';
+import CreateButton from './components/CreateButton';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Category from './components/Pages/Category';
+import CreateRecipe from './components/Pages/CreateRecipe';
 import Home from './components/Pages/Home';
 import Login from './components/Pages/Login';
 import Profile from './components/Pages/Profile';
@@ -12,8 +14,6 @@ import Recipes from './components/Pages/Recipes';
 import { light } from './components/Theme';
 import ToTopButton from './components/ToTopButton';
 import GlobalStyle from './GlobalStyles';
-import CreateRecipe from './components/Pages/CreateRecipe';
-import CreateButton from './components/CreateButton';
 
 function App() {
   return (
@@ -27,6 +27,7 @@ function App() {
             <Route path="recipes" element={<Recipes />} />
             <Route path="login" element={<Login />} />
             <Route path="create-recipe" element={<CreateRecipe />} />
+            <Route path="save" element={<Recipes />} />
             <Route path="profile" element={<Profile />} />
             <Route path="profile/:profileId" element={<Profile />} />
             <Route path="/:category" element={<Category />} />

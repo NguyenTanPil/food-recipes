@@ -19,7 +19,7 @@ import {
   SubmitButton,
   TitleForm,
 } from './CreateRecipeStyles';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../../features/userSlice';
 import { Link, useNavigate } from 'react-router-dom';
@@ -142,8 +142,16 @@ const CreateRecipe = () => {
   };
 
   const handleCreateRecipe = async (data) => {
-    const submitData = { ...data, authorId: user.id, createdAt: Date.now() };
-    await addDoc(collection(db, 'recipes'), submitData);
+    const submitData = {
+      ...data,
+      authorId: user.id,
+      createdAt: Date.now(),
+      id: '',
+    };
+    const newRecipe = await addDoc(collection(db, 'recipes'), submitData);
+    await updateDoc(doc(db, 'recipes', newRecipe.id), {
+      id: newRecipe.id,
+    });
 
     setIsLoading(false);
   };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { SubmitButton } from '../CreateRecipe/CreateRecipeStyles';
 
 export const Content = styled.div`
   box-sizing: border-box;
@@ -81,6 +82,8 @@ export const AboutDetaill = styled.ul`
 `;
 
 export const Image = styled.div`
+  max-height: 50rem;
+  overflow: hidden;
   width: 100%;
 
   img {
@@ -159,7 +162,7 @@ export const Ingredients = styled.div`
   li {
     color: ${(props) => props.theme.fontColor};
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     font-size: 1.8rem;
     font-weight: 400;
     margin-bottom: 2rem;
@@ -329,4 +332,9 @@ export const LoadingShape = styled.div`
     height: 10rem;
     width: 10rem;
   }
+`;
+
+export const SaveButton = styled(SubmitButton)`
+  margin-top: 2rem;
+  width: 100%;
 `;

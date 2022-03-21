@@ -63,6 +63,7 @@ const SignIn = ({ prev, modeSign, validate }) => {
         joined: convertCreateAtToJoinedTime(response.user.metadata.createdAt),
         followList: [],
         followerList: [],
+        savedList: [],
       };
 
       await setDoc(doc(db, 'users', userId), user);

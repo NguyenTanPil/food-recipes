@@ -1,12 +1,13 @@
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { BsCheck2Square } from 'react-icons/bs';
 import { FaRegCalendarAlt } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
-import { selectUser } from '../../../features/userSlice';
+import { selectUser, setLoginDetail } from '../../../features/userSlice';
 import db from '../../../firebase';
 import { getDayMonthYear } from '../../../Utils/getDayMonthYear';
 import LatestRecipes from '../../LatestRecipes';
@@ -36,14 +37,72 @@ import {
   StepContent,
   StepItem,
   StepTitle,
+  SaveButton,
 } from './RecipeDetailStyles';
 
 const RecipeDetail = () => {
   const params = useParams();
+  const user = useSelector(selectUser);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [fullDesc, setFullDesc] = useState(false);
   const [recipe, setRecipe] = useState({});
   const [loading, setLoading] = useState(true);
-  const user = useSelector(selectUser);
+  const [isSave, setIsSave] = useState(() => {
+    const recipeListSaved = user.savedList.map((recipe) => recipe.recipeId);
+    return recipeListSaved.includes(params.recipeId);
+  });
+
+  const setCookie = (data) => {
+    const cookies = new Cookies();
+    const newUser = JSON.stringify(data);
+    cookies.set('user', newUser, {
+      path: '/',
+      sameSite: true,
+    });
+  };
+
+  const handleSaveClick = async () => {
+    // if saved => unsave
+    let newUser;
+    if (isSave) {
+      newUser = {
+        ...user,
+        savedList: user.savedList.filter(
+          (recipe) => recipe.recipeId !== params.recipeId,
+        ),
+      };
+
+      setCookie(newUser);
+
+      await updateDoc(doc(db, 'users', user.id), {
+        savedList: newUser.savedList,
+      });
+    } else {
+      // if unsaved => save
+      newUser = {
+        ...user,
+        savedList: [
+          { recipeId: params.recipeId, savedAt: new Date().getTime() },
+          ...user.savedList,
+        ],
+      };
+
+      setCookie(newUser);
+
+      await updateDoc(doc(db, 'users', user.id), {
+        savedList: newUser.savedList,
+      });
+    }
+    dispatch(setLoginDetail(newUser));
+    setIsSave(!isSave);
+  };
+
+  const redirectToLogin = () => {
+    navigate('/login', { state: { prev: location.pathname } });
+  };
 
   useEffect(() => {
     let isSubscribed = true;
@@ -59,7 +118,6 @@ const RecipeDetail = () => {
         const authSnap = await getDoc(authRef);
 
         response = {
-          id: recipeSnap.id,
           authName: authSnap.data().name,
           ...recipeSnap.data(),
         };
@@ -134,6 +192,14 @@ const RecipeDetail = () => {
               <Image>
                 <img src={recipe.thumbnail} alt="" />
               </Image>
+              {!user.id ? (
+                <SaveButton onClick={redirectToLogin}>Login to save</SaveButton>
+              ) : user.id === recipe.authorId ? null : (
+                <SaveButton onClick={handleSaveClick}>
+                  {isSave ? 'Unsave recipe' : 'Save Recipe'}
+                </SaveButton>
+              )}
+
               <Description>
                 <Header>
                   <Title>Recipe Description</Title>
@@ -156,7 +222,9 @@ const RecipeDetail = () => {
                     {recipe.ingredients.map((ingredient, index) => {
                       return (
                         <li key={index}>
-                          <BsCheck2Square />
+                          <div>
+                            <BsCheck2Square />
+                          </div>
                           <span>{ingredient}</span>
                         </li>
                       );

@@ -303,10 +303,11 @@ export const SubmitButton = styled.button`
   outline: none;
   padding: 1.2rem 1.6rem;
   text-transform: uppercase;
-  transition: background-color 0.2s ease-out;
+  transition: all 0.2s ease-out;
 
   &:hover {
     background-color: #fd4755e0;
+    border-color: #fd4755e0;
   }
 `;
 
