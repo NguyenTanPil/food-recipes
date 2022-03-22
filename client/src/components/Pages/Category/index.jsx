@@ -1,14 +1,14 @@
-import { Products, Content, RightSide, NoProducts } from './CategoryStyles';
-import TitleBar from '../../TitleBar';
-import Product from '../../Product';
-import LatestRecipes from '../../LatestRecipes';
-import RecipeCategories from '../../RecipeCategories';
-import { useParams } from 'react-router-dom';
-import { useLayoutEffect, useState } from 'react';
-import db from '../../../firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import { useLayoutEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
+import db from '../../../firebase';
+import LatestRecipes from '../../LatestRecipes';
+import Product from '../../Product';
+import RecipeCategories from '../../RecipeCategories';
+import TitleBar from '../../TitleBar';
 import { LoadingShape } from '../RecipeDetail/RecipeDetailStyles';
+import { Content, NoProducts, Products, RightSide } from './CategoryStyles';
 
 const Category = () => {
   const params = useParams();
@@ -72,16 +72,7 @@ const Category = () => {
           <Products>
             {products.length > 0 ? (
               products.map((product) => {
-                return (
-                  <Product
-                    key={product.id}
-                    id={product.id}
-                    img={product.thumbnail}
-                    name={product.name}
-                    desc={product.desc}
-                    category={product.category}
-                  />
-                );
+                return <Product key={product.id} {...product} />;
               })
             ) : (
               <NoProducts>

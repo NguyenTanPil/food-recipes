@@ -67,24 +67,11 @@ const TrendingRecipes = () => {
       ) : (
         <>
           <ProductIntro>
-            <Product
-              id={trendProducts.id}
-              img={trendProducts.thumbnail}
-              name={trendProducts.name}
-              desc={trendProducts.desc}
-              category={trendProducts.category}
-            />
+            <Product {...trendProducts} />
           </ProductIntro>
           <Products>
             {trendTopProducts.map((product) => (
-              <Product
-                key={product.id}
-                id={product.id}
-                img={product.thumbnail}
-                name={product.name}
-                desc={product.desc}
-                category={product.category}
-              />
+              <Product key={product.id} {...product} />
             ))}
           </Products>
         </>

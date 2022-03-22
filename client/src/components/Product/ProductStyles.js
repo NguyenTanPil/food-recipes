@@ -86,29 +86,18 @@ export const Body = styled.div`
   }
 `;
 
-export const EntryMeta = styled.ul`
-  background-color: ${(props) => props.theme.borderColor};
+export const EntryMeta = styled.div`
   border-radius: 0.4rem;
-  display: flex;
+  color: ${(props) => props.theme.fontColor};
   margin-top: 1rem;
   width: fit-content;
 
-  li {
-    color: ${(props) => props.theme.fontColor};
-    display: flex;
-    align-items: center;
-    font-size: 1.3rem;
-    font-weight: 500;
-    padding: 0.6rem 1.2rem;
+  span {
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
 
-    span {
-      font-size: 1.3rem;
-    }
-
-    svg {
-      color: ${(props) => props.theme.hoverColor};
-      font-size: 1.2rem;
-      margin-right: 0.25rem;
-    }
+  a {
+    color: ${(props) => props.theme.hoverColor};
   }
 `;

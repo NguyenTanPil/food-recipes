@@ -183,13 +183,7 @@ const Recipes = () => {
                 <Products>
                   {productsByDisplay.map((product) => (
                     <div key={product.id}>
-                      <Product
-                        id={product.id}
-                        img={product.thumbnail}
-                        name={product.name}
-                        desc={product.desc}
-                        category={product.category}
-                      />
+                      <Product {...product} />
                     </div>
                   ))}
                 </Products>

@@ -53,14 +53,7 @@ const PopularRecipes = () => {
       </Header>
       <Products>
         {popProducts.map((product) => (
-          <Product
-            key={product.id}
-            id={product.id}
-            img={product.thumbnail}
-            name={product.name}
-            desc={product.desc}
-            category={product.category}
-          />
+          <Product key={product.id} {...product} />
         ))}
       </Products>
     </Container>
