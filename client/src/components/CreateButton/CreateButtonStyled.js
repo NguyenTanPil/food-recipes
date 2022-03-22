@@ -26,7 +26,7 @@ export const Container = styled.div`
   svg {
     background-color: ${(props) => props.theme.hoverColor};
     border-radius: 50%;
-    color: ${(props) => props.theme.backgroundColor};
+    color: #ffffff;
     font-size: 2rem;
     font-weight: 600;
     position: absolute;

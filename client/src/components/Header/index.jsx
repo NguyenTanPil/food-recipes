@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BiBarChart, BiSearch, BiUser, BiLogOutCircle } from 'react-icons/bi';
 import { HiOutlineBookmark } from 'react-icons/hi';
+import { MdOutlineColorLens } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -46,7 +47,6 @@ const Header = () => {
                 <NavLink to="/recipes">Recipes</NavLink>
               </li>
               <li>Popular</li>
-              <li>Healthy</li>
             </NavItems>
           )}
         </ShiftLeft>
@@ -55,6 +55,12 @@ const Header = () => {
             <li>
               <BiSearch title="Search" />
               <span>Search</span>
+            </li>
+            <li>
+              <NavLink to="/appearance">
+                <MdOutlineColorLens title="Appearance" />
+                <span>Appearance</span>
+              </NavLink>
             </li>
             <li>
               <NavLink to="/save">

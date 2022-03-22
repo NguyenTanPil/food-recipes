@@ -110,6 +110,7 @@ export const NavItems = styled.ul`
     transition: color 0.2s ease-out;
 
     a {
+      color: ${(props) => props.theme.fontColor};
       display: flex;
       align-items: center;
 
@@ -118,8 +119,15 @@ export const NavItems = styled.ul`
       }
     }
 
+    svg,
+    span {
+      transition: color 0.2s ease-out;
+    }
+
     &:hover {
-      a {
+      a,
+      svg,
+      span {
         color: ${(props) => props.theme.hoverColor};
       }
     }

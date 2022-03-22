@@ -58,6 +58,7 @@ export const FieldGroup = styled.div`
 
   input,
   textarea {
+    background-color: ${(props) => props.theme.backgroundColor};
     border: 0.1rem solid ${(props) => props.theme.borderColor};
     border-radius: 0.4rem;
     box-sizing: border-box;

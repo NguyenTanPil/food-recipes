@@ -50,6 +50,7 @@ export const Body = styled.div`
   }
 
   & > span {
+    color: ${(props) => props.theme.titleColor};
     cursor: pointer;
     display: -webkit-box;
     font-size: 2rem;

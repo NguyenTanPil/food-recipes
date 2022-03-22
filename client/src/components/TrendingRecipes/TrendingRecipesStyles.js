@@ -93,7 +93,7 @@ export const ProductIntro = styled.div`
 
 export const Products = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
   justify-content: space-between;
 
@@ -111,11 +111,6 @@ export const Products = styled.div`
 
     @media only screen and (min-width: 992px) {
       width: 31%;
-    }
-
-    @media only screen and (min-width: 1200px) {
-      margin-bottom: 0;
-      width: 23%;
     }
   }
 `;
