@@ -7,7 +7,12 @@ const CreateButton = ({ color }) => {
   return (
     <Container>
       <Link to="/create-recipe">
-        <img src={getImageByKey(color)} alt="" />
+        <img
+          src={getImageByKey(
+            `add${color.charAt(0).toUpperCase() + color.slice(1)}`,
+          )}
+          alt=""
+        />
         <MdOutlineAddCircleOutline />
       </Link>
     </Container>

@@ -35,7 +35,7 @@ export const Button = styled.button`
   transition: all 0.3s ease-out;
 
   &:hover {
-    background-color: #fd4755e0;
+    background-color: ${(props) => `${props.theme.hoverColor}CC`};
     font-weight: 600;
   }
 `;

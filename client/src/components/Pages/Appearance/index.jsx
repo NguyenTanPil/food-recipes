@@ -18,7 +18,7 @@ const Appearance = ({ theme, setTheme }) => {
   const setCookie = (data) => {
     const cookies = new Cookies();
     const theme = JSON.stringify(data);
-    cookies.set('theme', theme, { path: '/', maxAge: 60 * 60, sameSite: true });
+    cookies.set('theme', theme, { path: '/', sameSite: true });
   };
 
   const handleChangeColor = (value) => {

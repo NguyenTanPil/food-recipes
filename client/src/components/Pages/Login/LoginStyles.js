@@ -17,7 +17,7 @@ export const PanelsContainer = styled.div`
 `;
 
 export const Content = styled.div`
-  color: ${(props) => props.theme.backgroundColor};
+  color: #ffffff;
   transition: transform 0.9s ease-in-out 0.6s;
 
   @media only screen and (max-width: 576px) {
@@ -62,9 +62,9 @@ export const RightPanel = styled(LeftPanel)`
 
 export const SignUpButon = styled.button`
   background-color: transparent;
-  border: 0.1rem solid ${(props) => props.theme.backgroundColor};
+  border: 0.1rem solid #ffffff;
   border-radius: 0.4rem;
-  color: ${(props) => props.theme.backgroundColor};
+  color: #ffffff;
   cursor: pointer;
   display: inline-block;
   align-items: center;
@@ -81,8 +81,8 @@ export const SignUpButon = styled.button`
     color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
   &:hover {
-    background-color: ${(props) => props.theme.backgroundColor};
-    color: #4481eb;
+    background-color: #ffffff;
+    color: ${(props) => props.theme.hoverColor};
   }
 `;
 
@@ -108,7 +108,8 @@ export const Container = styled.div`
 
   &:before {
     content: '';
-    background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
+    background-image: ${(props) =>
+      `linear-gradient(-45deg, ${props.theme.hoverColor} 0%, ${props.theme.hoverColor}7f 100%)`};
     border-radius: 50%;
     height: 200rem;
     position: absolute;

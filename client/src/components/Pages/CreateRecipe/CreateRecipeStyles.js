@@ -307,8 +307,8 @@ export const SubmitButton = styled.button`
   transition: all 0.2s ease-out;
 
   &:hover {
-    background-color: #fd4755e0;
-    border-color: #fd4755e0;
+    background-color: ${(props) => `${props.theme.hoverColor}CC`};
+    border-color: ${(props) => `${props.theme.hoverColor}CC`};
   }
 `;
 

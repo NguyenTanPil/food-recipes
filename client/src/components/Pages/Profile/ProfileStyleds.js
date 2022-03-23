@@ -79,7 +79,7 @@ export const AvatarAndEditButton = styled.div`
     }
 
     &:hover {
-      background-color: #fd4755e6;
+      background-color: ${(props) => `${props.theme.hoverColor}CC`};
     }
   }
 `;
@@ -303,7 +303,7 @@ export const FollowingItem = styled.div`
   }
 
   a {
-    background-color: rgb(253 71 85 / 0.8);
+    background-color: ${(props) => `${props.theme.hoverColor}B2`};
     box-sizing: border-box;
     color: ${(props) => props.theme.backgroundColor};
     display: flex;

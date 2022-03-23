@@ -36,7 +36,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="recipes" element={<Recipes />} />
-            <Route path="login" element={<Login />} />
+            <Route path="login" element={<Login color={theme.color} />} />
             <Route path="create-recipe" element={<CreateRecipe />} />
             <Route path="save" element={<Recipes />} />
             <Route

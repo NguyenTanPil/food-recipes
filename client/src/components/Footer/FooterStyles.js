@@ -55,7 +55,9 @@ export const FollowItem = styled.div`
   width: 10rem;
 
   &:hover {
-    color: ${(props) => props.theme.hoverColor};
+    a {
+      color: ${(props) => props.theme.hoverColor};
+    }
   }
 
   a {

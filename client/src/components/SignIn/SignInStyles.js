@@ -92,6 +92,6 @@ export const SubmitButton = styled.button`
   width: 100%;
 
   &:hover {
-    background-color: #fd4755e6;
+    background-color: ${(props) => `${props.theme.hoverColor}CC`};
   }
 `;

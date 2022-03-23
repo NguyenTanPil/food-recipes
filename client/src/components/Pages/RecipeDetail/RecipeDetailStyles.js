@@ -115,7 +115,7 @@ export const DescContent = styled.div`
   }
 
   span {
-    background-color: #fff;
+    background-color: ${(props) => props.theme.backgroundColor};
     color: ${(props) => props.theme.hoverColor};
     border: 0.2rem solid ${(props) => props.theme.hoverColor};
     border-radius: 0.4rem;

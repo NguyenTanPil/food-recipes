@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import bgLogin from '../../../assets/bg-login.svg';
-import bgSignUp from '../../../assets/bg-sign-up.svg';
+import getImageByKey from '../../../Utils/getImageByKey';
 import SignIn from '../../SignIn';
 import SignUp from '../../SignUp';
 import TitleBar from '../../TitleBar';
@@ -70,7 +69,7 @@ const validate = {
   },
 };
 
-const Login = () => {
+const Login = ({ color }) => {
   const [mode, setMode] = useState('signup');
   const navigate = useNavigate();
   const location = useLocation();
@@ -115,7 +114,12 @@ const Login = () => {
                   Sign In
                 </SignUpButon>
               </Content>
-              <img src={bgLogin} alt="" />
+              <img
+                src={getImageByKey(
+                  `barbecue${color.charAt(0).toUpperCase() + color.slice(1)}`,
+                )}
+                alt=""
+              />
             </LeftPanel>
             <RightPanel>
               <Content>
@@ -127,7 +131,12 @@ const Login = () => {
                   Sign Up
                 </SignUpButon>
               </Content>
-              <img src={bgSignUp} alt="" />
+              <img
+                src={getImageByKey(
+                  `cooking${color.charAt(0).toUpperCase() + color.slice(1)}`,
+                )}
+                alt=""
+              />
             </RightPanel>
           </PanelsContainer>
         </Container>
