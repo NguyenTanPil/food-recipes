@@ -12,6 +12,7 @@ import db from '../../../firebase';
 import { getDayMonthYear } from '../../../Utils/getDayMonthYear';
 import LatestRecipes from '../../LatestRecipes';
 import RecipeCategories from '../../RecipeCategories';
+import RecipeReview from '../../RecipeReview';
 import TitleBar from '../../TitleBar';
 import {
   Header,
@@ -34,10 +35,10 @@ import {
   Nutrition,
   RecipeContainer,
   RecipeTitle,
+  SaveButton,
   StepContent,
   StepItem,
   StepTitle,
-  SaveButton,
 } from './RecipeDetailStyles';
 
 const RecipeDetail = () => {
@@ -277,6 +278,7 @@ const RecipeDetail = () => {
                   })}
                 </ListStep>
               </Directions>
+              <RecipeReview />
             </RecipeContainer>
             <RightSide>
               <LatestRecipes />

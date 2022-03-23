@@ -32,7 +32,7 @@ export const FieldGroup = styled.label`
   input {
     appearance: auto;
     background-color: transparent;
-    border: 0.1rem solid ${(props) => props.theme.border};
+    border: 0.1rem solid ${(props) => props.theme.borderColor};
     border-radius: 0.4rem;
     box-sizing: border-box;
     color: ${(props) => props.theme.fontColor};
