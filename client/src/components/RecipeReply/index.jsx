@@ -52,19 +52,21 @@ const RecipeReply = ({
             </span>
             <span>{getDayMonthYearNumber(reply.createdAt)}</span>
           </DetailReview>
-          {actionType === 'reply' && replyPostion === reply.id && (
-            <ReplyInput
-              reviewContent={reviewContent}
-              currentUserAvatar={currentUserAvatar}
-              parentReply={parentReply}
-              replyTo={reply.userId}
-              replyToUserName={reply.userName}
-              setActionType={setActionType}
-              setReviewContent={setReviewContent}
-              handleAutoHeight={handleAutoHeight}
-              handleSubmit={handleReply}
-            />
-          )}
+          {actionType === 'reply' &&
+            parentReply === reply.parentId &&
+            replyPostion === reply.id && (
+              <ReplyInput
+                reviewContent={reviewContent}
+                currentUserAvatar={currentUserAvatar}
+                parentReply={parentReply}
+                replyTo={reply.userId}
+                replyToUserName={reply.userName}
+                setActionType={setActionType}
+                setReviewContent={setReviewContent}
+                handleAutoHeight={handleAutoHeight}
+                handleSubmit={handleReply}
+              />
+            )}
         </ReviewItem>
       ))}
     </ReplyContainer>

@@ -1,6 +1,7 @@
 import { AiOutlineSend } from 'react-icons/ai';
 import { ReplyTextInput, UserAvatar } from '../RecipeReview/RecipeReviewStyles';
 import { Link } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 
 const ReviewInput = ({
   reviewContent,
@@ -9,6 +10,12 @@ const ReviewInput = ({
   handleAutoHeight,
   handleSubmit,
 }) => {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
     <ReplyTextInput>
       <div>
@@ -18,6 +25,7 @@ const ReviewInput = ({
           </Link>
         </UserAvatar>
         <textarea
+          ref={inputRef}
           placeholder="Write a review..."
           value={reviewContent}
           onChange={(e) => setReviewContent(e.target.value)}

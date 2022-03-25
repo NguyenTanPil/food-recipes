@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 import { IoIosClose } from 'react-icons/io';
 import { Link } from 'react-router-dom';
@@ -14,6 +15,12 @@ const ReplyInput = ({
   handleAutoHeight,
   handleSubmit,
 }) => {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
     <ReplyTextInput>
       <p>
@@ -31,6 +38,7 @@ const ReplyInput = ({
           </Link>
         </UserAvatar>
         <textarea
+          ref={inputRef}
           placeholder="Reply now..."
           value={reviewContent}
           onChange={(e) => setReviewContent(e.target.value)}
