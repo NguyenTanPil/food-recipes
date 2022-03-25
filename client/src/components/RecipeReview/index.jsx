@@ -82,6 +82,13 @@ const RecipeReview = ({ user, recipeId }) => {
     };
   }, [recipeId]);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // for smoothly scrolling
+    });
+  }, []);
+
   return (
     <Reviews>
       <ReviewHeader>
