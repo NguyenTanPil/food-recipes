@@ -5,7 +5,7 @@ import {
 } from 'react-icons/md';
 import { Container, PageButton, PageNumbers } from './PaginationStyles';
 
-const Pagination = ({ data, setProducts }) => {
+const Pagination = ({ data, setProducts, limitProduct }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -54,14 +54,14 @@ const Pagination = ({ data, setProducts }) => {
 
   const getPaginationGroup = () => {
     // products in page is 9
-    const totalPages = Math.ceil(data.length / 9);
+    const totalPages = Math.ceil(data.length / limitProduct);
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   };
 
   const getPaginatedData = (data, number) => {
     // products in page is 9
-    const startIndex = number * 9 - 9;
-    const endIndex = startIndex + 9;
+    const startIndex = number * limitProduct - limitProduct;
+    const endIndex = startIndex + limitProduct;
 
     return data.filter((_, index) => index >= startIndex && index < endIndex);
   };

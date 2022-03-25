@@ -30,6 +30,8 @@ const categories = [
   'starter',
 ];
 
+const minProducsInPage = 9;
+
 const Recipes = () => {
   const originProducts = useRef();
   const user = useSelector(selectUser);
@@ -85,7 +87,9 @@ const Recipes = () => {
       }
 
       if (isSubscribed) {
-        setProductsByDisplay(response.filter((_, index) => index < 9));
+        setProductsByDisplay(
+          response.filter((_, index) => index < minProducsInPage),
+        );
         setProductsByFilter(response);
         originProducts.current = response;
         setLoading(false);
@@ -134,7 +138,9 @@ const Recipes = () => {
     }
 
     setFilters(newFilters);
-    setProductsByDisplay(newProducts.filter((_, index) => index < 9));
+    setProductsByDisplay(
+      newProducts.filter((_, index) => index < minProducsInPage),
+    );
     setProductsByFilter(newProducts);
   };
 
@@ -187,10 +193,11 @@ const Recipes = () => {
                     </div>
                   ))}
                 </Products>
-                {productsByFilter.length > 9 && (
+                {productsByFilter.length > minProducsInPage && (
                   <Pagination
                     data={productsByFilter}
                     setProducts={setProductsByDisplay}
+                    limitProduct={minProducsInPage}
                   />
                 )}
               </>

@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
 import db from '../../../firebase';
@@ -9,9 +9,13 @@ import RecipeCategories from '../../RecipeCategories';
 import TitleBar from '../../TitleBar';
 import { LoadingShape } from '../RecipeDetail/RecipeDetailStyles';
 import { Content, NoProducts, Products, RightSide } from './CategoryStyles';
+import Pagination from '../../Pagination';
+const minProducsInPage = 8;
 
 const Category = () => {
   const params = useParams();
+  const originProducts = useRef();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,7 +40,8 @@ const Category = () => {
       }
 
       if (isSubscribed) {
-        setProducts(response);
+        setProducts(response.filter((_, index) => index < minProducsInPage));
+        originProducts.current = response;
         setLoading(false);
       }
     };
@@ -80,6 +85,13 @@ const Category = () => {
               </NoProducts>
             )}
           </Products>
+          {originProducts.current.length > minProducsInPage && (
+            <Pagination
+              data={originProducts.current}
+              setProducts={setProducts}
+              limitProduct={minProducsInPage}
+            />
+          )}
           <RightSide>
             <LatestRecipes />
             <RecipeCategories />
