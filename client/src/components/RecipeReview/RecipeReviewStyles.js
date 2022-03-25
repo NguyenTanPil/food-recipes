@@ -25,6 +25,18 @@ export const ReviewContainer = styled.ul`
     margin-left: 0;
     margin-top: 3.2rem;
   }
+
+  & > a {
+    margin-top: 2rem;
+    width: fit-content;
+
+    button {
+      margin-top: 0;
+      padding: 1.2rem 2rem;
+      text-transform: capitalize;
+      width: fit-content;
+    }
+  }
 `;
 
 export const ReviewItem = styled.li`

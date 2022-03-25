@@ -1,14 +1,14 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Form, Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import logo from '../../assets/brand.png';
+import { setLoginDetail } from '../../features/userSlice';
 import db, { auth } from '../../firebase';
 import ValidInput from '../ValidInput';
 import { Container, Header, SubmitButton } from './SignInStyles';
-import Cookies from 'universal-cookie';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setLoginDetail } from '../../features/userSlice';
 
 const convertCreateAtToJoinedTime = (createdAt) => {
   const monthNames = [

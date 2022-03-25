@@ -52,7 +52,7 @@ const RecipeReply = ({
             </span>
             <span>{getDayMonthYearNumber(reply.createdAt)}</span>
           </DetailReview>
-          {actionType !== 'review' && replyPostion === reply.id && (
+          {actionType === 'reply' && replyPostion === reply.id && (
             <ReplyInput
               reviewContent={reviewContent}
               currentUserAvatar={currentUserAvatar}

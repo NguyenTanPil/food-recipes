@@ -49,9 +49,11 @@ const Review = ({
   };
 
   const handleSetReplyPosition = (position, parentId) => {
-    setReplyPosition(position);
-    handleSetReplyParent(parentId);
-    setActionType('reply');
+    if (currentUser.id) {
+      setReplyPosition(position);
+      handleSetReplyParent(parentId);
+      setActionType('reply');
+    }
   };
 
   useEffect(() => {
@@ -111,7 +113,7 @@ const Review = ({
         </span>
         <span>{getDayMonthYearNumber(review.createdAt)}</span>
       </DetailReview>
-      {actionType !== 'review' && replyPostion === review.id && (
+      {actionType === 'reply' && replyPostion === review.id && (
         <ReplyInput
           reviewContent={reviewContent}
           currentUserAvatar={currentUser.avatar}

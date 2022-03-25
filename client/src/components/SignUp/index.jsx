@@ -1,10 +1,10 @@
-import { Container } from './SignUpStyles';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { Form, Formik } from 'formik';
-import ValidInput from '../ValidInput';
-import { Header, SubmitButton } from '../SignIn/SignInStyles';
 import logo from '../../assets/brand.png';
 import { auth } from '../../firebase';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { Header, SubmitButton } from '../SignIn/SignInStyles';
+import ValidInput from '../ValidInput';
+import { Container } from './SignUpStyles';
 
 const SignUp = ({ modeSign, validate, setModeSign }) => {
   const handleSignUp = (values) => {

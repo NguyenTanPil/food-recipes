@@ -1,13 +1,17 @@
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import db from '../../firebase';
+import { SaveButton } from '../Pages/RecipeDetail/RecipeDetailStyles';
 import Review from '../Review';
 import ReviewInput from '../ReviewInput';
 import { ShortLine } from '../TrendingRecipes/TrendingRecipesStyles';
 import { ReviewContainer, ReviewHeader, Reviews } from './RecipeReviewStyles';
 
 const RecipeReview = ({ user, recipeId }) => {
-  const [actionType, setActionType] = useState('review');
+  const location = useLocation();
+
+  const [actionType, setActionType] = useState(user.id ? 'review' : '');
   const [reviewContent, setReviewContent] = useState('');
   const [reviewList, setReviewList] = useState([]);
   const [parentReply, setParentReply] = useState('');
@@ -38,8 +42,10 @@ const RecipeReview = ({ user, recipeId }) => {
   };
 
   const handleSetReplyParent = (parentId) => {
-    setParentReply(parentId);
-    setActionType('reply');
+    if (user.id) {
+      setParentReply(parentId);
+      setActionType('reply');
+    }
   };
 
   useEffect(() => {
@@ -83,7 +89,7 @@ const RecipeReview = ({ user, recipeId }) => {
         <ShortLine />
       </ReviewHeader>
       <ReviewContainer>
-        {actionType === 'review' && (
+        {actionType === 'review' ? (
           <ReviewInput
             reviewContent={reviewContent}
             currentUserAvatar={user.avatar}
@@ -91,6 +97,12 @@ const RecipeReview = ({ user, recipeId }) => {
             handleAutoHeight={handleAutoHeight}
             handleSubmit={handleCreateReview}
           />
+        ) : (
+          actionType === '' && (
+            <Link to="/login" state={{ prev: location.pathname }}>
+              <SaveButton>Write a review</SaveButton>
+            </Link>
+          )
         )}
         {reviewList.map((reviewItem) => {
           return (
