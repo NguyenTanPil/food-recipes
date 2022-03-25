@@ -86,11 +86,19 @@ export const ContentReview = styled.div`
     line-height: 2.4rem;
     margin-bottom: 0;
     margin-top: 0.4rem;
+
+    a {
+      color: ${(props) => props.theme.hoverColor};
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
   }
 `;
 
 export const DetailReview = styled.div`
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
   margin-top: 0.8rem;
   margin-left: 6rem;
   width: 100%;
@@ -99,7 +107,7 @@ export const DetailReview = styled.div`
     margin-left: 7.2rem;
   }
 
-  span {
+  & > span {
     color: ${(props) => props.theme.fontColor};
     font-size: 1.4rem;
     font-weight: 400;
@@ -121,7 +129,7 @@ export const ReplyContainer = styled(ReviewContainer)`
   }
 `;
 
-export const ReplyInput = styled.div`
+export const ReplyTextInput = styled.div`
   margin-top: 1.2rem;
   margin-left: 4.6rem;
   width: 100%;

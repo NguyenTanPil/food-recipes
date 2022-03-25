@@ -1,27 +1,80 @@
-import { useState } from 'react';
-import { AiOutlineSend } from 'react-icons/ai';
-import { IoIosClose } from 'react-icons/io';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import db from '../../firebase';
+import Review from '../Review';
+import ReviewInput from '../ReviewInput';
 import { ShortLine } from '../TrendingRecipes/TrendingRecipesStyles';
-import {
-  ContentReview,
-  DetailReview,
-  ReplyContainer,
-  ReplyInput,
-  ReviewContainer,
-  ReviewHeader,
-  ReviewItem,
-  Reviews,
-  UserAvatar,
-} from './RecipeReviewStyles';
+import { ReviewContainer, ReviewHeader, Reviews } from './RecipeReviewStyles';
 
-const RecipeReview = () => {
+const RecipeReview = ({ user, recipeId }) => {
   const [actionType, setActionType] = useState('review');
+  const [reviewContent, setReviewContent] = useState('');
+  const [reviewList, setReviewList] = useState([]);
+  const [parentReply, setParentReply] = useState('');
 
   const handleAutoHeight = (e) => {
     e.target.style.height = '0';
     const height = e.target.scrollHeight;
     e.target.style.height = `${height}px`;
   };
+
+  const handleCreateReview = async () => {
+    const data = {
+      recipeId: recipeId,
+      review: reviewContent,
+      userAvatar: user.avatar,
+      userId: user.id,
+      userName: user.name,
+      createdAt: new Date().getTime(),
+    };
+
+    if (reviewContent) {
+      const docRef = await addDoc(collection(db, 'reviews'), data);
+      setReviewList([{ ...data, id: docRef.id }, ...reviewList]);
+      setReviewContent('');
+    } else {
+      console.log('Review is empty');
+    }
+  };
+
+  const handleSetReplyParent = (parentId) => {
+    setParentReply(parentId);
+    setActionType('reply');
+  };
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const fetchReviews = async () => {
+      let response = [];
+
+      try {
+        const queryReview = query(
+          collection(db, 'reviews'),
+          where('recipeId', '==', recipeId),
+        );
+        const reviewSnap = await getDocs(queryReview);
+
+        reviewSnap.forEach((doc) => {
+          response.push({ id: doc.id, ...doc.data() });
+        });
+
+        response.sort((a, b) => b.createdAt - a.createdAt);
+      } catch (error) {
+        console.log('Error', error.message);
+      }
+
+      if (isSubscribed) {
+        setReviewList(response);
+      }
+    };
+
+    fetchReviews();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [recipeId]);
 
   return (
     <Reviews>
@@ -31,134 +84,30 @@ const RecipeReview = () => {
       </ReviewHeader>
       <ReviewContainer>
         {actionType === 'review' && (
-          <ReplyInput>
-            <div>
-              <UserAvatar>
-                <a href="!#">
-                  <img
-                    src="https://avatars.githubusercontent.com/u/70946877?v=4"
-                    alt=""
-                  />
-                </a>
-              </UserAvatar>
-              <textarea
-                placeholder="Write a review..."
-                onInput={(e) => handleAutoHeight(e)}
-              ></textarea>
-              <button>
-                <AiOutlineSend />
-              </button>
-            </div>
-          </ReplyInput>
+          <ReviewInput
+            reviewContent={reviewContent}
+            currentUserAvatar={user.avatar}
+            setReviewContent={setReviewContent}
+            handleAutoHeight={handleAutoHeight}
+            handleSubmit={handleCreateReview}
+          />
         )}
-        <ReviewItem>
-          <UserAvatar>
-            <a href="!#">
-              <img
-                src="https://avatars.githubusercontent.com/u/70946877?v=4"
-                alt=""
-              />
-            </a>
-          </UserAvatar>
-          <ContentReview>
-            <div>
-              <a href="!#">
-                <h4>Felix Nguyen</h4>
-              </a>
-              <p>
-                Using the baking parchment to help, roll the cake in the
-                marzipan, pressing gently to secure and trimming away any excess
-                at the join
-              </p>
-            </div>
-          </ContentReview>
-          <DetailReview>
-            <span onClick={() => setActionType('reply')}>Reply</span>
-            <span>3/13/2022</span>
-          </DetailReview>
-          {actionType !== 'review' && (
-            <ReplyInput>
-              <p>
-                <span>
-                  Reply to <a href="!#">Felix Nguyen</a>
-                </span>
-                <button onClick={() => setActionType('review')}>
-                  <IoIosClose />
-                </button>
-              </p>
-              <div>
-                <UserAvatar>
-                  <a href="!#">
-                    <img
-                      src="https://avatars.githubusercontent.com/u/70946877?v=4"
-                      alt=""
-                    />
-                  </a>
-                </UserAvatar>
-                <textarea
-                  placeholder="Reply now..."
-                  onInput={(e) => handleAutoHeight(e)}
-                ></textarea>
-                <button>
-                  <AiOutlineSend />
-                </button>
-              </div>
-            </ReplyInput>
-          )}
-          <ReplyContainer>
-            <ReviewItem>
-              <UserAvatar>
-                <a href="!#">
-                  <img
-                    src="https://avatars.githubusercontent.com/u/70946877?v=4"
-                    alt=""
-                  />
-                </a>
-              </UserAvatar>
-              <ContentReview>
-                <div>
-                  <a href="!#">
-                    <h4>Felix Nguyen</h4>
-                  </a>
-                  <p>
-                    Trim the ends to neaten. Dust with icing sugar just before
-                    serving.
-                  </p>
-                </div>
-              </ContentReview>
-              <DetailReview>
-                <span onClick={() => setActionType('reply')}>Reply</span>
-                <span>3/13/2022</span>
-              </DetailReview>
-            </ReviewItem>
-          </ReplyContainer>
-        </ReviewItem>
-        <ReviewItem>
-          <UserAvatar>
-            <a href="!#">
-              <img
-                src="https://avatars.githubusercontent.com/u/70946877?v=4"
-                alt=""
-              />
-            </a>
-          </UserAvatar>
-          <ContentReview>
-            <div>
-              <a href="!#">
-                <h4>Felix Nguyen</h4>
-              </a>
-              <p>
-                Using the baking parchment to help, roll the cake in the
-                marzipan, pressing gently to secure and trimming away any excess
-                at the join
-              </p>
-            </div>
-          </ContentReview>
-          <DetailReview>
-            <span onClick={() => setActionType('reply')}>Reply</span>
-            <span>3/13/2022</span>
-          </DetailReview>
-        </ReviewItem>
+        {reviewList.map((reviewItem) => {
+          return (
+            <Review
+              key={reviewItem.id}
+              review={reviewItem}
+              currentUser={user}
+              reviewContent={reviewContent}
+              actionType={actionType}
+              parentReply={parentReply}
+              handleAutoHeight={handleAutoHeight}
+              setReviewContent={setReviewContent}
+              setActionType={setActionType}
+              handleSetReplyParent={handleSetReplyParent}
+            />
+          );
+        })}
       </ReviewContainer>
     </Reviews>
   );

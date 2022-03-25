@@ -7,12 +7,9 @@ import {
   ImageItem,
 } from './SliderStyles';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import getImageByKey from '../../Utils/getImageByKey';
 
-const images = [
-  'https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2019/09/ranna-wordpress-theme-radiustheme.com-4-1240x578.jpg',
-  'https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2020/06/ranna-wordpress-theme-radiustheme.com-9-1240x578.jpg',
-  'https://radiustheme.com/demo/wordpress/themes/ranna/wp-content/uploads/2020/06/ranna-wordpress-theme-radiustheme.com-6-1240x578.jpg',
-];
+const images = ['slide01', 'slide02', 'slide03'];
 
 const Slider = () => {
   const [current, setCurrent] = useState(0);
@@ -36,7 +33,9 @@ const Slider = () => {
       <Images>
         {images.map((image, index) => (
           <ImageItem key={index} active={current === index ? 1 : 0}>
-            {current === index && <img src={image} alt="slide" />}
+            {current === index && (
+              <img src={getImageByKey(image)} alt="slide" />
+            )}
           </ImageItem>
         ))}
       </Images>

@@ -24,3 +24,15 @@ export const getDayMonthYear = (seconds) => {
 
   return `${month} ${day}, ${year}`;
 };
+
+export const getDayMonthYearNumber = (seconds) => {
+  const date = new Date(seconds);
+
+  const [day, month, year] = [
+    date.getDate(),
+    date.getMonth(),
+    date.getFullYear(),
+  ];
+
+  return `${month}/${day}/${year}`;
+};

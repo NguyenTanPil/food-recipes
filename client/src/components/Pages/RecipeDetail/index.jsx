@@ -278,7 +278,7 @@ const RecipeDetail = () => {
                   })}
                 </ListStep>
               </Directions>
-              <RecipeReview />
+              <RecipeReview user={user} recipeId={recipe.id} />
             </RecipeContainer>
             <RightSide>
               <LatestRecipes />

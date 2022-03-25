@@ -19,6 +19,10 @@ import barbecueGreen from '../assets/barbecue-green.svg';
 import barbecuePurple from '../assets/barbecue-purple.svg';
 import barbecuePink from '../assets/barbecue-pink.svg';
 
+import slide01 from '../assets/slide-01.jpg';
+import slide02 from '../assets/slide-02.jpg';
+import slide03 from '../assets/slide-03.jpg';
+
 export default function getImageByKey(key) {
   const images = {
     addRed,
@@ -39,6 +43,9 @@ export default function getImageByKey(key) {
     barbecueGreen,
     barbecuePurple,
     barbecuePink,
+    slide01,
+    slide02,
+    slide03,
   };
 
   return images[key];
