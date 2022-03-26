@@ -1,6 +1,14 @@
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from 'formik';
+import { useEffect, useState } from 'react';
 import { AiOutlineCamera, AiOutlineClose } from 'react-icons/ai';
 import { RiAddFill, RiSubtractFill } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
+import { selectUser } from '../../../features/userSlice';
+import db from '../../../firebase';
+import { getCookie } from '../../../Utils/cookie';
 import SelectInput from '../../SelectInput';
 import TitleBar from '../../TitleBar';
 import {
@@ -19,14 +27,6 @@ import {
   SubmitButton,
   TitleForm,
 } from './CreateRecipeStyles';
-import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../../features/userSlice';
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Cookies from 'universal-cookie';
-import db from '../../../firebase';
-import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
 
 const categories = [
   'breakfast',
@@ -81,8 +81,7 @@ const CreateRecipe = () => {
   const [isSubmit, setIsSubmit] = useState(false);
 
   useEffect(() => {
-    const cookies = new Cookies();
-    const userCookie = cookies.get('user');
+    const userCookie = getCookie('user');
 
     if (!userCookie) {
       navigate('/login');

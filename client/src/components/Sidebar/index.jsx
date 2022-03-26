@@ -1,8 +1,8 @@
 import { CgPushChevronRight } from 'react-icons/cg';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import { selectUser, setSignOut } from '../../features/userSlice';
+import { deleteCookie } from '../../Utils/cookie';
 import { Container, Content, Header, ListLink } from './SidebarStyles';
 
 const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
@@ -12,8 +12,7 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
   const dispatch = useDispatch();
 
   const handleSignOut = () => {
-    const cookies = new Cookies();
-    cookies.remove('user', { path: '/', maxAge: 60 * 60, sameSite: true });
+    deleteCookie('user');
 
     dispatch(setSignOut());
     setIsShowSidebar(false);

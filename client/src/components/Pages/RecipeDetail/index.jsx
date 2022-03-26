@@ -5,10 +5,10 @@ import { BsCheck2Square } from 'react-icons/bs';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
 import { selectUser, setLoginDetail } from '../../../features/userSlice';
 import db from '../../../firebase';
+import { setCookie } from '../../../Utils/cookie';
 import { getDayMonthYear } from '../../../Utils/getDayMonthYear';
 import LatestRecipes from '../../LatestRecipes';
 import RecipeCategories from '../../RecipeCategories';
@@ -56,15 +56,6 @@ const RecipeDetail = () => {
     return recipeListSaved.includes(params.recipeId);
   });
 
-  const setCookie = (data) => {
-    const cookies = new Cookies();
-    const newUser = JSON.stringify(data);
-    cookies.set('user', newUser, {
-      path: '/',
-      sameSite: true,
-    });
-  };
-
   const handleSaveClick = async () => {
     // if saved => unsave
     let newUser;
@@ -76,7 +67,7 @@ const RecipeDetail = () => {
         ),
       };
 
-      setCookie(newUser);
+      setCookie({ data: newUser, cookieName: 'user' });
 
       await updateDoc(doc(db, 'users', user.id), {
         savedList: newUser.savedList,
@@ -91,7 +82,7 @@ const RecipeDetail = () => {
         ],
       };
 
-      setCookie(newUser);
+      setCookie({ data: newUser, cookieName: 'user' });
 
       await updateDoc(doc(db, 'users', user.id), {
         savedList: newUser.savedList,

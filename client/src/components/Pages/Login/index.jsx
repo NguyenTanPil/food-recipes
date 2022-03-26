@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
+import { getCookie } from '../../../Utils/cookie';
 import getImageByKey from '../../../Utils/getImageByKey';
 import SignIn from '../../SignIn';
 import SignUp from '../../SignUp';
@@ -78,9 +78,8 @@ const Login = ({ color }) => {
     let isSubscribed = true;
 
     if (isSubscribed) {
-      const cookie = new Cookies();
-      const useCookies = cookie.get('user');
-      if (useCookies) {
+      const userCookie = getCookie('user');
+      if (userCookie) {
         navigate('/');
       }
     }

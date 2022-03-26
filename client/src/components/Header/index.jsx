@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { BiBarChart, BiSearch, BiUser, BiLogOutCircle } from 'react-icons/bi';
+import { BiBarChart, BiLogOutCircle, BiSearch, BiUser } from 'react-icons/bi';
 import { HiOutlineBookmark } from 'react-icons/hi';
 import { MdOutlineColorLens } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import brandImg from '../../assets/brand.png';
-import { selectUser } from '../../features/userSlice';
-import { setSignOut } from '../../features/userSlice';
+import { selectUser, setSignOut } from '../../features/userSlice';
+import { deleteCookie } from '../../Utils/cookie';
 import Sidebar from '../Sidebar';
 import {
   Brand,
@@ -26,8 +25,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    const cookies = new Cookies();
-    cookies.remove('user', { path: '/', sameSite: true });
+    deleteCookie('user');
 
     navigate('/login', { state: { prev: '/' } });
     dispatch(setSignOut());

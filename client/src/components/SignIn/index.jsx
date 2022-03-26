@@ -3,10 +3,10 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import logo from '../../assets/brand.png';
 import { setLoginDetail } from '../../features/userSlice';
 import db, { auth } from '../../firebase';
+import { setCookie } from '../../Utils/cookie';
 import ValidInput from '../ValidInput';
 import { Container, Header, SubmitButton } from './SignInStyles';
 
@@ -33,12 +33,6 @@ const convertCreateAtToJoinedTime = (createdAt) => {
 const SignIn = ({ prev, modeSign, validate }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const setCookie = (data) => {
-    const cookies = new Cookies();
-    const user = JSON.stringify(data);
-    cookies.set('user', user, { path: '/', maxAge: 60 * 60, sameSite: true });
-  };
 
   const handleAfterSignIn = async (response) => {
     const userId = response.user.uid;
@@ -70,7 +64,7 @@ const SignIn = ({ prev, modeSign, validate }) => {
       currentUser = { ...user };
     }
 
-    setCookie(currentUser);
+    setCookie({ data: currentUser, cookieName: 'user', time: 60 * 60 });
     dispatch(setLoginDetail(currentUser));
     navigate(prev);
   };

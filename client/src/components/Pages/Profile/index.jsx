@@ -15,10 +15,10 @@ import { FiUserCheck, FiUserPlus } from 'react-icons/fi';
 import { HiOutlinePhotograph } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
 import { selectUser } from '../../../features/userSlice';
 import db from '../../../firebase';
+import { getCookie, setCookie } from '../../../Utils/cookie';
 import EditProfileModal from '../../EditProfileModal';
 import LatestRecipes from '../../LatestRecipes';
 import { Products } from '../../LatestRecipes/LatestRecipesStyles';
@@ -68,15 +68,6 @@ const Profile = () => {
     setActiveTab(tab);
   };
 
-  const setCookie = (data) => {
-    const cookies = new Cookies();
-    const newUser = JSON.stringify(data);
-    cookies.set('user', newUser, {
-      path: '/',
-      sameSite: true,
-    });
-  };
-
   const handleClickFollow = async () => {
     if (currentUser.id) {
       // if follow =>  unfollow
@@ -93,7 +84,7 @@ const Profile = () => {
 
         setIsFollow(false);
         setUser(newUser);
-        setCookie(newCurrentUser);
+        setCookie({ data: newCurrentUser, cookieName: 'user' });
 
         await updateDoc(doc(db, 'users', user.id), {
           followerList: newUser.followerList,
@@ -116,7 +107,7 @@ const Profile = () => {
 
         setIsFollow(true);
         setUser(newUser);
-        setCookie(newCurrentUser);
+        setCookie({ data: newCurrentUser, cookieName: 'user' });
 
         await updateDoc(doc(db, 'users', user.id), {
           followerList: newUser.followerList,
@@ -155,9 +146,11 @@ const Profile = () => {
       if (!currentUser.id) {
         navigate('/login');
       } else {
-        setUser(currentUser);
+        const cookieUser = getCookie('user');
+        setUser(cookieUser);
       }
     } else {
+      // don't must current user
       fetchUser();
     }
 
@@ -275,7 +268,7 @@ const Profile = () => {
     <>
       <TitleBar oneLine mainTitle="Detail Profile" pageList={['Profile']} />
       {isShowEditModel && (
-        <EditProfileModal setShow={setIsShowEditModel} {...user} />
+        <EditProfileModal setShow={setIsShowEditModel} user={user} />
       )}
       {user ? (
         <Content>
@@ -426,7 +419,13 @@ const Profile = () => {
                       followers.map((follow) => (
                         <FollowingItem key={follow.id}>
                           <img src={follow.avatar} alt="" />
-                          <Link to={`/profile/${follow.id}`}>
+                          <Link
+                            to={
+                              currentUser.id === follow.id
+                                ? '/profile'
+                                : `/profile/${follow.id}`
+                            }
+                          >
                             {follow.name}
                           </Link>
                         </FollowingItem>

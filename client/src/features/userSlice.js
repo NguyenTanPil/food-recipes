@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import Cookies from 'universal-cookie';
+import { getCookie } from '../Utils/cookie';
 
 const initialState = {
   id: '',
@@ -17,8 +17,7 @@ const initialState = {
 };
 
 const initState = () => {
-  const cookies = new Cookies();
-  const userCookie = cookies.get('user');
+  const userCookie = getCookie('user');
 
   if (userCookie) {
     return userCookie;

@@ -1,3 +1,15 @@
+import { doc, setDoc } from 'firebase/firestore';
+import { Field, Form, Formik } from 'formik';
+import { useState } from 'react';
+import { BsCamera } from 'react-icons/bs';
+import { CgPushChevronLeft } from 'react-icons/cg';
+import { useDispatch } from 'react-redux';
+import loadingImg from '../../assets/gif-loading-icon-16.jpg';
+import { setLoginDetail } from '../../features/userSlice';
+import db from '../../firebase';
+import { setCookie } from '../../Utils/cookie';
+import { SubmitButton } from '../SignIn/SignInStyles';
+import { FieldGroup } from '../ValidInput/ValidInputStyles';
 import {
   AvatarUpload,
   BackgroundUpload,
@@ -9,32 +21,10 @@ import {
   LoadingShape,
   OverLoadUpload,
 } from './EditProfileModalStyles';
-import { CgPushChevronLeft } from 'react-icons/cg';
-import { BsCamera } from 'react-icons/bs';
-import { Formik, Form, Field } from 'formik';
-import { FieldGroup } from '../ValidInput/ValidInputStyles';
-import { SubmitButton } from '../SignIn/SignInStyles';
-import Cookies from 'universal-cookie';
-import { setLoginDetail } from '../../features/userSlice';
-import { doc, setDoc } from 'firebase/firestore';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import db from '../../firebase';
-import loadingImg from '../../assets/gif-loading-icon-16.jpg';
 
 const textInputs = ['name', 'userName', 'location', 'bio'];
 
-const EditProfileModel = ({
-  id,
-  joined,
-  avatar,
-  name,
-  location,
-  bio,
-  background,
-  userName,
-  setShow,
-}) => {
+const EditProfileModel = ({ user, setShow }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -73,20 +63,15 @@ const EditProfileModel = ({
     return fileRes.secure_url;
   };
 
-  const handleSaveEdit = async (user) => {
-    const cookies = new Cookies();
-    const newUser = { id, joined, ...user };
-    console.log(newUser);
+  const handleSaveEdit = async (data) => {
+    const newUser = { ...user, ...data };
 
-    cookies.set('user', JSON.stringify(newUser), {
-      path: '/',
-      sameSite: true,
-    });
+    setCookie({ data: JSON.stringify(newUser), cookieName: 'user' });
 
     dispatch(setLoginDetail(newUser));
     setIsLoading(false);
     setShow(false);
-    await setDoc(doc(db, 'users', id), user);
+    await setDoc(doc(db, 'users', user.id), newUser);
   };
 
   return (
@@ -99,26 +84,29 @@ const EditProfileModel = ({
             <Body>
               <Formik
                 initialValues={{
-                  background,
-                  avatar,
-                  name,
-                  location,
-                  bio,
-                  userName,
+                  background: user.background,
+                  avatar: user.avatar,
+                  name: user.name,
+                  location: user.location,
+                  bio: user.bio,
+                  userName: user.userName,
                 }}
                 validateOnBlur={false}
                 onSubmit={async (values) => {
                   let data = values;
                   setIsLoading(true);
 
-                  if (values.avatar !== avatar) {
+                  if (values.avatar !== user.avatar) {
                     const avatarUrl = await uploadImageToCloudinary(
                       values.avatar,
                     );
                     data.avatar = avatarUrl;
                   }
 
-                  if (values.background && values.background !== background) {
+                  if (
+                    values.background &&
+                    values.background !== user.background
+                  ) {
                     const backgroundUrl = await uploadImageToCloudinary(
                       values.background,
                     );
@@ -138,7 +126,10 @@ const EditProfileModel = ({
                     </Header>
 
                     <BackgroundUpload>
-                      <img src={props.values.background || background} alt="" />
+                      <img
+                        src={props.values.background || user.background}
+                        alt=""
+                      />
                       <OverLoadUpload title="Add Photo">
                         <label htmlFor="background">
                           <BsCamera />
@@ -160,7 +151,7 @@ const EditProfileModel = ({
                     </BackgroundUpload>
                     <AvatarUpload>
                       <div>
-                        <img src={props.values.avatar || avatar} alt="" />
+                        <img src={props.values.avatar || user.avatar} alt="" />
 
                         <OverLoadUpload title="Add Photo">
                           <label htmlFor="avatar">

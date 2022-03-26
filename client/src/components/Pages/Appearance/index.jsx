@@ -1,4 +1,4 @@
-import Cookies from 'universal-cookie';
+import { setCookie } from '../../../Utils/cookie';
 import TitleBar from '../../TitleBar';
 import {
   Container,
@@ -15,20 +15,14 @@ const colors = ['red', 'blue', 'yellow', 'green', 'purple', 'pink'];
 const backgrounds = ['light', 'dark', 'dim'];
 
 const Appearance = ({ theme, setTheme }) => {
-  const setCookie = (data) => {
-    const cookies = new Cookies();
-    const theme = JSON.stringify(data);
-    cookies.set('theme', theme, { path: '/', sameSite: true });
-  };
-
   const handleChangeColor = (value) => {
     setTheme({ ...theme, color: value });
-    setCookie({ ...theme, color: value });
+    setCookie({ data: { ...theme, color: value }, cookieName: 'theme' });
   };
 
   const handleChangeBackground = (value) => {
     setTheme({ ...theme, background: value });
-    setCookie({ ...theme, background: value });
+    setCookie({ data: { ...theme, background: value }, cookieName: 'theme' });
   };
 
   return (
