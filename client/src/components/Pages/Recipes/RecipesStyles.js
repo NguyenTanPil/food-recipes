@@ -22,6 +22,7 @@ export const Products = styled.div`
     }
 
     & > div {
+      height: calc(100% - 3rem);
       width: 100%;
 
       @media only screen and (min-width: 992px) {

@@ -14,6 +14,7 @@ import Login from './components/Pages/Login';
 import Profile from './components/Pages/Profile';
 import RecipeDetail from './components/Pages/RecipeDetail';
 import Recipes from './components/Pages/Recipes';
+import Search from './components/Pages/Search';
 import getTheme from './components/Theme';
 import ToTopButton from './components/ToTopButton';
 import GlobalStyle from './GlobalStyles';
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="recipes" element={<Recipes />} />
+            <Route path="search" element={<Search />} />
             <Route path="login" element={<Login color={theme.color} />} />
             <Route path="create-recipe" element={<CreateRecipe />} />
             <Route path="save" element={<Recipes />} />

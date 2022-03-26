@@ -51,8 +51,10 @@ const Header = () => {
         <ShiftRight>
           <NavItems>
             <li>
-              <BiSearch title="Search" />
-              <span>Search</span>
+              <NavLink to="/search">
+                <BiSearch title="Search" />
+                <span>Search</span>
+              </NavLink>
             </li>
             <li>
               <NavLink to="/appearance">

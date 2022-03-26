@@ -39,8 +39,10 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
           <li>
             <span>Popular</span>
           </li>
-          <li>
-            <span>Search</span>
+          <li onClick={() => setIsShowSidebar(false)}>
+            <NavLink to="/search">
+              <span>Search</span>
+            </NavLink>
           </li>
           <li onClick={() => setIsShowSidebar(false)}>
             <NavLink to="/save">

@@ -227,10 +227,12 @@ const CreateRecipe = () => {
             // formart nutrition
             data.nutrition = data.nutrition.map((nutrient) => {
               const { name, percents, quantity } = nutrient;
+              const newQuantity =
+                name === 'Calories' ? quantity + 'kcal' : quantity + 'g';
               return {
                 name,
                 percents: parseInt(percents),
-                quantity: quantity + 'g',
+                quantity: newQuantity,
               };
             });
 
