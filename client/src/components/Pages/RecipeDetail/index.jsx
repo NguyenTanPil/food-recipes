@@ -1,6 +1,14 @@
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import { FaStar, FaStarHalf } from 'react-icons/fa';
 import { BsCheck2Square } from 'react-icons/bs';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,6 +48,11 @@ import {
   StepItem,
   StepTitle,
 } from './RecipeDetailStyles';
+import {
+  HalfStar,
+  StarItem,
+  Stars,
+} from '../../RecipeReview/RecipeReviewStyles';
 
 const RecipeDetail = () => {
   const params = useParams();
@@ -109,8 +122,21 @@ const RecipeDetail = () => {
         const authRef = doc(db, 'users', recipeSnap.data().authorId);
         const authSnap = await getDoc(authRef);
 
+        const starRef = query(
+          collection(db, 'reviews'),
+          where('recipeId', '==', recipeSnap.data().id),
+        );
+        const starSnap = await getDocs(starRef);
+
+        const starList = [];
+        starSnap.forEach((doc) => starList.push(doc.data().stars));
+        const averageStar =
+          starList.reduce((total, curr) => total + curr, 0) / starList.length ||
+          0;
+
         response = {
           authName: authSnap.data().name,
+          averageStar: Math.round(averageStar * 10) / 10,
           ...recipeSnap.data(),
         };
       } catch (error) {
@@ -171,14 +197,25 @@ const RecipeDetail = () => {
                   </span>
                 </li>
                 <li>
-                  <div>
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiOutlineStar />
-                    <AiOutlineStar />
-                  </div>
-                  <span>3/5</span>
+                  <Stars>
+                    {Array.from({ length: 5 }, (_, i) => i + 1).map((star) => (
+                      <StarItem
+                        key={star}
+                        active={star <= recipe.averageStar && 1}
+                      >
+                        {recipe.averageStar > star - 1 &&
+                        recipe.averageStar < star ? (
+                          <HalfStar>
+                            <FaStarHalf />
+                            <FaStar />
+                          </HalfStar>
+                        ) : (
+                          <FaStar />
+                        )}
+                      </StarItem>
+                    ))}
+                  </Stars>
+                  <span>{recipe.averageStar}/5</span>
                 </li>
               </AboutDetaill>
               <Image>

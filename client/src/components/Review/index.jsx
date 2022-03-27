@@ -8,9 +8,12 @@ import {
   ContentReview,
   DetailReview,
   ReviewItem,
+  Stars,
   UserAvatar,
+  StarItem,
 } from '../RecipeReview/RecipeReviewStyles';
 import ReplyInput from '../ReplyInput';
+import { FaStar } from 'react-icons/fa';
 
 const Review = ({
   review,
@@ -108,6 +111,13 @@ const Review = ({
           <Link to={`/profile/${review.userId}`}>
             <h4>{review.userName}</h4>
           </Link>
+          <Stars>
+            {Array.from({ length: 5 }, (_, i) => i + 1).map((star) => (
+              <StarItem key={star} active={star <= review.stars && 1}>
+                <FaStar />
+              </StarItem>
+            ))}
+          </Stars>
           <p>{review.review}</p>
         </div>
       </ContentReview>

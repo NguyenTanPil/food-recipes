@@ -70,13 +70,7 @@ export const AboutDetaill = styled.ul`
     }
 
     & > div {
-      display: flex;
-      align-items: center;
-
-      svg {
-        color: #f4ce33;
-        font-size: 1.5rem;
-      }
+      margin-top: 0;
     }
   }
 `;

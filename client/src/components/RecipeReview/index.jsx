@@ -6,7 +6,12 @@ import { SaveButton } from '../Pages/RecipeDetail/RecipeDetailStyles';
 import Review from '../Review';
 import ReviewInput from '../ReviewInput';
 import { ShortLine } from '../TrendingRecipes/TrendingRecipesStyles';
-import { ReviewContainer, ReviewHeader, Reviews } from './RecipeReviewStyles';
+import {
+  ReviewContainer,
+  ReviewHeader,
+  Reviews,
+  TotalReview,
+} from './RecipeReviewStyles';
 
 const RecipeReview = ({ user, recipeId }) => {
   const location = useLocation();
@@ -22,13 +27,14 @@ const RecipeReview = ({ user, recipeId }) => {
     e.target.style.height = `${height}px`;
   };
 
-  const handleCreateReview = async () => {
+  const handleCreateReview = async (stars) => {
     const data = {
       recipeId: recipeId,
       review: reviewContent,
       userAvatar: user.avatar,
       userId: user.id,
       userName: user.name,
+      stars: stars,
       createdAt: new Date().getTime(),
     };
 
@@ -95,6 +101,13 @@ const RecipeReview = ({ user, recipeId }) => {
         <h3>Recipe Reviews</h3>
         <ShortLine />
       </ReviewHeader>
+      {reviewList.length > 0 ? (
+        <TotalReview>
+          Reviews by <span>{reviewList.length}</span> people
+        </TotalReview>
+      ) : (
+        <TotalReview>No ratings yet, start rating now</TotalReview>
+      )}
       <ReviewContainer>
         {actionType === 'review' ? (
           <ReviewInput

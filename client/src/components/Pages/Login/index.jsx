@@ -89,6 +89,13 @@ const Login = ({ color }) => {
     };
   }, [navigate]);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // for smoothly scrolling
+    });
+  }, []);
+
   return (
     <>
       <TitleBar mainTitle="Login to Food Recipes" pageList={['Login']} />

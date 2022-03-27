@@ -23,7 +23,7 @@ export const ReviewContainer = styled.ul`
 
   & > div:first-child {
     margin-left: 0;
-    margin-top: 3.2rem;
+    margin-top: 1.2rem;
   }
 
   & > a {
@@ -158,7 +158,25 @@ export const ReplyTextInput = styled.div`
     }
   }
 
-  & > div {
+  & > div:first-child {
+    margin-bottom: 0.8rem;
+    margin-left: 5.8rem;
+
+    span {
+      cursor: pointer;
+      margin-right: 0.8rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    svg {
+      font-size: 2.4rem;
+    }
+  }
+
+  & > div:last-child {
     display: flex;
     align-items: flex-start;
     position: relative;
@@ -256,5 +274,47 @@ export const ReplyTextInput = styled.div`
     transition: border-color 0.2s ease-out;
     white-space: pre-wrap;
     width: calc(100% - 4.8rem);
+  }
+`;
+
+export const Stars = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 0.8rem;
+`;
+
+export const StarItem = styled.span`
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.25rem;
+
+  &:last-child {
+    margin-right: 0.5rem;
+  }
+
+  svg {
+    color: ${(props) => (props.active ? '#ed8a0a' : props.theme.fontColor)};
+    font-size: 1.6rem;
+  }
+`;
+
+export const HalfStar = styled.div`
+  height: 1.6rem;
+  position: relative;
+
+  svg:first-child {
+    color: #ed8a0a;
+    position: absolute;
+    z-index: 2;
+  }
+`;
+
+export const TotalReview = styled.div`
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 1.6rem;
+
+  span {
+    color: ${(props) => props.theme.hoverColor};
   }
 `;
