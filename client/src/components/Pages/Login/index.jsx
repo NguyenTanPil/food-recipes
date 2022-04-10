@@ -1,3 +1,4 @@
+import { getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getCookie } from '../../../Utils/cookie';

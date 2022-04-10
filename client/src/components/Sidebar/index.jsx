@@ -13,7 +13,6 @@ const Sidebar = ({ isShowSidebar, setIsShowSidebar }) => {
 
   const handleSignOut = () => {
     deleteCookie('user');
-
     dispatch(setSignOut());
     setIsShowSidebar(false);
     navigate('/login', { state: { prev: '/' } });

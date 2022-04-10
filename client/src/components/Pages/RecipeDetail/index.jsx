@@ -8,9 +8,8 @@ import {
   where,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { FaStar, FaStarHalf } from 'react-icons/fa';
 import { BsCheck2Square } from 'react-icons/bs';
-import { FaRegCalendarAlt } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaStar, FaStarHalf } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import loadingImg from '../../../assets/gif-loading-icon-16.jpg';
@@ -21,6 +20,11 @@ import { getDayMonthYear } from '../../../Utils/getDayMonthYear';
 import LatestRecipes from '../../LatestRecipes';
 import RecipeCategories from '../../RecipeCategories';
 import RecipeReview from '../../RecipeReview';
+import {
+  HalfStar,
+  StarItem,
+  Stars,
+} from '../../RecipeReview/RecipeReviewStyles';
 import TitleBar from '../../TitleBar';
 import {
   Header,
@@ -48,11 +52,6 @@ import {
   StepItem,
   StepTitle,
 } from './RecipeDetailStyles';
-import {
-  HalfStar,
-  StarItem,
-  Stars,
-} from '../../RecipeReview/RecipeReviewStyles';
 
 const RecipeDetail = () => {
   const params = useParams();
@@ -63,7 +62,8 @@ const RecipeDetail = () => {
 
   const [fullDesc, setFullDesc] = useState(false);
   const [recipe, setRecipe] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [remdRecipes, setRemdRecipes] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [isSave, setIsSave] = useState(() => {
     const recipeListSaved = user.savedList.map((recipe) => recipe.recipeId);
     return recipeListSaved.includes(params.recipeId);
@@ -112,7 +112,58 @@ const RecipeDetail = () => {
   useEffect(() => {
     let isSubscribed = true;
 
-    const fetchRecipes = async () => {
+    if (isSubscribed) {
+      setLoading(true);
+    }
+
+    const recommendedRecipes = async (recipe, responseRecipes) => {
+      try {
+        const response = await fetch('/predict', {
+          method: 'POST',
+          body: JSON.stringify({
+            recipes: responseRecipes,
+            curr: {
+              total_fat: recipe.nutrition[1]['quantity'],
+              sugars: recipe.nutrition[2]['quantity'],
+              sodium: recipe.nutrition[3]['quantity'],
+              protein: recipe.nutrition[4]['quantity'],
+              saturated_fat: recipe.nutrition[5]['quantity'],
+            },
+          }),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+        });
+
+        const output = await response.json();
+        return output;
+      } catch (error) {
+        return responseRecipes
+          .filter((r) => r.category === recipe.category)
+          .slice(0, 4);
+      }
+    };
+
+    const getRecipes = async () => {
+      // get all review to recommend to user
+      let responseRecipes = [];
+      const queryRecipes = await getDocs(collection(db, 'recipes'));
+      queryRecipes.forEach((doc) => {
+        const recipe = doc.data();
+        responseRecipes.push({
+          recipeId: recipe.id,
+          total_fat: recipe.nutrition[1]['quantity'],
+          sugars: recipe.nutrition[2]['quantity'],
+          sodium: recipe.nutrition[3]['quantity'],
+          protein: recipe.nutrition[4]['quantity'],
+          saturated_fat: recipe.nutrition[5]['quantity'],
+        });
+      });
+
+      return responseRecipes;
+    };
+
+    const fetchRecipe = async () => {
       let response = {};
 
       try {
@@ -128,15 +179,21 @@ const RecipeDetail = () => {
         );
         const starSnap = await getDocs(starRef);
 
+        let averageStar = recipeSnap.data().stars;
         const starList = [];
         starSnap.forEach((doc) => starList.push(doc.data().stars));
-        const averageStar =
+        averageStar =
           starList.reduce((total, curr) => total + curr, 0) / starList.length ||
           0;
+        averageStar = Math.round(averageStar * 10) / 10;
+
+        await updateDoc(doc(db, 'recipes', params.recipeId), {
+          stars: averageStar,
+        });
 
         response = {
           authName: authSnap.data().name,
-          averageStar: Math.round(averageStar * 10) / 10,
+          averageStar: averageStar,
           ...recipeSnap.data(),
         };
       } catch (error) {
@@ -144,12 +201,15 @@ const RecipeDetail = () => {
       }
 
       if (isSubscribed) {
+        const recipeList = await getRecipes();
+        const listRecommended = await recommendedRecipes(response, recipeList);
         setRecipe(response);
+        setRemdRecipes(listRecommended['remdRecipes']);
         setLoading(false);
       }
     };
 
-    fetchRecipes();
+    fetchRecipe();
 
     return () => {
       isSubscribed = false;
@@ -164,11 +224,7 @@ const RecipeDetail = () => {
           loading ? [params.category, '...'] : [params.category, recipe.name]
         }
       />
-      {loading ? (
-        <LoadingShape>
-          <img src={loadingImg} alt="" />
-        </LoadingShape>
-      ) : (
+      {!loading && recipe.id ? (
         <>
           <Content>
             <RecipeContainer>
@@ -271,7 +327,10 @@ const RecipeDetail = () => {
                       return (
                         <li key={index}>
                           <span>
-                            {nutrition.name}: {nutrition.quantity}
+                            {nutrition.name}:{' '}
+                            {nutrition.name === 'Calories'
+                              ? nutrition.quantity
+                              : `${nutrition.quantity}g`}
                           </span>
                           <span>{nutrition.percents}%</span>
                         </li>
@@ -309,11 +368,18 @@ const RecipeDetail = () => {
               <RecipeReview user={user} recipeId={recipe.id} />
             </RecipeContainer>
             <RightSide>
-              <LatestRecipes />
+              <LatestRecipes
+                title={'Recommends For You'}
+                remdRecipes={remdRecipes}
+              />
               <RecipeCategories />
             </RightSide>
           </Content>
         </>
+      ) : (
+        <LoadingShape>
+          <img src={loadingImg} alt="" />
+        </LoadingShape>
       )}
     </>
   );

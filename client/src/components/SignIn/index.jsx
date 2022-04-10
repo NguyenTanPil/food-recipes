@@ -65,7 +65,8 @@ const SignIn = ({ prev, modeSign, validate }) => {
     }
 
     setCookie({ data: currentUser, cookieName: 'user', time: 60 * 60 });
-    dispatch(setLoginDetail(currentUser));
+    dispatch(setLoginDetail(currentUser)); // set user detail to redux
+
     navigate(prev);
   };
 

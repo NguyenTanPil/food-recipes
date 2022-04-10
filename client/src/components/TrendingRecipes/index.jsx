@@ -27,7 +27,7 @@ const TrendingRecipes = () => {
       try {
         const queryRecipes = query(
           collection(db, 'recipes'),
-          orderBy('name', 'desc'),
+          orderBy('stars', 'desc'),
           limit(4),
         );
         const querySnapshot = await getDocs(queryRecipes);

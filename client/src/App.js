@@ -41,6 +41,7 @@ function App() {
             <Route path="login" element={<Login color={theme.color} />} />
             <Route path="create-recipe" element={<CreateRecipe />} />
             <Route path="save" element={<Recipes />} />
+            <Route path="popular" element={<Recipes />} />
             <Route
               path="appearance"
               element={<Appearance theme={theme} setTheme={setTheme} />}

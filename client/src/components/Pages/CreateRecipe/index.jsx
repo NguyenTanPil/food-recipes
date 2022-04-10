@@ -146,6 +146,8 @@ const CreateRecipe = () => {
       authorId: user.id,
       createdAt: Date.now(),
       id: '',
+      reviews: 0,
+      stars: 0,
     };
     const newRecipe = await addDoc(collection(db, 'recipes'), submitData);
     await updateDoc(doc(db, 'recipes', newRecipe.id), {
@@ -176,23 +178,33 @@ const CreateRecipe = () => {
             nutrition: [
               {
                 name: 'Calories',
-                percents: '0',
-                quantity: '0',
+                percents: '10',
+                quantity: '0.1',
               },
               {
-                name: 'Fat',
-                percents: '0',
-                quantity: '0',
-              },
-              {
-                name: 'Sodium',
-                percents: '0',
-                quantity: '0',
+                name: 'Total Fat',
+                percents: '10',
+                quantity: '0.1',
               },
               {
                 name: 'Sugars',
-                percents: '0',
-                quantity: '0',
+                percents: '10',
+                quantity: '0.1',
+              },
+              {
+                name: 'Sodium',
+                percents: '10',
+                quantity: '0.1',
+              },
+              {
+                name: 'Protein',
+                percents: '10',
+                quantity: '0.1',
+              },
+              {
+                name: 'Saturated Fat',
+                percents: '10',
+                quantity: '0.1',
               },
             ],
           }}
@@ -228,10 +240,10 @@ const CreateRecipe = () => {
             data.nutrition = data.nutrition.map((nutrient) => {
               const { name, percents, quantity } = nutrient;
               const newQuantity =
-                name === 'Calories' ? quantity + 'kcal' : quantity + 'g';
+                name === 'Calories' ? quantity + 'kcal' : parseFloat(quantity);
               return {
                 name,
-                percents: parseInt(percents),
+                percents: parseFloat(percents),
                 quantity: newQuantity,
               };
             });
@@ -497,7 +509,7 @@ const CreateRecipe = () => {
                           name={`nutrition[${index}].quantity`}
                           placeholder="Enter quantity..."
                         />
-                        <span>{index === 0 ? 'kcal' : 'mg'}</span>
+                        <span>{index === 0 ? 'kcal' : 'g'}</span>
                       </div>
                     </div>
                   </NutritionItem>

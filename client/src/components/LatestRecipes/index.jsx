@@ -1,6 +1,14 @@
-import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  where,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 import db from '../../firebase';
 import {
   Body as ProductBody,
@@ -14,7 +22,7 @@ import {
 } from '../TrendingRecipes/TrendingRecipesStyles';
 import { Container, Products } from './LatestRecipesStyles';
 
-const LatestRecipes = () => {
+const LatestRecipes = ({ title, remdRecipes }) => {
   const [latProducts, setLatProducts] = useState([]);
 
   useEffect(() => {
@@ -24,11 +32,19 @@ const LatestRecipes = () => {
       const response = [];
 
       try {
-        const queryRecipes = query(
-          collection(db, 'recipes'),
-          orderBy('desc', 'desc'),
-          limit(3),
-        );
+        let queryRecipes;
+        if (remdRecipes) {
+          queryRecipes = query(
+            collection(db, 'recipes'),
+            where('id', 'in', remdRecipes),
+          );
+        } else {
+          queryRecipes = query(
+            collection(db, 'recipes'),
+            orderBy('createdAt', 'desc'),
+            limit(3),
+          );
+        }
         const querySnapshot = await getDocs(queryRecipes);
 
         querySnapshot.forEach((doc) => {
@@ -48,23 +64,31 @@ const LatestRecipes = () => {
     return () => {
       isSubscribed = false;
     };
-  }, []);
+  }, [remdRecipes]);
 
   return (
     <Container>
       <Header>
-        <Title>Recommends For You</Title>
+        <Title>{title}</Title>
         <ShortLine />
       </Header>
       <Products>
         {latProducts.map((product) => (
           <ProductContainer key={product.id}>
             <ProductHeader>
-              <img src={product.thumbnail} alt="" />
+              <Link to={`/${product.category}/${product.id}`}>
+                <img src={product.thumbnail} alt="" />
+              </Link>
             </ProductHeader>
             <ProductBody>
-              <h3>{product.category}</h3>
-              <span>{product.name}</span>
+              <h3>
+                <Link to={`/${product.category}`}>{product.category}</Link>
+              </h3>
+              <span>
+                <Link to={`/${product.category}/${product.id}`}>
+                  {product.name}
+                </Link>
+              </span>
               <p>
                 {' '}
                 <AiOutlineClockCircle /> Feb 23, 2022

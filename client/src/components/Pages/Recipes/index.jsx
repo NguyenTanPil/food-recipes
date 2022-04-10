@@ -54,6 +54,7 @@ const Recipes = () => {
           collection(db, 'recipes'),
           orderBy('createdAt', 'desc'),
         );
+
         if (location.pathname.slice(1) === 'save') {
           const recipeListSaved = user.savedList.map(
             (recipe) => recipe.recipeId,
@@ -64,6 +65,14 @@ const Recipes = () => {
             where('id', 'in', recipeListSaved),
           );
         }
+
+        if (location.pathname.slice(1) === 'popular') {
+          queryRecipes = query(
+            collection(db, 'recipes'),
+            where('stars', '>=', 4),
+          );
+        }
+
         const querySnapshot = await getDocs(queryRecipes);
 
         querySnapshot.forEach((doc) => {
@@ -151,10 +160,16 @@ const Recipes = () => {
         mainTitle={
           location.pathname.slice(1) === 'save'
             ? 'Saved Recipes'
+            : location.pathname.slice(1) === 'popular'
+            ? 'Popular recipes'
             : 'All recipes'
         }
         pageList={
-          location.pathname.slice(1) === 'save' ? ['save'] : ['recipes']
+          location.pathname.slice(1) === 'save'
+            ? ['save']
+            : location.pathname.slice(1) === 'popular'
+            ? ['popular']
+            : ['recipes']
         }
       />
       {loading ? (

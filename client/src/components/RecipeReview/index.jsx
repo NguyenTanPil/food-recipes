@@ -1,4 +1,12 @@
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import db from '../../firebase';
@@ -69,6 +77,10 @@ const RecipeReview = ({ user, recipeId }) => {
 
         reviewSnap.forEach((doc) => {
           response.push({ id: doc.id, ...doc.data() });
+        });
+
+        await updateDoc(doc(db, 'recipes', recipeId), {
+          reviews: response.length,
         });
 
         response.sort((a, b) => b.createdAt - a.createdAt);

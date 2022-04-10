@@ -181,7 +181,7 @@ const Profile = () => {
           });
         });
       } catch (error) {
-        console.log('Error: ' + error.message);
+        console.log('Error fetch follows: ' + error.message);
       }
 
       if (isSubscribed) {
@@ -208,7 +208,7 @@ const Profile = () => {
           });
         });
       } catch (error) {
-        console.log('Error: ' + error.message);
+        console.log('Error fetch followers: ' + error.message);
       }
 
       if (isSubscribed) {
@@ -231,7 +231,7 @@ const Profile = () => {
           recipesResponse.push({ id: doc.id, ...doc.data() });
         });
       } catch (error) {
-        console.log('Error: ' + error.message);
+        console.log('Error fetch recipes: ' + error.message);
       }
 
       if (isSubscribed) {
@@ -456,7 +456,7 @@ const Profile = () => {
             </Body>
           </Container>
           <RightSide>
-            <LatestRecipes />
+            <LatestRecipes title={'Latest Recipes'} />
             <RecipeCategories />
           </RightSide>
         </Content>

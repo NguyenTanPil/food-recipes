@@ -66,11 +66,12 @@ const EditProfileModel = ({ user, setShow }) => {
   const handleSaveEdit = async (data) => {
     const newUser = { ...user, ...data };
 
-    setCookie({ data: JSON.stringify(newUser), cookieName: 'user' });
+    setCookie({ data: newUser, cookieName: 'user' });
 
     dispatch(setLoginDetail(newUser));
     setIsLoading(false);
     setShow(false);
+    console.log(newUser);
     await setDoc(doc(db, 'users', user.id), newUser);
   };
 

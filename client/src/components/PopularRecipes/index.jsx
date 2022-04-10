@@ -21,7 +21,7 @@ const PopularRecipes = () => {
       try {
         const queryRecipes = query(
           collection(db, 'recipes'),
-          orderBy('category', 'desc'),
+          orderBy('reviews', 'desc'),
           limit(3),
         );
         const querySnapshot = await getDocs(queryRecipes);

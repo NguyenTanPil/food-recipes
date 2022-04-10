@@ -44,7 +44,9 @@ const Header = () => {
               <li>
                 <NavLink to="/recipes">Recipes</NavLink>
               </li>
-              <li>Popular</li>
+              <li>
+                <NavLink to="/popular">Popular</NavLink>
+              </li>
             </NavItems>
           )}
         </ShiftLeft>

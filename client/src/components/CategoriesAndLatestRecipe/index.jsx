@@ -1,11 +1,11 @@
-import RecipeCategories from '../RecipeCategories';
 import LatestRecipes from '../LatestRecipes';
+import RecipeCategories from '../RecipeCategories';
 import { Container } from './CategoriesAndLatestRecipeStyles';
 
 const CategoriesAndLatestRecipe = () => {
   return (
     <Container>
-      <LatestRecipes />
+      <LatestRecipes title={'Latest Recipes'} />
       <RecipeCategories />
     </Container>
   );
