@@ -29,8 +29,8 @@ const ReviewInput = ({
         {Array.from({ length: 5 }, (_, i) => i + 1).map((star) => (
           <StarItem
             key={star}
-            active={star + 1 <= starNumber && 1}
-            onClick={() => setStarNumber(star + 1)}
+            active={star <= starNumber && 1}
+            onClick={() => setStarNumber(star)}
           >
             <FaStar />
           </StarItem>
