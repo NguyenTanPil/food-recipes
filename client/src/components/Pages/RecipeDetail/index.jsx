@@ -116,53 +116,6 @@ const RecipeDetail = () => {
       setLoading(true);
     }
 
-    const recommendedRecipes = async (recipe, responseRecipes) => {
-      try {
-        const response = await fetch('/predict', {
-          method: 'POST',
-          body: JSON.stringify({
-            recipes: responseRecipes,
-            curr: {
-              total_fat: recipe.nutrition[1]['quantity'],
-              sugars: recipe.nutrition[2]['quantity'],
-              sodium: recipe.nutrition[3]['quantity'],
-              protein: recipe.nutrition[4]['quantity'],
-              saturated_fat: recipe.nutrition[5]['quantity'],
-            },
-          }),
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-        });
-
-        const output = await response.json();
-        return output;
-      } catch (error) {
-        return responseRecipes
-          .filter((r) => r.category === recipe.category)
-          .slice(0, 4);
-      }
-    };
-
-    const getRecipes = async () => {
-      // get all review to recommend to user
-      let responseRecipes = [];
-      const queryRecipes = await getDocs(collection(db, 'recipes'));
-      queryRecipes.forEach((doc) => {
-        const recipe = doc.data();
-        responseRecipes.push({
-          recipeId: recipe.id,
-          total_fat: recipe.nutrition[1]['quantity'],
-          sugars: recipe.nutrition[2]['quantity'],
-          sodium: recipe.nutrition[3]['quantity'],
-          protein: recipe.nutrition[4]['quantity'],
-          saturated_fat: recipe.nutrition[5]['quantity'],
-        });
-      });
-
-      return responseRecipes;
-    };
-
     const fetchRecipe = async () => {
       let response = {};
 
@@ -201,10 +154,8 @@ const RecipeDetail = () => {
       }
 
       if (isSubscribed) {
-        const recipeList = await getRecipes();
-        const listRecommended = await recommendedRecipes(response, recipeList);
         setRecipe(response);
-        setRemdRecipes(listRecommended['remdRecipes']);
+        setRemdRecipes(response.recd_list);
         setLoading(false);
       }
     };
@@ -327,8 +278,8 @@ const RecipeDetail = () => {
                       return (
                         <li key={index}>
                           <span>
-                            {nutrition.name}:{' '}
-                            {nutrition.name === 'Calories'
+                            {nutrition.name.trim()} :{' '}
+                            {nutrition.name.trim() === 'Calories'
                               ? nutrition.quantity
                               : `${nutrition.quantity}g`}
                           </span>
